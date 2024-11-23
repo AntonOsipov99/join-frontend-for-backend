@@ -59,18 +59,19 @@ function resetAssignedField() {
  */
 async function sortTaskIntoArrays(allTasks, tasksToDo, tasksInProgress, tasksAwaitFeedback, tasksDone) {
     if (allTasks && allTasks.length > 0) {
-        allTasks.forEach(task => {
+        const allTasksJson = JSON.parse(allTasks);
+        allTasksJson.forEach(task => {
             const taskDiv = document.getElementById(`task-${task.id}`);
             if (!taskDiv) return;
             const targetArray = getTargetArray(taskDiv, tasksToDo, tasksInProgress, tasksAwaitFeedback, tasksDone);
             const shouldAddTask = !targetArray.some(existingTask => existingTask.id === task.id);
             if (shouldAddTask) targetArray.push(task);
+            saveTasks();
+            saveTasksCategory(tasksToDo, tasksInProgress, tasksAwaitFeedback, tasksDone);
         });
     } else {
         clearSortTasks();
     }
-    await saveTasks();
-    await saveTasksCategory(tasksToDo, tasksInProgress, tasksAwaitFeedback, tasksDone);
 }
 
 function clearSortTasks() {
@@ -173,7 +174,7 @@ function gatherTaskInfo() {
  */
 async function updateArrays(task) {
     titlesArray.push(task.title);
-    descriptionsArray.push(task.description);
+    descriptionsArray.push(task.description_text);
     createdAtArray.push(task.createdAt);
     allTasks.push(task);
     await saveTasks();
@@ -509,7 +510,7 @@ function initializeDragAndDrop() {
         container.addEventListener('dragover', allowDrop);
         container.addEventListener('dragleave', () => {
             container.querySelector('.drop-container > :nth-child(2)').style.backgroundColor = '';
-            container.querySelector('.drop-container > :nth-child(2)').style.border = ''; 
+            container.querySelector('.drop-container > :nth-child(2)').style.border = '';
             container.classList.remove('drag-over');
         });
     });

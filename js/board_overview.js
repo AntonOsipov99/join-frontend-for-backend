@@ -44,7 +44,11 @@ function showNoTaskMessage(container, tasksArray, text) {
  * @param {string} taskId - The ID of the task.
  */
 function updateProgressBar(taskId) {
-    const task = allTasks.find(task => task.id === taskId);
+    const allTasksJson = [];
+    for(i = 0; i < allTasks.length; i++) {
+        allTasksJson.push(JSON.parse(allTasks[i]));
+    }
+    const task = allTasksJson.find(task => task.id === taskId);
     if (!task) {
         console.error(`Task mit der ID "${taskId}" wurde nicht gefunden.`);
         return;
@@ -144,7 +148,11 @@ function calculateProgress(subtasksStatusArray, subtasks, progressBarId) {
  * @param {string} progressBarId - The ID of the progress bar element.
  */
 function checkProgressBar(taskId, progressBarId) {
-    const task = allTasks.find(task => task.id === taskId);
+    const allTasksJson = [];
+    for(i = 0; i < allTasks.length; i++) {
+        allTasksJson.push(JSON.parse(allTasks[i]));
+    }
+    const task = allTasksJson.find(task => task.id === taskId);
     const progressBar = document.getElementById(`progress-bar-${progressBarId}`);
     const progressBarCounter = document.getElementById(`progress-bar-counter-${progressBarId}`);
     if (!task || !progressBar || !progressBarCounter) return;

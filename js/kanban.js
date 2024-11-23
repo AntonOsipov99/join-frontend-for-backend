@@ -454,24 +454,23 @@ function applyLineThroughAndCheckbox(currentTaskId) {
  */
 function displayTasks(taskContainer, feedbackTaskContainer, inProgressContainer, targetDoneTable) {
     if (allTasks && allTasks.length > 0) {
-        console.log('AllTasks:', allTasks);
         allTasks.forEach(oneTask => {
-            const innerTasks = JSON.parse(oneTask.allTasks);
+            const innerTasks = JSON.parse(oneTask);
             innerTasks.forEach(task => {
-                const taskId = task.id
-                const progressBarId = generateUniqueID();
-                task.progressBarId = progressBarId;
-                const categorybackgroundColor = task.categoryColors[0];
-                let priorityImageSrc = getPriorityImageSrc(task.priority);
-                const taskDiv = createTaskDiv(task);
-                const targetContainer = determineTargetContainer(task, taskContainer, inProgressContainer, feedbackTaskContainer, targetDoneTable);
-                const assignePinnedTaskBall = createAssignmentBalls(task);
-                addContentToTaskDiv(task, taskDiv, assignePinnedTaskBall, priorityImageSrc, categorybackgroundColor, progressBarId, taskId);
-                targetContainer.appendChild(taskDiv);
-                createProgressBar(progressBarId, taskId);
-                setStylesForTaskDiv(taskId)
-                updateProgressBar(taskId);
-                checkProgressBar(taskId, progressBarId);
+            const taskId = task.id
+            const progressBarId = generateUniqueID();
+            task.progressBarId = progressBarId;
+            const categorybackgroundColor = task.categoryColors[0];
+            let priorityImageSrc = getPriorityImageSrc(task.priority);
+            const taskDiv = createTaskDiv(task);
+            const targetContainer = determineTargetContainer(task, taskContainer, inProgressContainer, feedbackTaskContainer, targetDoneTable);
+            const assignePinnedTaskBall = createAssignmentBalls(task);
+            addContentToTaskDiv(task, taskDiv, assignePinnedTaskBall, priorityImageSrc, categorybackgroundColor, progressBarId, taskId);
+            targetContainer.appendChild(taskDiv);
+            createProgressBar( taskId, progressBarId);
+            setStylesForTaskDiv(taskId)
+            updateProgressBar(taskId);
+            checkProgressBar(taskId, progressBarId);
             });
         });
         initializeDragAndDrop();
@@ -479,14 +478,25 @@ function displayTasks(taskContainer, feedbackTaskContainer, inProgressContainer,
     }
 }
 
+// function displayTasks(taskContainer, feedbackTaskContainer, inProgressContainer, targetDoneTable) {
+//     if (allTasks && allTasks.length > 0) {
+//         console.log('AllTasks:', allTasks);
+//         allTasks.forEach(oneTask => {
+//             const innerTasks = JSON.parse(oneTask.allTasks);
+//             innerTasks.forEach(task => {
+
 /**
  * Creates a progress bar for a task and appends it to the task's div.
  *
  * @param {string} progressBarId - The ID of the progress bar.
  * @param {string} taskId - The ID of the task associated with the progress bar.
  */
-function createProgressBar(progressBarId, taskId) {
-    const task = allTasks.find(task => task.id === taskId);
+function createProgressBar(taskId, progressBarId) {
+    const allTasksJson = [];
+    for(i = 0; i < allTasks.length; i++) {
+        allTasksJson.push(JSON.parse(allTasks[i]));
+    }
+    const task = allTasksJson.find(task => task.id === taskId);
     if (!task || !task.subtasks || !task.subtasksId || task.subtasks.length === 0 || task.subtasksId.length === 0)
         return;
     const taskDiv = document.getElementById(`progress-div-${taskId}`);
