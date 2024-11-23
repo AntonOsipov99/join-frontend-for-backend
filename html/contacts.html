@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"">
+    <link rel="stylesheet" href="../font/fonts.css">
+    <link rel="icon" type="image/x-icon" href="../assets/img/Logo for Favicon construction.svg">
+    <link rel="stylesheet" href="../style/menuTemplate.css">
+    <link rel="stylesheet" href="../style/contacts.css">
+    <link rel="stylesheet" href="../style/create_contacts.css">
+    <link rel="stylesheet" href="../style/style_contacts.css">
+    <script src="../js/storage.js"></script>
+    <script src="../js/contacts.js"></script>
+    <script src="../js/create_contacts.js"></script>
+    <script src="../js/menuTemplate.js"></script>
+    <title>Contacts</title>
+</head>
+
+<body onload="initContacts()">
+    <div class="hide-overflow">
+        <div id="content"></div>
+        <div class="flex-box-contacts">
+            <div class="contact-menu" id="contact-menu">
+                <div class="button-background">
+                    <div class="add-button" onclick="toggleOverlay(true)">
+                        Add new contact <img src="../assets/img/person_add.svg" class="img-add-contact">
+                    </div>
+                </div>
+                <div id="new-contacts"></div>
+            </div>
+            <div id="add-button-mobile" onclick="toggleOverlay(true)"></div>
+        </div>
+        <div id="contacts-box">
+            <div class="headline-flex-box">
+                <h1 class="headline-contacts">Contacts <img src="../assets/img/arrow.svg" class="arrow-mobile"
+                        onclick="toggleContactsMobile()"></h1>
+                <div class="separator"></div>
+                <h2 class="subheadline">Better with a team</h2>
+                <div class="separator-mobile"></div>
+                <img src="../assets/img/arrow.svg" alt="blue-arrow-image" class="arrow"
+                    onclick="toggleContactsMobile()">
+            </div>
+            <div id="show-contact"></div>
+        </div>
+        <div id="overlay-add-contact">
+            <div class="add-contact-left-container">
+                <img src="../assets/img/Capa 1.svg" class="overlay-logo" alt="logo-image">
+                <h2 class="overlay-headline">Add contact</h2>
+                <span class="overlay-text">Tasks are better with a team</span>
+                <div class="dash"></div>
+            </div>
+            <div class="flex-box-overlay">
+                <img src="../assets/img/Frame 79.svg" alt="person-image" class="over-logo-person">
+            </div>
+            <div class="close-button" onclick="toggleOverlayAddContact()"><img src="../assets/img/close.svg" alt="close-button">
+            </div>
+            <div class="input-fields">
+                <form onsubmit="addNewContact(event)">
+                    <input required class="input person-icon" id="add-name" type="text" placeholder="Name" pattern="[A-Za-zÄäÖöÜüß ]+" maxlength="23">
+                    <input required class="input email-icon" id="add-email" type="email" placeholder="Email" maxlength="23">
+                    <input required class="input phone-icon" type="tel" id="add-phone" placeholder="Phone" pattern="[0-9+\s ]*" maxlength="24">
+                    <div class="overlay-buttons buttons-margin-left">
+                        <div onclick="toggleOverlayAddContact()" class="cancel-button">
+                            Cancel
+                        </div>
+                        <button class="create-button" type="submit">
+                            Create contact
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div id="overlay-edit-contact">
+            <div class="add-contact-left-container">
+                <img src="../assets/img/Capa 1.svg" class="overlay-logo" alt="logo-image">
+                <h2 class="overlay-headline">Edit contact</h2>
+                <div class="dash"></div>
+            </div>
+            <div class="flex-box-overlay">
+                <div id="change-color-icon"></div>
+            </div>
+            <div class="close-button" onclick="hideOverlayEdit()"><img src="../assets/img/close.svg" alt="close-button">
+            </div>
+            <div class="input-fields">
+                <div id="edit-input-fields"></div>
+            </div>
+        </div>
+</body>
+
+</html>

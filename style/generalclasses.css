@@ -1,0 +1,175 @@
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+}
+
+.width-100 {
+    width: 100%;
+}
+
+.d-none {
+    display: none;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.padding-5 {
+    padding: 5px;
+}
+
+.padding-left-right-16 {
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.padding-left-right-25 {
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.background-color-2A3647 {
+    background-color: #2A3647 !important;
+}
+
+.background-color-F6F7F8 {
+    background-color: #F6F7F8 !important;
+}
+
+.background-color-D1D1D1 {
+    background-color: #D1D1D1 !important;
+}
+
+.backgroundColor-29ABE2 {
+    background-color: #29ABE2;
+}
+
+h1 {
+    font-size: 61px;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 27px;
+    font-weight: 700;
+}
+
+.fontSize-16-400 {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.fontSize-16-700 {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.fontSize-20-400 {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.fontSize-21-700 {
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.fontSize-27-400 {
+    font-size: 27px;
+    font-weight: 400;
+}
+
+.fontSize-47-500 {
+    font-size: 47px;
+    font-weight: 500;
+}
+
+.fontSize-64-600 {
+    font-size: 64px;
+    font-weight: 600;
+}
+
+.fontSize-64-700 {
+    font-size: 64px;
+    font-weight: 700;
+}
+
+.color-000000 {
+    color: #000000;
+}
+
+.color-2A3647 {
+    color: #2A3647;
+}
+
+.color-FFFFFF {
+    color: #FFFFFF;
+}
+
+.color-29ABE2 {
+    color: #29ABE2;
+}
+
+.task-navigate-container {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    display: none;
+}
+
+@media (max-width: 1000px) {
+    h1 {
+        font-size: 47px;
+    }
+}
+
+@media (max-width: 600px) {
+    .fontSize-64-600 {
+        font-size: 47px;
+    }
+
+    .fontSize-16-400 {
+        font-size: 14px;
+    }
+
+    .fontSize-20-400 {
+        font-size: 14px;
+    }
+
+    .fontSize-21-700 {
+        font-size: 16px;
+    }
+
+    .fontSize-47-500 {
+        font-size: 36px;
+    }
+
+    .fontSize-64-700 {
+        font-size: 47px;
+    }
+}
+
+@media (max-width: 500px) {
+    .fontSize-21-700 {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 1350px) {
+    .navigate-tasks-mobile {
+        display: block;
+    }
+}
+
+@media (max-width: 350px) {
+    .table-heading {
+        margin-left: 25px;
+    }
+}
+
+@media (max-width: 330px) {
+    .table-heading {
+        margin-left: 15px;
+    }
+}

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../assets/img/Logo for Favicon construction.svg">
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../style/board.css">
+    <link rel="stylesheet" href="../style/kanbanboard.css">
+    <link rel="stylesheet" href="../style/kanban.css">
+    <link rel="stylesheet" href="../style/board.overlay.css">
+    <link rel="stylesheet" href="../style/board.responsive.css">
+    <link rel="stylesheet" href="../style/menuTemplate.css">
+    <link rel="stylesheet" href="../font/fonts.css">
+    <link rel="stylesheet" href="../style/generalclasses.css">
+    <link rel="stylesheet" href="../style/contacts.css">
+    <link rel="stylesheet" href="../style/create_contacts.css">
+    <link rel="stylesheet" href="../style/style_contacts.css">
+    <link rel="stylesheet" href="../style/add_task.css">
+    <link rel="stylesheet" href="../style/add_task_responsive.css">
+    <link rel="stylesheet" href="../style/create_task.css">
+    <link rel="stylesheet" href="../style/add_task_form.css">
+    <link rel="stylesheet" href="../style/add_task_template.css">
+    <script src="../js/storage.js"></script>
+    <script src="../js/summary.js"></script>
+    <script src="../js/menuTemplate.js"></script>
+    <script src="../js/board.js"></script>
+    <script src="../js/kanban.js"></script>
+    <script src="../js/kanbanboard.js"></script>
+    <script src="../js/board_overview.js"></script>
+    <script src="../js/add_task.js"></script>
+    <script src="../js/board.overlay.js"></script>
+    <script src="../js/board.addTask.overlay.js"></script>
+    <script src="../js/contacts.js"></script>
+    <script src="../js/create_task.js"></script>
+    <script src="../js/add_task_form.js"></script>
+    <script src="../js/task_creator.js"></script>
+    <script src="../js/add_task_templates.js"></script>
+    <script src="../js/notifications.js"></script>
+    <title>Board</title>
+</head>
+
+<body onload="initForBoard()">
+
+
+    <div class="overflow-hidden">
+        <div id="noteWindow" class="noteWindow" style="display: none" onclick="closeOverlay()">
+            <div id="show_final_board_notification_background" class="show_final_notification_background">
+                <div class="show_final_notification_div">
+                    <div id="show_final_board_notification" class="show_final_notification">
+                        <img class="task_added" src="../assets/img/Frame 73.svg" alt=""
+                            onclick="boardHideShowFinalNotification()">
+                    </div>
+                </div>
+            </div>
+
+            <div id="select_category_notification" class="select_category_notification">
+                Please select a category.
+                <button id="select_category_btn" onclick="selectCategoryHideNotification()">Understood</button>
+            </div>
+            <div id="prio_notification" class="prio_notification">
+                Please select a priority.
+                <button id="select_prio_btn" onclick="prioHideNotification()">Understood</button>
+            </div>
+            <div id="category_notification" class="category_notification">
+                Please write your category.
+                <button id="category_board_btn" onclick="categoryHideNotification()">Understood</button>
+            </div>
+            <div id="category_color_notification" class="category_color_notification">
+                Please select a color for your category.
+                <button id="category_color_btn" onclick="categoryColorHideNotification()">Understood</button>
+            </div>
+            <div id="confirm_category_notification" class="confirm_category_notification">please confirm the category
+                you
+                created.
+                <button id="category_confirm_btn" onclick="HideConfirmedCategoryNotification()">Understood</button>
+            </div>
+
+        </div>
+        <div class="addTaskOverlaySection d-none" id="addTaskOverlaySection" onclick="closeTaskOverviewPopUp()">
+            <form class="add-task-overlay" id="add-task-form" onclick="doNotClose(event)"
+                onsubmit="addTaskFromOverlay()">
+
+                <form id="formclass" class="responsive_formclass">
+                    <div class="header_div">
+                        <div class="header-vector">
+                            <h1>Add Task</h1>
+                            <img class="vector-class" src="../assets/img/Vector (1).svg" alt=""
+                                onclick="closeOverlay()">
+                        </div>
+                    </div>
+                    <div class="contentSectionAddTaskForBoard">
+                        <div class="title_description_div">
+                            <div class="add_title_section">
+                                <span>Title</span>
+                                <input required type="text" class="board_title_inputfield" id="title"
+                                    placeholder="Enter a title">
+
+                                <div class="add_description_section">
+                                    <span>Description</span>
+                                    <textarea required type="text" class="board_description_inputfield"
+                                        id="description_text" placeholder="Enter a Description"></textarea>
+
+                                    <div class="assigned_to_section">
+                                        <span>Assigned to</span>
+                                        <label for="Select contacts to assign"></label>
+                                        <select required class="assigned_to_inputfield" name="contacts"
+                                            id="which_assigned_contact">
+                                            <option value="Select contacts to assign">Select contacts to assign
+                                            </option>
+                                        </select>
+
+                                        <div class="assignedToList" id="assignedToList"></div>
+
+                                    </div>
+
+                                    <div class="categoryAndSelect">
+                                        <span>Category</span>
+                                        <div class="newCategoryContainer d-none" id="newCategoryContainer">
+                                            <input placeholder="New category name" id="newCategoryInput">
+                                            <div class="newCategoryColorContainer">
+                                                <div class="categoryColor" id="newCategoryColor"></div>
+                                            </div>
+                                            <button type="button" class="cancelButton" onclick="cancelNewCategory()">
+                                                <img src="../assets/img/Vector (2).svg">
+                                            </button>
+                                            <button type="button" class="checkButton" onclick="confirmNewCategory()">
+                                                <img src="../assets/img/add.svg">
+                                            </button>
+                                        </div>
+
+                                        <div class="newCategoryColors d-none" id="newCategoryColors">
+                                            <p class="categoryColor" style="background-color: red"
+                                                onclick="addColorToNewCategory('red')"></p>
+                                            <p class="categoryColor" style="background-color: orange"
+                                                onclick="addColorToNewCategory('orange')"></p>
+                                            <p class="categoryColor" style="background-color: pink"
+                                                onclick="addColorToNewCategory('pink')"></p>
+                                            <p class="categoryColor" style="background-color: turquoise"
+                                                onclick="addColorToNewCategory('turquoise')"></p>
+                                            <p class="categoryColor" style="background-color: goldenrod"
+                                                onclick="addColorToNewCategory('goldenrod')"></p>
+                                            <p class="categoryColor" style="background-color: blue"
+                                                onclick="addColorToNewCategory('blue')"></p>
+                                        </div>
+
+                                        <div class="category" id="category" onclick="openCategoryDropdown()"
+                                            style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; border-bottom: 1px solid rgb(209, 209, 209);">
+                                            Select task category
+                                            <div id="categoryColor" class="categoryColor"
+                                                style="background-color: #FFFFFF">
+                                            </div>
+                                        </div>
+
+                                        <div id="categoryDropdown" class="categoryDropdown d-none">
+                                            <div class="categoryOption" onclick="newCategory()">
+                                                New category
+                                            </div>
+
+                                            <div class="categoryOption" value="development"
+                                                onclick="selectedCategory('development', 'red')">
+                                                Development
+                                                <div class="categoryColor" style="background-color: red"></div>
+                                            </div>
+
+                                            <div class="categoryOption" value="design"
+                                                onclick="selectedCategory('design', 'orange')">
+                                                Design
+                                                <div class="categoryColor" style="background-color: orange">
+                                                </div>
+                                            </div>
+
+                                            <div class="categoryOption" value="sales"
+                                                onclick="selectedCategory('sales', 'pink')">
+                                                Sales
+                                                <div class="categoryColor" style="background-color: pink"></div>
+                                            </div>
+
+                                            <div class="categoryOption" value="backoffice"
+                                                onclick="selectedCategory('backoffice', 'turquoise')">
+                                                Backoffice
+                                                <div class="categoryColor" style="background-color: turquoise">
+                                                </div>
+                                            </div>
+
+                                            <div class="categoryOption" value="media"
+                                                onclick="selectedCategory('media', 'goldenrod')">
+                                                Media
+                                                <div class="categoryColor" style="background-color: goldenrod">
+                                                </div>
+                                            </div>
+
+                                            <div class="categoryOption" value="marketing"
+                                                onclick="selectedCategory('marketing', 'blue')">
+                                                Marketing
+                                                <div class="categoryColor" style="background-color: blue"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="borderline"></div>
+
+                            <div class="date_Prio_div">
+                                <div class="add_date_section">
+                                    <span class="">Due date</span>
+                                    <input required="" type="date" class="date_inputfield" id="createdAt"
+                                        placeholder="dd/mm/yy">
+                                </div>
+
+                                <div class="add_Prio_section">
+                                    <span>Prio</span>
+                                    <div class="prio_btn_position">
+                                        <button id="addTask_overlay_urgent_btn" class="urgent_prio_btn_characteristics">
+                                            <div class="prio_btn_text_icon">
+                                                <h6 class="prio_btn_text_position">Urgent</h6>
+                                                <img class="prio_icon_position" src="../assets/img/Prio alta.svg"
+                                                    alt="High-Prio-Icon">
+                                            </div>
+                                        </button>
+                                        <button type="button" value="urgent" id="addTask_overlay_clicked_urgent_btn"
+                                            class="urgent_prio_btn_characteristics_onclick d-none">
+                                            <div class="prio_btn_text_icon">
+                                                <h6 class="prio_btn_text_position">Urgent</h6>
+                                                <img class="prio_icon_position" src="../assets/img/Prio alta-white.svg"
+                                                    alt="High-Prio-Icon">
+                                            </div>
+                                        </button>
+                                        <button id="addTask_overlay_medium_btn" class="medium_prio_btn_characteristics">
+                                            <div class="prio_btn_text_icon">
+                                                <h6 class="prio_btn_text_position">Medium</h6>
+                                                <img class="prio_icon_position" src="../assets/img/Prio media.svg"
+                                                    alt="Medium-Prio-Icon">
+                                            </div>
+                                        </button>
+                                        <button type="button" value="medium" id="addTask_overlay_clicked_medium_btn"
+                                            class="medium_prio_btn_characteristics_onclick d-none">
+                                            <div class="prio_btn_text_icon">
+                                                <h6 class="prio_btn_text_position">Medium</h6>
+                                                <img class="prio_icon_position" src="../assets/img/Prio media-white.svg"
+                                                    alt="Medium-Prio-Icon">
+                                            </div>
+                                        </button>
+                                        <button id="addTask_overlay_low_btn" class="low_prio_btn_characteristics">
+                                            <div class="prio_btn_text_icon">
+                                                <h6 class="prio_btn_text_position">Low</h6>
+                                                <img class="prio_icon_position" src="../assets/img/Prio baja.svg"
+                                                    alt="Low-Prio-Icon">
+                                            </div>
+                                        </button>
+                                        <button type="button" value="low" id="addTask_overlay_clicked_low_btn"
+                                            class="low_prio_btn_characteristics_onclick d-none">
+                                            <div class="prio_btn_text_icon">
+                                                <h6 class="prio_btn_text_position">Low</h6>
+                                                <img class="prio_icon_position" src="../assets/img/Prio baja-white.svg"
+                                                    alt="Low-Prio-Icon">
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="task-container">
+                                    <div class="taskContainerItemsPosition">
+                                        <input class="subtaskInputfield" type="text" id="subtaskInput"
+                                            placeholder="Add new subtask">
+                                        <div class="subtaskButton">
+                                            <img class="subtask_img" src="../assets/img/add.svg" alt=""
+                                                onclick="addSubtask()">
+                                        </div>
+                                    </div>
+
+                                    <ul id="subtaskList" class="subtaskList"></ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clear_and_create_task_position">
+                        <div class="clear_and_create_task_btn" id="twoButtonsContainer">
+                            <div class="clear_and_create_task_btn">
+                                <button id="reset" type="reset" class="clear_button" onclick="forClearAddTaskWithBtn()"
+                                    onmouseover="changeClearBtnIconToHover('clearIconDefault', 'clearIconHover')"
+                                    onmouseout="changeClearBtnIconToDefault('clearIconHover', 'clearIconDefault')">
+                                    Clear
+                                    <img src="../assets/img/Vector (2).svg" id="clearIconDefault" class="">
+                                    <img src="../assets/img/Vector blue.svg" id="clearIconHover" class="d-none">
+                                </button>
+
+                                <button type="submit" class="create_task_button" id="createTask">
+                                    Create Task
+                                    <img src="../assets/img/check.svg">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </form>
+        </div>
+
+        <div id="content"></div>
+        <div class="topic">
+            <h1 class="heading">Board</h1>
+            <div class="flex-box">
+                <form action="submit">
+                    <input oninput="findTask()" id="search" class="search" type="text" placeholder="Find Task">
+                </form>
+                <div class="add-task-button" onclick="openOverlay()">
+                    Add task <span class="add-symbol">+</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="overlaySection d-none" id="overlaySection" onclick="closeTaskOverviewPopUp()">
+
+            <div class="taskOverviewPopUp" id="taskOverviewPopUp" onclick="doNotClose(event)">
+                <div class="taskCategory design-bg">
+                    Design
+                </div>
+
+                <div class="taskPopUpHeadline">Headline</div>
+
+                <div class="taskPopUpDiscription">Description</div>
+
+                <div class="taskPopUpTable" id="taskPopUpTable">
+                    <div class="taskPopUpRow">
+                        <div class="taskPopUpLeftTd"><b>Due Date:</b></div>
+                        <div class="taskPopUpRightTd">2023-10-25</div>
+                    </div>
+
+                    <div class="taskPopUpRow">
+                        <div class="taskPopUpLeftTd"><b>Priority:</b></div>
+
+                        <div id="modifyMedium" class="medium prioContainer">
+                            medium <img id="modifyMediumIcon" src="../assets/img/Prio media-white.svg">
+                        </div>
+                    </div>
+                    <div class="closeTaskPopUpButton" onclick="closeTaskOverviewPopUp()">X</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="findTask" class="to-do-container">
+            <div class="drop-container">
+                <div class="table-header">
+                    <div>
+                        <h3>To Do</h3>
+                    </div>
+                    <div>
+                        <img onclick="addTaskForToDo()" src="../assets/img/Property 1=Variant3.svg" alt="+icon"
+                            class="add-icon">
+                    </div>
+                </div>
+                <div id="target-to-do-table" class="table-heading task-container">
+                    <div id="noTask" class="no_tasks_class">No Task Available</div>
+                </div>
+            </div>
+
+            <div class="drop-container">
+                <div class="table-header">
+                    <div>
+                        <h3>In Progress</h3>
+                    </div>
+                    <div>
+                        <img onclick="addTaskForInProgress()" src="../assets/img/Property 1=Variant3.svg" alt="+icon"
+                            class="add-icon">
+                    </div>
+                </div>
+                <div id="target-in-progress-table" class="table-heading task-container">
+                    <div id="noTask" class="no_tasks_class">No Task Available</div>
+                </div>
+            </div>
+
+            <div class="drop-container">
+                <div class="table-header">
+                    <div>
+                        <h3>Await Feedback</h3>
+                    </div>
+                    <div>
+                        <img onclick="addTaskForAwaitFeedback()" src="../assets/img/Property 1=Variant3.svg" alt="+icon"
+                            class="add-icon">
+                    </div>
+                </div>
+                <div id="target-await-feedback-table" class="table-heading task-container">
+                    <div id="noTask" class="no_tasks_class">No Task Available</div>
+                </div>
+            </div>
+
+            <div class="drop-container">
+                <div class="table-header">
+                    <div>
+                        <h3>Done</h3>
+                    </div>
+                </div>
+                <div id="target-done-table" class="table-heading task-container" id="done-table">
+                    <div id="noTask" class="no_tasks_class">No Task Available</div>
+                </div>
+            </div>
+        </div>
+
+</body>
+
+</html>

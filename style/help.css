@@ -1,0 +1,48 @@
+.description {
+    display: flex;
+    flex-direction: column;
+    margin: 0 10% 0 350px;
+}
+
+.bold {
+    font-weight: bold;
+    margin-top: 0;
+}
+
+.headline {
+    margin: 19px 0px 5px 0px;
+}
+
+ol {
+    padding-left: 18px;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+.contacts-background {
+    background-color: #2A3647;
+}
+
+.contacts-background:hover {
+    background-color: #2A3D59;
+}
+
+.subheadline {
+    margin: 0 0 20px 0;
+}
+
+.d-none {
+    display: none;
+}
+
+@media (max-width: 1050px) {
+    .description {
+        margin: 0 5%;
+    }
+
+    .subheadline {
+        margin: 0 0 100px 0;
+    }
+}

@@ -1,0 +1,486 @@
+.assigned_to_inputfield {
+    width: 100% !important;
+}
+
+.add-task-overlay {
+    max-height: 85vh;
+    top: inherit;
+    margin-top: -80px;
+    background-color: white;
+    border-radius: 20px;
+    width: 980px;
+    padding: 30px;
+    margin: 20px;
+    overflow-y: auto;
+    transition: transform 800ms ease-in-out;
+    animation: slideIn 0.8s ease-in-out;
+}
+
+.overlay-section {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.slide-in {
+    transform: translate(0%, 0%);
+}
+
+@keyframes slide-in-animation {
+    from {
+        transform: translateY(0%) translateX(100%);
+    }
+
+    to {
+        transform: translateY(0%) translateX(0%);
+    }
+}
+
+.slide-in {
+    animation: slide-in-animation 0.8s forwards;
+}
+
+#boardOverlayContact {
+    background: white url("http://gruppe-691.developerakademie.net/arrow_drop_down.svg") no-repeat right 10px center;
+}
+
+.content-Section {
+    display: contents;
+    margin-top: 12px;
+    margin-left: 12px;
+    position: fixed;
+    top: 89px;
+    left: 232px;
+    bottom: 0;
+    right: 0;
+}
+
+.contentSectionAddTaskForBoard {
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.formclass {
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.contentSection {
+    margin-top: 12px;
+    margin-left: 12px;
+    position: fixed;
+    top: 89px;
+    left: 232px;
+    bottom: 0;
+    right: 0;
+}
+
+.borderline {
+    border: 1px solid #D1D1D1;
+    margin-right: 50px;
+    margin-left: 50px;
+}
+
+.title_description_div {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+span {
+    font-size: 21px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.d-none {
+    display: none;
+}
+
+.header_div h1 {
+    font-size: 56px;
+    margin-top: 0px;
+    margin-bottom: 0;
+    width: 100%;
+    font-weight: bold;
+}
+
+.header_div {
+    font-size: 56px;
+    margin-top: 0px;
+    width: 100%;
+}
+
+
+.header_add_task {
+    font-size: 61px;
+}
+
+.add_title_section {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.add_description_section {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    margin-bottom: 24px;
+}
+
+.assigned_to_section {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.category_section {
+    height: 100px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.subtask_section {
+    padding-left: 100px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+#which_assigned_contact {
+    background: white url("http://gruppe-691.developerakademie.net/arrow_drop_down.svg") no-repeat right 10px center;
+}
+
+.add_date_section {
+    height: 115px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+::placeholder {
+    color: #D1D1D1;
+    opacity: 1;
+}
+
+.title_inputfield {
+    width: auto !important;
+    height: 36px;
+    outline: none;
+    padding-left: 8px;
+    border-radius: 10px;
+    border: 1px solid #DADADA;
+    margin-bottom: 15px;
+}
+
+.description_inputfield {
+    width: auto !important;
+    height: 118px;
+    border-radius: 8px;
+    outline: none;
+    padding-left: 8px;
+    border: 1px solid #DADADA;
+    margin-bottom: 15px;
+}
+
+.date_inputfield {
+    padding-right: 10px;
+    width: auto !important;
+    height: 36px;
+    outline: none;
+    padding-left: 8px;
+    border-radius: 10px;
+    border: 1px solid #DADADA;
+}
+
+.add_Prio_section {
+    height: 115px;
+    display: flex;
+    flex-direction: column;
+}
+
+.test {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.prio_btn_position {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.urgent_prio_btn_characteristics {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    width: 112px;
+    outline: none;
+    border-radius: 10px;
+    border: 1px solid #DAD4D2;
+    margin-right: 10px;
+    background-color: #FFFFFF;
+}
+
+.urgent_prio_btn_characteristics_onclick {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    width: 112px;
+    outline: none;
+    border-radius: 10px;
+    border: 0px solid #DAD4D2;
+    margin-right: 10px;
+    background-color: #FF3E01;
+    color: #FFFFFF;
+}
+
+.urgent_prio_btn_characteristics:hover {
+    -webkit-box-shadow: 0px 3px 4px 1px rgba(168, 168, 168, 0.75);
+    -moz-box-shadow: 0px 3px 4px 1px rgba(168, 168, 168, 0.75);
+    box-shadow: 0px 3px 4px 1px rgba(168, 168, 168, 0.75);
+    border: 0px solid #DAD4D2;
+}
+
+#urgent_btn {
+    display: none;
+}
+
+.medium_prio_btn_characteristics {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    width: 112px;
+    outline: none;
+    border-radius: 10px;
+    border: 1px solid #DAD4D2;
+    margin-right: 10px;
+    background-color: #FFFFFF;
+}
+
+.medium_prio_btn_characteristics_onclick {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    width: 112px;
+    outline: none;
+    border-radius: 10px;
+    border: 0px solid #DAD4D2;
+    margin-right: 10px;
+    background-color: #FFB62A;
+    color: #FFFFFF;
+}
+
+.medium_prio_btn_characteristics:hover {
+    -webkit-box-shadow: 0px 3px 4px 1px rgba(168, 168, 168, 0.75);
+    -moz-box-shadow: 0px 3px 4px 1px rgba(168, 168, 168, 0.75);
+    box-shadow: 0px 3px 4px 1px rgba(168, 168, 168, 0.75);
+    border: 0px solid #DAD4D2;
+}
+
+#medium_btn {
+    display: none;
+}
+
+.low_prio_btn_characteristics {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    width: 112px;
+    outline: none;
+    border-radius: 10px;
+    border: 1px solid #DAD4D2;
+    margin-right: 10px;
+    background-color: #FFFFFF;
+}
+
+.low_prio_btn_characteristics_onclick {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    width: 112px;
+    outline: none;
+    border-radius: 10px;
+    border: 0px solid #DAD4D2;
+    margin-right: 10px;
+    background-color: #7DE32E;
+    color: #FFFFFF;
+}
+
+.low_prio_btn_characteristics:hover {
+    -webkit-box-shadow: 0px 3px 4px 1px rgba(168, 168, 168, 0.75);
+    -moz-box-shadow: 0px 3px 4px 1px rgba(168, 168, 168, 0.75);
+    box-shadow: 0px 3px 4px 1px rgba(168, 168, 168, 0.75);
+    border: 0px solid #DAD4D2;
+}
+
+#low_btn {
+    display: none;
+}
+
+.prio_btn_text_icon {
+    display: flex;
+    align-items: center;
+}
+
+.prio_btn_text_position {
+    display: contents;
+}
+
+.prio_icon_position {
+    margin-left: 5px;
+}
+
+.task-container {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+#subtaskInput {
+    padding-left: 8px;
+    border: 1px solid #ccc;
+    border-radius: 10px 0 0 10px;
+    border-right-color: #ffffff;
+}
+
+.subtaskInputfield {
+    width: 334px;
+    height: 36px;
+    outline: none;
+    text-indent: 1px;
+    appearance: none;
+}
+
+.subtaskButton {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 46px;
+    height: 36px;
+    border: 1px solid #ccc;
+    border-left-color: #ffffff;
+    background-color: #ffffff;
+    border-radius: 0 10px 10px 0;
+    border-left: 1px solid #D1D1D1;
+}
+
+.subtask_img {
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
+}
+
+.subtask_img:hover {
+    border-radius: 8px;
+    background-color: #DDDEDF;
+}
+
+.taskContainerItemsPosition {
+    align-items: center;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.subtask-item:hover .icon {
+    display: inline;
+}
+
+.boardSubtaskList {
+    border-top: none;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    height: 105px;
+    overflow-y: auto;
+}
+
+.boardSubtaskList ul {
+    list-style-type: circle;
+}
+
+.boardSubtaskList li::before {
+    margin-right: 0.5em;
+}
+
+.subtask-item {
+    justify-content: flex-start;
+    display: flex;
+    margin: 5px;
+    list-style-type: circle;
+}
+
+.subtask-item input {
+    margin-right: 5px;
+    height: 36px;
+    outline: none;
+    padding-left: 8px;
+    border-radius: 10px;
+    border: 1px solid #DADADA;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+.addSubTaskIcons {
+    margin-left: 5px;
+    height: 24px;
+    width: 24px;
+    object-fit: cover;
+}
+
+.pencil_icon_div {
+    width: 36px;
+    height: 30px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.delete_icon_div {
+    width: 36px;
+    height: 30px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.delete_icon_div:hover {
+    border: 1px solid #ccc;
+    border-radius: 10px
+}
+
+.pencil_icon_div:hover {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.contacts-background:hover {
+    background-color: #2A3D59 !important;
+}
+
+#target-done-table {
+    padding-bottom: 70px;
+}

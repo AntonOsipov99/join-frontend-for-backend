@@ -1,0 +1,584 @@
+@media (max-width: 1200px) {
+    .board_title_inputfield {
+        width: auto;
+        height: 36px;
+        outline: none;
+        padding-left: 8px;
+        border-radius: 10px;
+        border: 1px solid #DADADA;
+    }
+
+    .board_description_inputfield {
+        width: auto;
+        height: 118px;
+        border-radius: 8px;
+        outline: none;
+        padding-left: 8px;
+        border: 1px solid #DADADA;
+    }
+}
+
+@media (max-width: 1050px) {
+    .categoryOvervievPopUp {
+        font-size: 18px;
+        width: 152px;
+        height: 50px;
+    }
+
+    .to-do-container {
+        margin-left: 8%;
+        display: flex;
+        flex-wrap: wrap;
+        padding-bottom: 80px;
+    }
+
+    .topic {
+        margin-left: 75px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+@media (max-width: 750px) {
+    .categoryOvervievPopUp {
+        font-size: 16px;
+        width: 132px;
+        height: 45px;
+    }
+
+    .taskPopUpDiscription {
+        font-size: 30px;
+    }
+
+    .taskPopUpHeadline {
+        font-size: 48px;
+    }
+
+    .topic {
+        flex-direction: column;
+        margin-left: 0px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    }
+
+    .to-do-container {
+        justify-content: center;
+        margin-left: 0px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .flex-box {
+        display: flex;
+        margin-right: 0px;
+    }
+
+    .pinned-task-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 18px 19px;
+        gap: 10px;
+        width: 275px;
+        height: fit-content;
+        background: #FFFFFF;
+        box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
+        border-radius: 30px;
+        cursor: pointer;
+    }
+
+    .table-heading {
+        flex-direction: column;
+        display: flex;
+        justify-content: space-between;
+        width: 300px;
+        margin-left: 40px;
+        margin-right: 0px;
+        color: rgb(42, 54, 71);
+        font-weight: bold;
+        height: fit-content;
+    }
+
+    .table-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        margin-top: 50px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 450px) {
+    .categoryOvervievPopUp {
+        font-size: 16px;
+        width: 132px;
+        height: 42px;
+    }
+
+    .taskPopUpDiscription {
+        font-size: 24px;
+    }
+
+    .taskPopUpHeadline {
+        font-size: 32px;
+    }
+
+    .flex-box {
+        align-items: center;
+        flex-direction: column;
+        display: flex;
+        margin-right: 0px;
+    }
+
+    .add-task-button {
+        justify-content: center;
+        align-items: center;
+        margin-top: 15px;
+        width: 50%;
+        background-color: rgb(42, 54, 71);
+        color: white;
+        padding: 0px 10px 4px 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+    }
+
+    .search {
+        border-radius: 8px;
+        border-color: rgba(0, 0, 0, 0.4);
+        background-repeat: no-repeat;
+        background-position: 190px 0px;
+        padding: 5px;
+        margin-right: 0px;
+        cursor: pointer;
+    }
+
+    .add-task-button {
+        justify-content: center;
+        align-items: center;
+        margin-top: 15px;
+        width: 50%;
+        background-color: rgb(42, 54, 71);
+        color: white;
+        padding: 0px 10px 4px 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+    }
+
+    .table-heading {
+        flex-direction: column;
+        display: flex;
+        justify-content: space-between;
+        width: 300px;
+        margin-left: 40px;
+        color: rgb(42, 54, 71);
+        font-weight: bold;
+        overflow-x: unset;
+        min-height: 20vh;
+        height: fit-content;
+    }
+
+    .to-do-container {
+        justify-content: center;
+        margin-left: 0px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 1200px) {
+    .add-task-overlay {
+        max-height: 75vh;
+        background-color: white;
+        border-radius: 20px;
+        width: 920px;
+        padding: 30px;
+        margin: 20px;
+        overflow-y: auto;
+        transition: transform 800ms ease-in-out;
+    }
+
+    .header_div {
+        font-size: 56px;
+        margin-top: 20px;
+        width: 100%;
+        margin-bottom: 12px;
+    }
+
+    .borderline {
+        display: none;
+    }
+
+    #formclass {
+        overflow-y: auto;
+        display: block;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .responsive_formclass {
+        position: absolute;
+        top: inherit;
+        width: 90%;
+        margin-top: -80px;
+        flex-direction: column;
+        overflow-y: auto;
+        display: flex;
+    }
+
+    .title_description_div {
+        flex-direction: column;
+        display: flex;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .title_inputfield {
+        width: auto;
+        height: 36px;
+        outline: none;
+        padding-left: 8px;
+        border-radius: 10px;
+        border: 1px solid #DADADA;
+    }
+
+    .description_inputfield {
+        width: auto;
+        height: 118px;
+        border-radius: 8px;
+        outline: none;
+        padding-left: 8px;
+        border: 1px solid #DADADA;
+    }
+
+    .assigned_to_inputfield {
+        width: auto;
+        padding-left: 8px;
+        height: 36px;
+        outline: none;
+        border-radius: 10px;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+        border: 1px solid #DADADA;
+    }
+
+    .categoryAndSelect {
+        width: auto;
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: column;
+    }
+
+    .date_inputfield {
+        padding-right: 10px;
+        width: auto;
+        height: 36px;
+        outline: none;
+        padding-left: 8px;
+        border-radius: 10px;
+        border: 1px solid #DADADA;
+    }
+
+    .urgent_prio_btn_characteristics {
+        width: 32%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 44px;
+        outline: none;
+        border-radius: 10px;
+        border: 1px solid #DAD4D2;
+        margin-right: 10px;
+        background-color: #FFFFFF;
+    }
+
+    .medium_prio_btn_characteristics {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 44px;
+        width: 32%;
+        outline: none;
+        border-radius: 10px;
+        border: 1px solid #DAD4D2;
+        margin-right: 10px;
+        background-color: #FFFFFF;
+    }
+
+    .low_prio_btn_characteristics {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 44px;
+        width: 32%;
+        outline: none;
+        border-radius: 10px;
+        border: 1px solid #DAD4D2;
+        margin-right: 10px;
+        background-color: #FFFFFF;
+    }
+
+    .subtaskInputfield {
+        width: 95%;
+        height: 36px;
+        outline: none;
+        text-indent: 1px;
+        appearance: none;
+    }
+
+    .urgent_prio_btn_characteristics_onclick {
+        width: 32%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 44px;
+        outline: none;
+        border-radius: 10px;
+        border: 0px solid #DAD4D2;
+        margin-right: 10px;
+        background-color: #FF3E01;
+        color: #FFFFFF;
+    }
+
+    .medium_prio_btn_characteristics_onclick {
+        width: 32%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 44px;
+        outline: none;
+        border-radius: 10px;
+        border: 0px solid #DAD4D2;
+        margin-right: 10px;
+        background-color: #FFB62A;
+        color: #FFFFFF;
+    }
+
+    .low_prio_btn_characteristics_onclick {
+        width: 32%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 44px;
+        outline: none;
+        border-radius: 10px;
+        border: 0px solid #DAD4D2;
+        margin-right: 10px;
+        background-color: #7DE32E;
+        color: #FFFFFF;
+    }
+
+    .title_inputfield {
+        margin-bottom: 12px;
+        width: auto;
+        height: 36px;
+        outline: none;
+        padding-left: 8px;
+        border-radius: 10px;
+        border: 1px solid #DADADA;
+    }
+
+    .description_inputfield {
+        margin-bottom: 12px;
+        width: auto;
+        height: 118px;
+        border-radius: 8px;
+        outline: none;
+        padding-left: 8px;
+        border: 1px solid #DADADA;
+    }
+
+    .assigned_to_inputfield {
+        width: auto;
+        padding-left: 8px;
+        height: 36px;
+        outline: none;
+        border-radius: 10px;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+        border: 1px solid #DADADA;
+    }
+
+    #category {
+        cursor: pointer;
+        margin-bottom: 12px;
+        box-sizing: border-box;
+        padding: 5px 10px;
+        height: 36px;
+        border: 1px solid #D1D1D1;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        background: white url(http://gruppe-691.developerakademie.net/arrow_drop_down.svg) no-repeat right 10px center;
+    }
+
+    .add_Prio_section {
+        margin-bottom: 12px;
+        height: 115px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .taskContainerItemsPosition {
+        align-items: center;
+        display: flex;
+        margin-bottom: 12px;
+    }
+
+    .newCategoryContainer {
+        width: 100%;
+        display: flex;
+    }
+
+    .newCategoryContainer input {
+        border-right: none;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+        padding-right: 0;
+        padding-left: 12px;
+        width: 95%;
+        height: 36px;
+        outline: none;
+        border-radius: 10px 0px 0px 10px;
+        border: 1px solid #DADADA;
+    }
+}
+
+@media (max-width: 1050px) {
+    .add-task-overlay {
+        max-height: 75vh;
+        background-color: white;
+        border-radius: 20px;
+        width: 920px;
+        padding: 30px;
+        margin: 20px;
+        overflow-y: auto;
+        transition: transform 800ms ease-in-out;
+    }
+
+    .header-text {
+        margin-left: 0px;
+        font-weight: 500;
+    }
+
+    .contentSection {
+        margin-top: 12px;
+        margin-left: 12px;
+        position: fixed;
+        top: 89px;
+        left: 0px;
+        bottom: 0;
+        right: 0;
+    }
+
+    .clear_and_create_task_position {
+        margin-bottom: 100px;
+    }
+}
+
+@media (max-width: 750px) {
+    .header_div h1 {
+        font-size: 46px;
+        margin-top: 0px;
+        margin-bottom: 0;
+        width: 100%;
+        font-weight: bold;
+    }
+
+    .clear_and_create_task_btn {
+        flex-direction: column-reverse;
+    }
+
+    .create_task_button {
+        margin-left: 0px;
+        margin-bottom: 10px;
+    }
+
+    .add-task-overlay {
+        margin: 0px;
+        width: 100%;
+    }
+}
+
+@media (min-width: 2200px) {
+    .table-header {
+        margin-left: 10vw;
+    }
+
+    .table-heading {
+        margin-left: 10vw;
+    }
+
+    .heading {
+        margin-left: 10vw;
+    }
+}
+
+@media (min-width: 3200px) {
+    .table-header {
+        margin-left: 13vw;
+    }
+
+    .table-heading {
+        margin-left: 13vw;
+    }
+
+    .heading {
+        margin-left: 13vw;
+    }
+}
+
+@media (max-width: 450px) {
+    h6 {
+        font-size: small;
+    }
+
+    .prio_btn_position {
+        display: flex;
+        justify-content: center;
+    }
+
+    .low_prio_btn_characteristics {
+        width: 33% !important;
+        margin-right: 0px !important;
+    }
+
+    .medium_prio_btn_characteristics {
+        width: 33% !important;
+    }
+
+    .urgent_prio_btn_characteristics {
+        width: 33% !important;
+    }
+
+    .prio_icon_position {
+        height: 18px;
+        width: 18px;
+    }
+
+    .prio_btn_position {
+        display: flex !important;
+        justify-content: center !important;
+    }
+}
+
+@media (max-width: 380px) {
+    .to-do-container {
+        display: flex;
+        margin-left: -10px;
+        justify-content: flex-start;
+    }
+}

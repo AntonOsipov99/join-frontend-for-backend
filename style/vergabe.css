@@ -1,0 +1,52 @@
+.assignedToList {
+    width: 375px;
+    height: 45px;
+    margin-top: 5px;
+    margin-left: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 44px;
+    overflow-y: auto;
+}
+
+
+
+/*board.overlay.css*/
+.assigned_to_section {
+    width: 370px !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+    flex-direction: column !important;
+}
+
+
+
+
+
+    /*board.responsive.css*/
+    .assigned_to_section {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: flex-start !important;
+        flex-direction: column !important;
+    }
+
+    /*board.responsive.css*/
+    .assignedToList {
+        width: 100% !important;;
+        height: 45px !important;;
+        margin-top: 5px !important;;
+        margin-left: 5px !important;;
+        display: flex !important;;
+        flex-wrap: wrap !important;;
+        max-height: 44px !important;;
+        overflow-y: auto !important;;
+    }
+
+    /*board.overlay.css*/
+    .contentSectionAddTaskForBoard {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+

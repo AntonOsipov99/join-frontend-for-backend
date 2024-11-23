@@ -1,0 +1,142 @@
+.newCategoryContainer {
+    display: flex;
+}
+
+.d-none {
+    display: none;
+}
+
+.categoryColor {
+    height: 13px;
+    width: 13px;
+    border: 2px solid white;
+    border-radius: 100%;
+}
+
+.checkButton {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.newCategoryColors {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    padding-left: 5px;
+}
+
+.newCategoryColors p {
+    cursor: pointer;
+    transition: ease-in-out 125ms;
+}
+
+.newCategoryColors p:hover {
+    transform: scale(1.2);
+    transition: ease-in-out 125ms;
+}
+
+.newCategoryColorContainer {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid #D1D1D1;
+    border-bottom: 1px solid #D1D1D1;
+}
+
+
+#categoryOverlay {
+    box-sizing: border-box;
+    padding: 5px 10px;
+    width: 422px;
+    height: 51px;
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+    font-weight: 400;
+    font-size: 21px;
+    display: flex;
+    align-items: center;
+    background: white url("../../img/dropdownArrow.png") no-repeat right 10px center;
+    cursor: pointer;
+}
+
+#category {
+    cursor: pointer;
+    box-sizing: border-box;
+    padding: 5px 10px;
+    height: 36px;
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    background: white url("http://gruppe-691.developerakademie.net/arrow_drop_down.svg") no-repeat right 10px center;
+}
+
+.categoryContainer {
+    display: flex;
+    align-items: center;
+}
+
+
+.categoryDropdown {
+    border: 1px solid #D1D1D1;
+    border-top: none;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    height: 105px;
+    overflow-y: auto;
+}
+
+.categoryDropdown::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent;
+}
+
+.categoryDropdown::-webkit-scrollbar-track {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+.categoryOption {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 8px;
+    cursor: pointer;
+    transition: all ease-in-out 125ms;
+}
+
+.categoryOption:hover {
+    background-color: lightgray;
+    transition: all ease-in-out 125ms;
+}
+
+.newCategoryContainer input {
+    border-right: none;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    padding-right: 0;
+    padding-left: 12px;
+    width: 290px;
+    height: 36px;
+    outline: none;
+    border-radius: 10px 0px 0px 10px;
+    border: 1px solid #DADADA
+}
+
+.newCategoryContainer button {
+    cursor: pointer;
+    width: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFFFFF;
+    border: 1px solid #D1D1D1;
+    transition: ease-in-out 125ms;
+}
+
+.newCategoryContainer button:hover {
+    background-color: lightgray;
+    transition: ease-in-out 125ms;
+}

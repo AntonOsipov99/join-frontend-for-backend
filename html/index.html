@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="./font/fonts.css">
+    <link rel="stylesheet" href="./style/log_in.css">
+    <link rel="stylesheet" href="./style/generalclasses.css">
+    <link rel="shortcut icon" href="./assets/img/Logo for Favicon construction.svg" type="image/x-icon">
+    <script src="./js/storage.js"></script>
+    <script src="./js/log_in.js"></script>
+    <title>Log In</title>
+</head>
+
+<body class="background-color-F6F7F8" onload="init()">
+    <div id="startscreen_logo" class="startscreen-logo">
+        <img id="join_logo" src="./assets/img/Capa1.svg" alt="">
+    </div>
+
+
+    
+
+    <div id="log_in_card" class="content-log-in">
+        <div id="log_in" class="log-in">
+            <div class="log-in-logo logo-input">
+                <div class="header-logo">
+                    <h1>Log in</h1>
+                    <div class="headline-underline"></div>
+                </div>
+            </div>
+            <form class="log-in-form" onsubmit="logIn(); return false">
+                <div class="inputfields">
+                    <div id="email" class="log-in-input">
+                        <input required type="email" class="email-input" id="email_log_in" placeholder="Email"
+                            onmouseup="resetWrongEnter('email')">
+                        <div class="input-icon">
+                            <img src="./assets/img/mail.svg" alt="">
+                        </div>
+                        <label for="content">User don´t excist</label>
+                    </div>
+
+                    <div id="password1" class="log-in-input">
+                        <input required type="password" class="" id="password1_input" placeholder="Password"
+                            onmouseup="resetWrongEnter('password1'); showPasswordIcon('password1')">
+                        <div id="input_icon_password1" class="input-icon">
+                            <img id="password1_icon" src="./assets/img/lock.svg" alt="">
+                        </div>
+                        <label for="content">Wrong password Ups! Try again.</label>
+                    </div>
+
+                    <div class="form-check d-flex-around fontSize-16-400 width-100">
+                        <div>
+                            <img id="check_btn" src="./assets/img/checkbutton.svg" onclick="checkBtnLogIn()">
+                            <label class="form-check-label" for="exampleCheck1">Remember me</label>
+                        </div>
+                        <a href="./forgotmypassword.html">I forgot my password</a>
+                    </div>
+                </div>
+                <div class="submit-btn">
+                    <button id="log_in_btn" type="submit" class="login-btn login-btn-filled fontSize-21-700">Log in</button>
+                    <button type="submit" class="login-guest-btn fontSize-21-700" onclick="logIn('guest@guest.com')">Guest Log in</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="sign_up_btn_card" class="rigister-user-login">
+        <span class="fontSize-20-400">Not a Join user?</span>
+        <a href="./signup.html"><button class="sign-up-login-btn login-btn-filled fontSize-16-700">Sign up</button></a>
+    </div>
+</body>
+
+</html>

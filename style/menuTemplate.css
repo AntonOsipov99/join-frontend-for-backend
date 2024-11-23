@@ -1,0 +1,176 @@
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    background-color: #F6F7F8;
+    overflow-x: hidden;
+}
+
+nav {
+    background-color: rgb(42, 54, 71);
+    position: fixed;
+    height: 100%;
+    width: 240px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    padding: 65px;
+}
+
+.nav-sub {
+    display: flex;
+    align-items: center;
+    padding: 10px 0px 10px 65px;
+    color: rgb(205, 205, 205);
+    gap: 10px;
+    font-size: 16px;
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.nav-sub:hover {
+    background-color: #2A3D59;
+    color: white;
+    cursor: pointer;
+}
+
+.nav-bottom {
+    display: flex;
+    flex-direction: column;
+    color: rgb(205, 205, 205);
+    font-size: 14px;
+    margin-bottom: 40px;
+    gap: 10px;
+}
+
+.nav-bottom-a {
+    padding: 10px 0px 10px 65px;
+    margin: 0;
+    color: rgb(205, 205, 205);
+}
+
+.nav-bottom-a:hover {
+    color: #29ABE2;
+    cursor: pointer;
+}
+
+.nav-flex-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+a {
+    text-decoration: none;
+}
+
+header {
+    margin-left: 240px;
+    display: flex;
+    height: 100px;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+    border-bottom: 4px solid rgba(0, 0, 0, 0.07);
+    background-color: white;
+}
+
+.header-text {
+    margin-left: 5vw;
+    font-weight: 500;
+    display: flex;
+    flex: 1;
+    font-size: 21px;
+}
+
+.help-icon {
+    cursor: pointer;
+}
+
+.help-icon:hover {
+    width: 25px;
+    height: 25px;
+}
+
+.header-icons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.group-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    border: 3px solid #2A3647;
+    background-color: #FFFFFF;
+    margin-right: 50px;
+    cursor: pointer;
+}
+
+.group-icon:hover {
+    background-color: rgba(12, 46, 98, 0.12);
+}
+
+.group-icon span {
+    text-align: center;
+    color: #29ABE2;
+    font-size: 27px;
+    font-weight: 700;
+}
+
+.template-menu-pop-up-bg {
+    z-index: 99;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.template-menu-pop-up {
+    width: 150px;
+    height: 158px;
+    position: absolute;
+    top: 100px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #2A3647;
+    padding: 10px;
+    border-radius: 20px 0px 20px 20px;
+}
+
+.template-menu-pop-up a {
+    color: #CDCDCD;
+    font-size: 16px;
+    font-weight: 400;
+    width: 140px;
+    height: 46px;
+    padding: 8px 16px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+
+@media (min-width: 2200px) {
+    .header-text {
+        margin-left: 10vw;
+    }
+}
+
+@media (min-width: 3200px) {
+    .header-text {
+        margin-left: 13vw;
+    }
+}

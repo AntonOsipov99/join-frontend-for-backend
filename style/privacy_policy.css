@@ -1,0 +1,36 @@
+.contacts-background {
+    background-color: transparent !important;
+}
+
+.content-container {
+    margin-left: 270px;
+    padding: 30px;
+}
+
+.content-container p {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.log-out-background:hover {
+    background-color: #2A3D59;
+}
+
+.privacy-policy-background {
+    background-color: rgb(9, 25, 49);
+}
+
+.contacts-background:hover {
+    background-color: #2A3D59;
+}
+
+.contacts-background {
+    background-color: unset;
+}
+
+@media (max-width: 1050px) {
+    .content-container {
+        margin-left: 0px;
+        padding: 30px 30px 100px 30px;
+    }
+}
