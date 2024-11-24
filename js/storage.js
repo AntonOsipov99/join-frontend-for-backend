@@ -45,11 +45,9 @@ async function setItem(key, value) {
                 [key]: value  // Dynamischer Key
             })
         });
-
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-
         const data = await response.json();
         return data;
     } catch (error) {
@@ -88,19 +86,35 @@ async function setItem(key, value) {
 
 async function getData(storage) {
     try {
-      const response = await fetch(storage);
-      const data = await response.json();
-      if (storage == CONTACT_STORAGE_URL);
+        const response = await fetch(storage);
+        const data = await response.json();
+        if (storage == CONTACT_STORAGE_URL);
         contacts = data;
-      if (storage == TASKS_STORAGE_URL)
-        allTasks = data;
-      else if (storage == SUMMARY_STORAGE_URL)
-        summary = data;
+        if (storage == TASKS_STORAGE_URL)
+            allTasks = data;
+        else if (storage == SUMMARY_STORAGE_URL)
+            summary = data;
     } catch (error) {
-      console.error('Error:', error);
+        console.error('Error:', error);
     }
-  }
- 
+}
+
+async function getItem(key) {
+    const url = `${STORAGE_URL}${key}/`;
+    const response = await fetch(url);
+    const dataJson = await response.json();
+    const data = [];
+    if (dataJson != '') {
+        for (let i = 0; i < dataJson.length; i++) {
+            if (dataJson[i][key]) {
+                let oneData = (dataJson[i][key]);
+                let parsedData = JSON.parse(oneData);
+                data.push(parsedData);
+            }
+        }
+    } return data
+}
+
 
 //   async function getItem(key) {
 //     const url = `${STORAGE_URL}?key=${key}&token=${STORAGE_TOKEN}`;
@@ -119,24 +133,27 @@ async function getData(storage) {
  * @returns 
  */
 
-async function getItem(key) {
-    const url = `${STORAGE_URL}${key}/`;
-    const response = await fetch(url);
-    const dataJson = await response.json();
-    const data = [];
-        if (dataJson != '') {
-            for (let i = 0; i < dataJson.length; i++) {
-                if (dataJson[i][key]) {
-                    data.push(dataJson[i][key]);
-                } 
-            } 
-        } return data
+// async function getItem(key) {
+//     const url = `${STORAGE_URL}${key}/`;
+//     const response = await fetch(url);
+//     const dataJson = await response.json();
+//     const data = [];
+//         if (dataJson != '') {
+//             for (let i = 0; i < dataJson.length; i++) {
+//                 if (dataJson[i][key]) {
+//                     data.push(dataJson[i][key]);
+//                 } 
+//             } 
+//         } return data
+
+
+
     // if(response.ok) {
     //     return await fetch(url).then(res => res.json().then(res => res.data.value));
     // } else {
     //     return [];
     // }
-}
+
 
 
 

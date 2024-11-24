@@ -59,8 +59,8 @@ function resetAssignedField() {
  */
 async function sortTaskIntoArrays(allTasks, tasksToDo, tasksInProgress, tasksAwaitFeedback, tasksDone) {
     if (allTasks && allTasks.length > 0) {
-        const allTasksJson = JSON.parse(allTasks);
-        allTasksJson.forEach(task => {
+        // const allTasksJson = JSON.parse(allTasks);
+        allTasks.forEach(task => {
             const taskDiv = document.getElementById(`task-${task.id}`);
             if (!taskDiv) return;
             const targetArray = getTargetArray(taskDiv, tasksToDo, tasksInProgress, tasksAwaitFeedback, tasksDone);

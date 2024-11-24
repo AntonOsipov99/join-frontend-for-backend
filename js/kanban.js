@@ -229,7 +229,15 @@ function determineContainerKey(array) {
  * @returns {Array|null} The array containing the task, or null if not found.
  */
 function findTaskArray(taskId) {
-    const task = allTasks.find(task => task.id === taskId);
+    let task = null;
+    for(let i = 0; i < allTasks.length; i++) {
+        const currentTaskArray = allTasks[i];
+        const currentTask = currentTaskArray[0]; 
+        if(currentTask.id === taskId) {
+            task = currentTask;
+            break; 
+        }
+    }
     if (task) {
         if (tasksToDo.includes(task)) {
             return tasksToDo;
@@ -250,7 +258,15 @@ function findTaskArray(taskId) {
  * @param {Object} task - The task.
  */
 function displayTaskOverview(taskId) {
-    const task = allTasks.find(task => task.id === taskId);
+    let task = null;
+    for(let i = 0; i < allTasks.length; i++) {
+        const currentTaskArray = allTasks[i];
+        const currentTask = currentTaskArray[0]; 
+        if(currentTask.id === taskId) {
+            task = currentTask;
+            break; 
+        }
+    }
     const taskOverviewPopUp = document.getElementById('taskOverviewPopUp');
     const categorybackgroundColor = task.categoryColors[0];
     const currentId = task.id;
@@ -271,12 +287,20 @@ function displayTaskOverview(taskId) {
  * @returns {string} The HTML code for subtasks.
  */
 function createSubTasksHTML(subTasks, subTasksId) {
-    const taskSubtasksId = allTasks.find(task => task.subtasksId === subTasksId);
+    let task = null;
+    for(let i = 0; i < allTasks.length; i++) {
+        const currentTaskArray = allTasks[i];
+        const currentTask = currentTaskArray[0]; 
+        if(currentTask.subtasksId === subTasksId) {
+            task = currentTask;
+            break; 
+        }
+    }
     let subTasksHTML = '';
     if (subTasks && subTasksId && subTasks.length > 0) {
         subTasksHTML += '<ul class="edit-subTask">';
         subTasks.forEach((subTask, index) => {
-            const subtaskStatus = taskSubtasksId ? taskSubtasksId[index] : false;
+            const subtaskStatus = task.subtasksId ? task.subtasksId[index] : false;
             subTasksHTML += `<li id="${subTasksId[index]}" class="subTaskAlignment"><div class="${subtaskStatus ? 'lineThrough' : ''}">${subTask}</div></li>`;
         });
         subTasksHTML += '</ul>';
@@ -432,7 +456,15 @@ function createNoTaskDiv() {
  * @param {string} currentTaskId - The ID of the current task.
  */
 function applyLineThroughAndCheckbox(currentTaskId) {
-    const task = allTasks.find(task => task.id === currentTaskId);
+    let task = null;
+    for(let i = 0; i < allTasks.length; i++) {
+        const currentTaskArray = allTasks[i];
+        const currentTask = currentTaskArray[0]; 
+        if(currentTask.id === taskId) {
+            task = currentTask;
+            break; 
+        }
+    }
     if (!task) return console.error(`Aufgabe mit der ID "${currentTaskId}" wurde nicht gefunden.`);
     (task.subtasksStatus || []).forEach((subtaskStatus, index) => {
         const subtaskId = task.subtasksId[index];
@@ -454,9 +486,8 @@ function applyLineThroughAndCheckbox(currentTaskId) {
  */
 function displayTasks(taskContainer, feedbackTaskContainer, inProgressContainer, targetDoneTable) {
     if (allTasks && allTasks.length > 0) {
-        allTasks.forEach(oneTask => {
-            const innerTasks = JSON.parse(oneTask);
-            innerTasks.forEach(task => {
+        allTasks.forEach(taskArray => {
+            let task = taskArray[0];
             const taskId = task.id
             const progressBarId = generateUniqueID();
             task.progressBarId = progressBarId;
@@ -472,7 +503,6 @@ function displayTasks(taskContainer, feedbackTaskContainer, inProgressContainer,
             updateProgressBar(taskId);
             checkProgressBar(taskId, progressBarId);
             });
-        });
         initializeDragAndDrop();
         sortTaskIntoArrays(allTasks, tasksToDo, tasksInProgress, tasksAwaitFeedback, tasksDone);
     }
@@ -492,11 +522,21 @@ function displayTasks(taskContainer, feedbackTaskContainer, inProgressContainer,
  * @param {string} taskId - The ID of the task associated with the progress bar.
  */
 function createProgressBar(taskId, progressBarId) {
-    const allTasksJson = [];
-    for(i = 0; i < allTasks.length; i++) {
-        allTasksJson.push(JSON.parse(allTasks[i]));
+    // const allTasksJson = [];
+    // for(i = 0; i < allTasks.length; i++) {
+    //     // Extrahieren Sie direkt das erste Element des Arrays
+    //     const parsedTask = JSON.parse(allTasks[i])[0];
+    //     allTasksJson.push(parsedTask);
+    // }
+    let task = null;
+    for(let i = 0; i < allTasks.length; i++) {
+        const currentTaskArray = allTasks[i];
+        const currentTask = currentTaskArray[0]; 
+        if(currentTask.id === taskId) {
+            task = currentTask;
+            break; 
+        }
     }
-    const task = allTasksJson.find(task => task.id === taskId);
     if (!task || !task.subtasks || !task.subtasksId || task.subtasks.length === 0 || task.subtasksId.length === 0)
         return;
     const taskDiv = document.getElementById(`progress-div-${taskId}`);

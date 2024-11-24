@@ -44,14 +44,18 @@ function showNoTaskMessage(container, tasksArray, text) {
  * @param {string} taskId - The ID of the task.
  */
 function updateProgressBar(taskId) {
-    const allTasksJson = [];
-    for(i = 0; i < allTasks.length; i++) {
-        allTasksJson.push(JSON.parse(allTasks[i]));
-    }
-    const task = allTasksJson.find(task => task.id === taskId);
-    if (!task) {
-        console.error(`Task mit der ID "${taskId}" wurde nicht gefunden.`);
-        return;
+    // const allTasksJson = [];
+    // for(i = 0; i < allTasks.length; i++) {
+    //     allTasksJson.push(JSON.parse(allTasks[i]));
+    // }
+    let task = null;
+    for(let i = 0; i < allTasks.length; i++) {
+        const currentTaskArray = allTasks[i];
+        const currentTask = currentTaskArray[0]; 
+        if(currentTask.id === taskId) {
+            task = currentTask;
+            break; 
+        }
     }
     const progressBarId = task.progressBarId;
     const progressBar = document.getElementById(`progress-bar-${progressBarId}`);
@@ -101,7 +105,15 @@ function updateSubtaskStatus(subtaskStatusArray, subtasksIdArray) {
  * @param {string} currentTaskId - ID of the task to apply styles and update checkboxes.
  */
 function applyLineThroughAndCheckbox(currentTaskId) {
-    const task = allTasks.find(task => task.id === currentTaskId);
+    let task = null;
+    for(let i = 0; i < allTasks.length; i++) {
+        const currentTaskArray = allTasks[i];
+        const currentTask = currentTaskArray[0]; 
+        if(currentTask.id === taskId) {
+            task = currentTask;
+            break; 
+        }
+    }
     if (!task) {
         console.error(`Task with ID "${currentTaskId}" was not found.`);
         return;
@@ -148,11 +160,21 @@ function calculateProgress(subtasksStatusArray, subtasks, progressBarId) {
  * @param {string} progressBarId - The ID of the progress bar element.
  */
 function checkProgressBar(taskId, progressBarId) {
-    const allTasksJson = [];
-    for(i = 0; i < allTasks.length; i++) {
-        allTasksJson.push(JSON.parse(allTasks[i]));
+    // const allTasksJson = [];
+    // for(i = 0; i < allTasks.length; i++) {
+    //     // Extrahieren Sie direkt das erste Element des Arrays
+    //     const parsedTask = JSON.parse(allTasks[i])[0];
+    //     allTasksJson.push(parsedTask);
+    // }
+    let task = null;
+    for(let i = 0; i < allTasks.length; i++) {
+        const currentTaskArray = allTasks[i];
+        const currentTask = currentTaskArray[0]; 
+        if(currentTask.id === taskId) {
+            task = currentTask;
+            break; 
+        }
     }
-    const task = allTasksJson.find(task => task.id === taskId);
     const progressBar = document.getElementById(`progress-bar-${progressBarId}`);
     const progressBarCounter = document.getElementById(`progress-bar-counter-${progressBarId}`);
     if (!task || !progressBar || !progressBarCounter) return;

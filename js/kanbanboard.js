@@ -122,7 +122,15 @@ function initializeTask(currentShowedTaskId) {
     currentTaskId = [];
     const taskOverviewPopUp = document.getElementById('taskOverviewPopUp');
     taskOverviewPopUp.innerHTML = '';
-    const task = allTasks.find(task => task.id === currentShowedTaskId);
+    let task = null;
+    for(let i = 0; i < allTasks.length; i++) {
+        const currentTaskArray = allTasks[i];
+        const currentTask = currentTaskArray[0]; 
+        if(currentTask.id === taskId) {
+            task = currentTask;
+            break; 
+        }
+    }
     currentTaskId = currentShowedTaskId;
     if (!task) {
         console.error(`Task mit der ID '${currentTaskId}' wurde nicht gefunden.`);
@@ -215,7 +223,15 @@ function updateButtonState(prio) {
  * @param {string} taskId - The ID of the task.
  */
 function simulatePriorityButtonClick(taskId) {
-    const task = allTasks.find(task => task.id === taskId);
+    let task = null;
+    for(let i = 0; i < allTasks.length; i++) {
+        const currentTaskArray = allTasks[i];
+        const currentTask = currentTaskArray[0]; 
+        if(currentTask.id === taskId) {
+            task = currentTask;
+            break; 
+        }
+    }
     if (!task) {
         console.error(`Task with ID "${taskId}" was not found.`);
         return;
