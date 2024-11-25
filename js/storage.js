@@ -1,7 +1,4 @@
 const STORAGE_TOKEN = '6JWGFSP8ZA4Y8JE2FOVSN7ZO8Z67IFY8GHNHPA6B'
-// const CONTACT_STORAGE_URL = 'http://127.0.0.1:8000/join/contact_info/';
-// const TASKS_STORAGE_URL = 'http://127.0.0.1:8000/join/tasks/';
-// const SUMMARY_STORAGE_URL = 'http://127.0.0.1:8000/join/summary/';
 const STORAGE_URL = 'http://127.0.0.1:8000/join/';
 
 let lokalUsers = [];
@@ -99,6 +96,7 @@ async function getData(storage) {
     }
 }
 
+
 async function getItem(key) {
     const url = `${STORAGE_URL}${key}/`;
     const response = await fetch(url);
@@ -109,51 +107,15 @@ async function getItem(key) {
             if (dataJson[i][key]) {
                 let oneData = (dataJson[i][key]);
                 let parsedData = JSON.parse(oneData);
-                data.push(parsedData);
+                data.push(parsedData[0]);
             }
         }
     } return data
 }
 
-
-//   async function getItem(key) {
-//     const url = `${STORAGE_URL}?key=${key}&token=${STORAGE_TOKEN}`;
-//     return await fetch(url).then(res => res.json().then(res => res.data.value));
-// }
-
-
 //------------------------------------------------------------------------------//
 //-----------------------------get User from Backend----------------------------//
 //------------------------------------------------------------------------------//
-
-/**
- * get User from Backend
- * @async
- * @param {string} key 
- * @returns 
- */
-
-// async function getItem(key) {
-//     const url = `${STORAGE_URL}${key}/`;
-//     const response = await fetch(url);
-//     const dataJson = await response.json();
-//     const data = [];
-//         if (dataJson != '') {
-//             for (let i = 0; i < dataJson.length; i++) {
-//                 if (dataJson[i][key]) {
-//                     data.push(dataJson[i][key]);
-//                 } 
-//             } 
-//         } return data
-
-
-
-    // if(response.ok) {
-    //     return await fetch(url).then(res => res.json().then(res => res.data.value));
-    // } else {
-    //     return [];
-    // }
-
 
 
 
@@ -310,17 +272,6 @@ async function saveTasks() {
     await setItem('allTasks', JSON.stringify(allTasks));
 }
 
-async function saveTasksCategory(tasksToDo, tasksInProgress, tasksAwaitFeedback, tasksDone) {
-    sortTasks = {
-        'toDo': tasksToDo,
-        'progress': tasksInProgress,
-        'feedback': tasksAwaitFeedback,
-        'done': tasksDone,
-    };
-    await setItem('sortTasks', JSON.stringify(sortTasks));
-}
-
-
 //------------------------------------------------------------------------------//
 //-----------------------------load Tasks at Backend----------------------------//
 //------------------------------------------------------------------------------//
@@ -331,7 +282,6 @@ async function saveTasksCategory(tasksToDo, tasksInProgress, tasksAwaitFeedback,
  */
 async function loadTasks() {
     allTasks = await getItem('allTasks');
-    sortTasks = await getItem('sortTasks');
 }
 
 /**

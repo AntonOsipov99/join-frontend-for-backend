@@ -124,9 +124,8 @@ function initializeTask(currentShowedTaskId) {
     taskOverviewPopUp.innerHTML = '';
     let task = null;
     for(let i = 0; i < allTasks.length; i++) {
-        const currentTaskArray = allTasks[i];
-        const currentTask = currentTaskArray[0]; 
-        if(currentTask.id === taskId) {
+        const currentTask = allTasks[i];
+        if(currentTask.id === currentShowedTaskId) {
             task = currentTask;
             break; 
         }
@@ -225,8 +224,7 @@ function updateButtonState(prio) {
 function simulatePriorityButtonClick(taskId) {
     let task = null;
     for(let i = 0; i < allTasks.length; i++) {
-        const currentTaskArray = allTasks[i];
-        const currentTask = currentTaskArray[0]; 
+        const currentTask = allTasks[i];
         if(currentTask.id === taskId) {
             task = currentTask;
             break; 

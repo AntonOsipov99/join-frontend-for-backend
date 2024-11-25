@@ -50,8 +50,7 @@ function updateProgressBar(taskId) {
     // }
     let task = null;
     for(let i = 0; i < allTasks.length; i++) {
-        const currentTaskArray = allTasks[i];
-        const currentTask = currentTaskArray[0]; 
+        const currentTask = allTasks[i];
         if(currentTask.id === taskId) {
             task = currentTask;
             break; 
@@ -107,9 +106,8 @@ function updateSubtaskStatus(subtaskStatusArray, subtasksIdArray) {
 function applyLineThroughAndCheckbox(currentTaskId) {
     let task = null;
     for(let i = 0; i < allTasks.length; i++) {
-        const currentTaskArray = allTasks[i];
-        const currentTask = currentTaskArray[0]; 
-        if(currentTask.id === taskId) {
+        const currentTask = allTasks[i];
+        if(currentTask.id === currentTaskId) {
             task = currentTask;
             break; 
         }
@@ -168,8 +166,7 @@ function checkProgressBar(taskId, progressBarId) {
     // }
     let task = null;
     for(let i = 0; i < allTasks.length; i++) {
-        const currentTaskArray = allTasks[i];
-        const currentTask = currentTaskArray[0]; 
+        const currentTask = allTasks[i];
         if(currentTask.id === taskId) {
             task = currentTask;
             break; 
@@ -422,7 +419,6 @@ async function updateTaskAndSave(taskIndex, taskDetails, assigneeDetails, update
     currentTaskId = [];
     closeTaskOverviewPopUp();
     showTasks();
-    sortTaskIntoArrays(allTasks, tasksToDo, tasksInProgress, tasksAwaitFeedback, tasksDone);
 }
 
 /**

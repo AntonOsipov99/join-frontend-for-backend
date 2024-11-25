@@ -16,7 +16,6 @@ async function initForBoard() {
     await loadContacts();
     generateSideBar();
     showTasks();
-    sortTaskIntoArrays(allTasks, tasksToDo, tasksInProgress, tasksAwaitFeedback, tasksDone);
     addTaskOverlayClickEventlisteners();
     createContactDropdown();
     getRandomColor();
@@ -47,31 +46,6 @@ function resetAssignedField() {
     assigneeBalls.forEach(ball => {
         ball.dispatchEvent(clickEvent);
     });
-}
-
-/**
- * Sorts tasks into different arrays based on their current status on the board.
- * @param {Array} allTasks - An array containing all tasks.
- * @param {Array} tasksToDo - An array to store tasks in the "To Do" status.
- * @param {Array} tasksInProgress - An array to store tasks in progress.
- * @param {Array} tasksAwaitFeedback - An array to store tasks awaiting feedback.
- * @param {Array} tasksDone - An array to store completed tasks.
- */
-async function sortTaskIntoArrays(allTasks, tasksToDo, tasksInProgress, tasksAwaitFeedback, tasksDone) {
-    if (allTasks && allTasks.length > 0) {
-        // const allTasksJson = JSON.parse(allTasks);
-        allTasks.forEach(task => {
-            const taskDiv = document.getElementById(`task-${task.id}`);
-            if (!taskDiv) return;
-            const targetArray = getTargetArray(taskDiv, tasksToDo, tasksInProgress, tasksAwaitFeedback, tasksDone);
-            const shouldAddTask = !targetArray.some(existingTask => existingTask.id === task.id);
-            if (shouldAddTask) targetArray.push(task);
-            saveTasks();
-            saveTasksCategory(tasksToDo, tasksInProgress, tasksAwaitFeedback, tasksDone);
-        });
-    } else {
-        clearSortTasks();
-    }
 }
 
 function clearSortTasks() {
@@ -176,8 +150,11 @@ async function updateArrays(task) {
     titlesArray.push(task.title);
     descriptionsArray.push(task.description_text);
     createdAtArray.push(task.createdAt);
+    allTasks = [];
     allTasks.push(task);
     await saveTasks();
+    allTasks = [];
+    await loadTasks();
 }
 
 /**
@@ -207,7 +184,6 @@ function finalizeBoardState() {
     setTimeout(() => {
         closeOverlay();
         showTasks();
-        sortTaskIntoArrays(allTasks, tasksToDo, tasksInProgress, tasksAwaitFeedback, tasksDone);
         emptyArrays();
     }, 1500);
     forClearAddTaskWithBtn();
@@ -217,9 +193,9 @@ function finalizeBoardState() {
  * Handles filled fields by gathering task information, updating arrays, and finalizing the board state.
  * @param {Object} task - The task object to handle.
  */
-function handleFilledFields(task) {
+async function handleFilledFields(task) {
     const taskInfo = gatherTaskInfo();
-    updateArrays({ ...taskInfo, ...task });
+    await updateArrays({ ...taskInfo, ...task });
     finalizeBoardState();
 }
 
@@ -258,7 +234,7 @@ function emptyHandleNewCategoryArray() {
 /**
  * Adds a task from the overlay, preventing the default event action and validating required fields.
  */
-function addTaskFromOverlay() {
+async function addTaskFromOverlay() {
     event.preventDefault();
     const { categorySelect, categoryColors, description, createdAt, title, newCategoryContainer, newCategoryInput, newCategoryColor, subtaskItems } = declareVariables();
     if (!newCategoryContainer.classList.contains('d-none')) {
@@ -273,7 +249,9 @@ function addTaskFromOverlay() {
         let subtaskIdsArray = [];
         collectSubtaskInfo(subtaskItems, subtaskTextsArray, subtaskIdsArray);
         extractAssigneeInfo();
-        validateTaskFields(title, categorySelect, categoryColors, description, createdAt) ? handleFilledFields(createTaskObject(categorySelect)) : showNotificationAndResetArrays();
+        await (validateTaskFields(title, categorySelect, categoryColors, description, createdAt) 
+            ? handleFilledFields(createTaskObject(categorySelect)) 
+            : showNotificationAndResetArrays());
     }
 }
 

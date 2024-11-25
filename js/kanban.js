@@ -105,33 +105,68 @@ function allowDrop(event) {
 /**
  * Clears all tasks.
  */
-async function clearAllTasks() {
-    allTasks = [];
-    await saveTasks();
-}
+// async function clearAllTasks() { löschen
+//     allTasks = [];
+//     await saveTasks();
+// }
 
 /**
  * Deletes a task based on its ID.
  * @param {string} taskId - The ID of the task to delete.
  */
+async function deleteTaskFromBackend(taskEntryId) {
+    try {
+        const response = await fetch(`${STORAGE_URL}allTasks/${taskEntryId}/`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error deleting task from backend:', error);
+        throw error;
+    }
+}
+
 async function deleteTask(taskId) {
     const taskElement = document.getElementById('task-' + taskId);
     if (taskElement)
         taskElement.remove();
     else
         console.error('HTML Task element not found for deletion');
+
     const taskIndex = allTasks.findIndex(task => task.id === taskId);
     if (taskIndex !== -1) {
         allTasks.splice(taskIndex, 1);
         hideOverlay();
     } else
         console.error('Task not found for deletion');
-    clearSortTasks();
-    sortTaskIntoArrays(allTasks, tasksToDo, tasksInProgress, tasksAwaitFeedback, tasksDone);
-    await saveTasksCategory(tasksToDo, tasksInProgress, tasksAwaitFeedback, tasksDone);
-    await saveTasks();
-}
 
+    clearSortTasks();
+    
+    try {
+        const tasksInStorage = await getItem('allTasks');
+        const taskToDeleteEntry = tasksInStorage.find(entry => {
+            const tasksArray = JSON.parse(entry.allTasks);
+            return tasksArray.some(task => task.id === taskId);
+        });
+
+        if (taskToDeleteEntry) {
+            await deleteTaskFromBackend(taskToDeleteEntry.id);
+        } else {
+            console.error('No matching task entry found in backend');
+        }
+    } catch (error) {
+        console.error('Error in delete process:', error);
+    }
+}
 /**
  * Hides the overlay.
  */
@@ -231,8 +266,7 @@ function determineContainerKey(array) {
 function findTaskArray(taskId) {
     let task = null;
     for(let i = 0; i < allTasks.length; i++) {
-        const currentTaskArray = allTasks[i];
-        const currentTask = currentTaskArray[0]; 
+        const currentTask = allTasks[i];
         if(currentTask.id === taskId) {
             task = currentTask;
             break; 
@@ -260,8 +294,7 @@ function findTaskArray(taskId) {
 function displayTaskOverview(taskId) {
     let task = null;
     for(let i = 0; i < allTasks.length; i++) {
-        const currentTaskArray = allTasks[i];
-        const currentTask = currentTaskArray[0]; 
+        const currentTask = allTasks[i];
         if(currentTask.id === taskId) {
             task = currentTask;
             break; 
@@ -289,8 +322,7 @@ function displayTaskOverview(taskId) {
 function createSubTasksHTML(subTasks, subTasksId) {
     let task = null;
     for(let i = 0; i < allTasks.length; i++) {
-        const currentTaskArray = allTasks[i];
-        const currentTask = currentTaskArray[0]; 
+        const currentTask = allTasks[i];
         if(currentTask.subtasksId === subTasksId) {
             task = currentTask;
             break; 
@@ -458,9 +490,8 @@ function createNoTaskDiv() {
 function applyLineThroughAndCheckbox(currentTaskId) {
     let task = null;
     for(let i = 0; i < allTasks.length; i++) {
-        const currentTaskArray = allTasks[i];
-        const currentTask = currentTaskArray[0]; 
-        if(currentTask.id === taskId) {
+        const currentTask = allTasks[i];
+        if(currentTask.id === currentTaskId) {
             task = currentTask;
             break; 
         }
@@ -487,7 +518,8 @@ function applyLineThroughAndCheckbox(currentTaskId) {
 function displayTasks(taskContainer, feedbackTaskContainer, inProgressContainer, targetDoneTable) {
     if (allTasks && allTasks.length > 0) {
         allTasks.forEach(taskArray => {
-            let task = taskArray[0];
+            if (taskArray !== undefined && taskArray !== '') {
+            let task = taskArray;
             const taskId = task.id
             const progressBarId = generateUniqueID();
             task.progressBarId = progressBarId;
@@ -502,9 +534,8 @@ function displayTasks(taskContainer, feedbackTaskContainer, inProgressContainer,
             setStylesForTaskDiv(taskId)
             updateProgressBar(taskId);
             checkProgressBar(taskId, progressBarId);
-            });
+        }});
         initializeDragAndDrop();
-        sortTaskIntoArrays(allTasks, tasksToDo, tasksInProgress, tasksAwaitFeedback, tasksDone);
     }
 }
 
@@ -530,8 +561,7 @@ function createProgressBar(taskId, progressBarId) {
     // }
     let task = null;
     for(let i = 0; i < allTasks.length; i++) {
-        const currentTaskArray = allTasks[i];
-        const currentTask = currentTaskArray[0]; 
+        const currentTask = allTasks[i];
         if(currentTask.id === taskId) {
             task = currentTask;
             break; 
