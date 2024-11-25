@@ -114,26 +114,6 @@ function allowDrop(event) {
  * Deletes a task based on its ID.
  * @param {string} taskId - The ID of the task to delete.
  */
-async function deleteTaskFromBackend(taskEntryId) {
-    try {
-        const response = await fetch(`${STORAGE_URL}allTasks/${taskEntryId}/`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error deleting task from backend:', error);
-        throw error;
-    }
-}
 
 async function deleteTask(taskId) {
     const taskElement = document.getElementById('task-' + taskId);
@@ -144,29 +124,37 @@ async function deleteTask(taskId) {
 
     const taskIndex = allTasks.findIndex(task => task.id === taskId);
     if (taskIndex !== -1) {
+        const backendId = allTasks[taskIndex].backendId;
         allTasks.splice(taskIndex, 1);
         hideOverlay();
-    } else
+        try {
+            await deleteTaskFromBackend(backendId);
+        } catch (error) {
+            console.error('Error in delete process:', error);
+        }
+    } else {
         console.error('Task not found for deletion');
-
+    }
     clearSortTasks();
-    
-    try {
-        const tasksInStorage = await getItem('allTasks');
-        const taskToDeleteEntry = tasksInStorage.find(entry => {
-            const tasksArray = JSON.parse(entry.allTasks);
-            return tasksArray.some(task => task.id === taskId);
-        });
+}
 
-        if (taskToDeleteEntry) {
-            await deleteTaskFromBackend(taskToDeleteEntry.id);
-        } else {
-            console.error('No matching task entry found in backend');
+async function deleteTaskFromBackend(backendId) {
+    try {
+        const response = await fetch(`${STORAGE_URL}allTasks/${backendId}/`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
     } catch (error) {
-        console.error('Error in delete process:', error);
+        console.error('Error deleting task from backend:', error);
+        throw error;
     }
 }
+
 /**
  * Hides the overlay.
  */

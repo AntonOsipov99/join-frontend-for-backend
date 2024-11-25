@@ -96,7 +96,6 @@ async function getData(storage) {
     }
 }
 
-
 async function getItem(key) {
     const url = `${STORAGE_URL}${key}/`;
     const response = await fetch(url);
@@ -104,14 +103,35 @@ async function getItem(key) {
     const data = [];
     if (dataJson != '') {
         for (let i = 0; i < dataJson.length; i++) {
-            if (dataJson[i][key]) {
+            if (dataJson) {
+                let dataId = (dataJson[i]['id']);
                 let oneData = (dataJson[i][key]);
                 let parsedData = JSON.parse(oneData);
-                data.push(parsedData[0]);
+                parsedData = parsedData.map(task => ({
+                    ...task,
+                    backendId: dataJson[i].id
+                }));
+                data.push(...parsedData);
             }
         }
     } return data
 }
+
+// async function getItem(key) {
+//     const url = `${STORAGE_URL}${key}/`;
+//     const response = await fetch(url);
+//     const dataJson = await response.json();
+//     const data = [];
+//     if (dataJson != '') {
+//         for (let i = 0; i < dataJson.length; i++) {
+//             if (dataJson[i][key]) {
+//                 let oneData = (dataJson[i][key]);
+//                 let parsedData = JSON.parse(oneData);
+//                 data.push(parsedData[0]);
+//             }
+//         }
+//     } return data
+// }
 
 //------------------------------------------------------------------------------//
 //-----------------------------get User from Backend----------------------------//
