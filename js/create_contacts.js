@@ -25,8 +25,7 @@ function generateFirstLetters() {
     const firstLettersMap = new Map();
 
     contacts.forEach((contact, i) => {
-        const contactData = contact[0];
-        const nameParts = contactData.name.split(' ');
+        const nameParts = contact.name.split(' ');
         if (nameParts.length > 0) {
             const firstName = nameParts[0][0].toUpperCase();
             firstLettersMap.set(firstName, [...(firstLettersMap.get(firstName) || []), i]);

@@ -22,13 +22,6 @@ let sortTasks = {
  * @param {string} value 
  * @returns 
  */
-
-// async function setItem(key, value) {
-//     const payload = { key, value }; //, token: STORAGE_TOKEN
-//     return fetch(`${STORAGE_URL}${key}/`, { method: 'POST', body: JSON.stringify(payload) })
-//         .then(res => res.json());
-// }
-
 async function setItem(key, value) {
     try {
         const response = await fetch(`${STORAGE_URL}${key}/`, {
@@ -39,7 +32,7 @@ async function setItem(key, value) {
                 // 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
             },
             body: JSON.stringify({
-                [key]: value  // Dynamischer Key
+                [key]: value
             })
         });
         if (!response.ok) {
@@ -52,34 +45,6 @@ async function setItem(key, value) {
         throw error;
     }
 }
-
-// async function setItem(storage, data) {
-//     try {
-//         const response = await fetch(storage, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify(data)
-//         });
-//         if (!response.ok) {
-//             throw new Error('Network response was not ok');
-//         }
-//         const result = await response.json();
-//         if (storage === CONTACT_STORAGE_URL) {
-//             contacts = data;
-//         } else if (storage === TASKS_STORAGE_URL) {
-//             allTasks = data;
-//         } else if (storage === SUMMARY_STORAGE_URL) {
-//             summary = data;
-//         }
-//         return result;
-//     } catch (error) {
-//         console.error('Error:', error);
-//         throw error;
-//     }
-// }
-
 
 async function getData(storage) {
     try {
@@ -116,21 +81,25 @@ async function getItem(key) {
     } return data
 }
 
-// async function getItem(key) {
-//     const url = `${STORAGE_URL}${key}/`;
-//     const response = await fetch(url);
-//     const dataJson = await response.json();
-//     const data = [];
-//     if (dataJson != '') {
-//         for (let i = 0; i < dataJson.length; i++) {
-//             if (dataJson[i][key]) {
-//                 let oneData = (dataJson[i][key]);
-//                 let parsedData = JSON.parse(oneData);
-//                 data.push(parsedData[0]);
-//             }
-//         }
-//     } return data
-// }
+async function updateTaskInBackend(backendId, updatedContactData) {
+    try {
+        const response = await fetch(`${STORAGE_URL}allTasks/${backendId}/`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                contacts: updatedContactData
+            })
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Error updating task in backend:', error);
+        throw error;
+    }
+}
 
 //------------------------------------------------------------------------------//
 //-----------------------------get User from Backend----------------------------//
@@ -249,13 +218,29 @@ async function deleteUser(email) {
  * @async
  */
 async function saveContacts() {
-    // let users = JSON.parse(await getItem('users'));
-    // let userName = getUserName();
-    // let userIndex = users.findIndex(u => u.name === userName);
-    // users[userIndex].contacts = contacts;
     await setItem('contacts', JSON.stringify(contacts));
 }
 
+async function saveNewContact() {
+    await setItem('contacts', JSON.stringify(newContact));
+}
+
+async function deleteContactFromBackend(backendId) {
+    try {
+        const response = await fetch(`${STORAGE_URL}contacts/${backendId}/`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Error deleting task from backend:', error);
+        throw error;
+    }
+}
 
 //------------------------------------------------------------------------------//
 //--------------------------load Contacts from Backend--------------------------//
@@ -266,17 +251,101 @@ async function saveContacts() {
  * @async
  */
 async function loadContacts() {
-    // let users = JSON.parse(await getItem('users'));
-    // let userName = getUserName();
-    // let userIndex = users.findIndex(u => u.name === userName);
-    // let userContacts = users[userIndex].contacts
-    // if (userContacts == undefined) {
-    //     contacts = []
-    // } else {
-    //     contacts = userContacts
-    // }
     contacts = await getItem('contacts');
 }
+
+async function setContactsBackendId() {
+    for (let i = 0; i < contacts.length; i++) {
+        let value = [];
+        value.push(contacts[i]);
+        let stringifyValue = JSON.stringify(value);
+        let backendId = contacts[i].backendId;
+        await updateContactInBackend(backendId, stringifyValue);
+    }
+}
+
+// async function getItem(key) {
+//     const url = `${STORAGE_URL}${key}/`;
+//     const response = await fetch(url);
+//     const dataJson = await response.json();
+//     const data = [];
+//     if (dataJson != '') {
+//         for (let i = 0; i < dataJson.length; i++) {
+//             if (dataJson) {
+//                 let oneData = (dataJson[i][key]);
+//                 let parsedData = JSON.parse(oneData);
+//                 parsedData = parsedData.map(task => ({
+//                     ...task,
+//                     backendId: dataJson[i].id
+//                 }));
+//                 data.push(...parsedData);
+//             }
+//         }
+//     } return data
+// }
+
+async function updateContactInBackend(backendId, value) {
+    try {
+        const response = await fetch(`${STORAGE_URL}contacts/${backendId}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                contacts: value
+            })
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Error updating task in backend:', error);
+        throw error;
+    }
+}
+
+
+async function changeContactInBackend(backendId, value) {
+    try {
+        const response = await fetch(`${STORAGE_URL}contacts/${backendId}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                contacts: value
+            })
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response;
+    } catch (error) {
+        console.error('Error updating task in backend:', error);
+        throw error;
+    }
+}
+
+
+// async function updateContactInBackend(backendId, updatedContactData) {
+//     try {
+//         const response = await fetch(`${STORAGE_URL}allTasks/${backendId}/`, {
+//             method: 'PATCH',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify({
+//                 contacts: updatedContactData
+//             })
+//         });
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! status: ${response.status}`);
+//         }
+//     } catch (error) {
+//         console.error('Error updating task in backend:', error);
+//         throw error;
+//     }
+// }
 
 
 //------------------------------------------------------------------------------//

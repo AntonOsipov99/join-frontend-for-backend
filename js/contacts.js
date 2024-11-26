@@ -1,4 +1,5 @@
 let contacts = [];
+let newContact = [];
 
 /**
  * Function to initialize contacts.
@@ -6,6 +7,7 @@ let contacts = [];
  */
 async function initContacts() {
     await loadContacts();
+    await setContactsBackendId();
     generateSideBar();
     showContacts();
 }
@@ -17,7 +19,6 @@ function showContacts() {
     const contactContent = document.getElementById('new-contacts');
     contactContent.innerHTML = '';
     const { sortedFirstLetters, firstLettersMap } = generateFirstLetters();
-
     sortedFirstLetters.forEach(letter => {
         const contactIndices = firstLettersMap.get(letter);
         if (contactIndices) {
@@ -58,12 +59,9 @@ function addContacts(contactContent, contactIndices) {
         const id = `contact-icon-${index}`;
         const randomColor = contact.color;
         const initials = generateInitials(contact.name);
-
         contactContent.innerHTML += contactContentTemplate(contact, index, randomColor, initials, id);
-
         const element = document.getElementById(id);
         element.style.backgroundColor = randomColor;
-
     });
 }
 
@@ -167,7 +165,7 @@ function editContactTemplate(i) {
         <input required class="input email-icon" type="email" id="edit-email" placeholder="Email" maxlength="23">
         <input required class="input phone-icon" type="tel" id="edit-phone" placeholder="Phone" pattern="[0-9+\s ]*" maxlength="24">
         <div class="overlay-buttons">
-            <div onclick="deleteContact()" class="delete-button">
+            <div onclick="deleteContact(${i})" class="delete-button">
                 Delete
             </div>
             <button class="save-button" type="submit">
@@ -200,16 +198,19 @@ function showContactTemplate(contactName, contactEmail, i, randomColor, initials
  */
 async function addNewContact(event) {
     event.preventDefault();
-    const nameInput = document.getElementById('add-name');
-    const emailInput = document.getElementById('add-email');
-    let phoneInput = document.getElementById('add-phone');
-    const name = nameInput.value;
-    const email = emailInput.value;
-    let phone = phoneInput.value;
+    const name= document.getElementById('add-name').value;
+    const email = document.getElementById('add-email').value;
+    const phone = document.getElementById('add-phone').value;
     const randomColor = getRandomColor();
-    const newContact = createContact(name, email, phone, randomColor);
-    addContactAndUpdateUI(newContact);
-    await saveContacts();
+    const createNewContact = createContact(name, email, phone, randomColor);
+    contacts.push(createNewContact);
+    newContact.push(createNewContact);
+    await saveNewContact();
+    newContact = [];
+    contacts = [];
+    await loadContacts();
+    await setContactsBackendId();
+    addContactAndUpdateUI(createNewContact);
 }
 
 /**
@@ -272,8 +273,7 @@ function createContact(name, email, phone, color) {
  *
  * @param {object} contact - The contact object to be added.
  */
-function addContactAndUpdateUI(contact) {
-    contacts.push(contact);
+function addContactAndUpdateUI() {
     sortContacts();
     generateFirstLettersAndUpdateSidebar();
     toggleOverlay();
@@ -312,19 +312,25 @@ function emptyInput() {
  */
 async function editContact(i) {
     if (i < 0 || i >= contacts.length) return alert('Ungültiger Index');
-    const editNameInput = document.getElementById('edit-name');
-    const editEmailInput = document.getElementById('edit-email');
-    const editPhoneInput = document.getElementById('edit-phone');
-    const editName = editNameInput.value;
-    const editEmail = editEmailInput.value;
-    const editPhone = editPhoneInput.value;
+    const editName = document.getElementById('edit-name').value;
+    const editEmail = document.getElementById('edit-email').value;
+    const editPhone = document.getElementById('edit-phone').value;
     const currentColor = contacts[i].color;
-    contacts[i] = createContact(editName, editEmail, editPhone, currentColor);
+    const contact = [];
+    contacts[i] = createNewContact(i, editName, editEmail, editPhone, currentColor);
+    contact.push(contacts[i]);
+    const stringifyContact = JSON.stringify(contact);
+    await changeContactInBackend(contacts[i].backendId, stringifyContact);
+    contacts = [];
+    await loadContacts();
     generateSideBar();
     showContacts();
     hideOverlayEdit();
     openContact(contacts[i].name, contacts[i].email, i, currentColor);
-    await saveContacts();
+}
+
+function createNewContact(i, editName, editEmail, editPhone, currentColor) {
+    return { "name": editName, "email": editEmail, "phone": editPhone, "color": currentColor, "backendId": contacts[i].backendId };
 }
 
 /**
@@ -380,8 +386,8 @@ function showOverlayEdit(i, randomColor, initials) {
     let overlay = document.getElementById('overlay-edit-contact');
     overlay.classList.add('show-overlay');
     showContactValue(i);
-    const deleteButton = document.querySelector('.delete-button'); // Füge diese Zeile hinzu
-    deleteButton.onclick = () => deleteContact(i); // Füge diese Zeile hinzu
+    const deleteButton = document.querySelector('.delete-button');
+    deleteButton.onclick = () => deleteContact(i);
 }
 
 /**
@@ -413,6 +419,7 @@ function hideOverlayEdit() {
  * @param {number} i - The index of the contact to be deleted.
  */
 async function deleteContact(i) {
+    let backendId = contacts[i].backendId;
     contacts.splice(i, 1);
     generateSideBar();
     showContacts();
@@ -421,7 +428,7 @@ async function deleteContact(i) {
     if (isWideScreen() || isHeightScreen()) {
         toggleContactsMobile();
     }
-    await saveContacts();
+    await deleteContactFromBackend(backendId);
 }
 
 /**
