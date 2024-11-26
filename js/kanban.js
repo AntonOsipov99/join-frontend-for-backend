@@ -30,6 +30,7 @@ function onDragStart(event) {
  */
 async function onDrop(event) {
     event.preventDefault();
+    taskToChange = [];
     const targetContainer = event.currentTarget.querySelector('.drop-container > :nth-child(2)').id;
     const taskIdWithPrefix = event.dataTransfer.getData('text/plain');
     const taskId = taskIdWithPrefix.split('-')[1];
@@ -41,6 +42,23 @@ async function onDrop(event) {
         targetContainerElement.style.backgroundColor = '';
     targetContainerElement.style.border = '';
     event.target.classList.remove('drag-over');
+}
+
+async function moveTaskToContainer(taskId, targetArray) {
+    const taskIndex = allTasks.findIndex(task => task.id === taskId);
+    if (taskIndex !== -1) {
+        allTasks[taskIndex].inWhichContainer = determineContainerKey(targetArray);
+        targetArray.push(allTasks[taskIndex]);
+        const backendId = allTasks[taskIndex].backendId;
+        taskToChange.push(allTasks[taskIndex]);
+        let taskStringify = JSON.stringify(taskToChange);
+        await updateTaskInBackend(backendId, taskStringify);
+        allTasks = [];
+        await loadTasks();
+        showTasks();
+    } else {
+        console.error('Task not found in the allTasks array');
+    }
 }
 
 /**
