@@ -1,3 +1,5 @@
+taskToChange = [];
+
 /**
  * Finds and filters tasks based on the search input value.
  *
@@ -12,7 +14,7 @@ function findTask() {
         const taskDescription = description.textContent.toLowerCase();
         if (taskText.includes(searchInput) || taskDescription.includes(searchInput))
             container.classList.remove('d-none');
-         else
+        else
             container.classList.add('d-none');
     });
 }
@@ -49,11 +51,11 @@ function updateProgressBar(taskId) {
     //     allTasksJson.push(JSON.parse(allTasks[i]));
     // }
     let task = null;
-    for(let i = 0; i < allTasks.length; i++) {
+    for (let i = 0; i < allTasks.length; i++) {
         const currentTask = allTasks[i];
-        if(currentTask.id === taskId) {
+        if (currentTask.id === taskId) {
             task = currentTask;
-            break; 
+            break;
         }
     }
     const progressBarId = task.progressBarId;
@@ -105,11 +107,11 @@ function updateSubtaskStatus(subtaskStatusArray, subtasksIdArray) {
  */
 function applyLineThroughAndCheckbox(currentTaskId) {
     let task = null;
-    for(let i = 0; i < allTasks.length; i++) {
+    for (let i = 0; i < allTasks.length; i++) {
         const currentTask = allTasks[i];
-        if(currentTask.id === currentTaskId) {
+        if (currentTask.id === currentTaskId) {
             task = currentTask;
-            break; 
+            break;
         }
     }
     if (!task) {
@@ -165,11 +167,11 @@ function checkProgressBar(taskId, progressBarId) {
     //     allTasksJson.push(parsedTask);
     // }
     let task = null;
-    for(let i = 0; i < allTasks.length; i++) {
+    for (let i = 0; i < allTasks.length; i++) {
         const currentTask = allTasks[i];
-        if(currentTask.id === taskId) {
+        if (currentTask.id === taskId) {
             task = currentTask;
-            break; 
+            break;
         }
     }
     const progressBar = document.getElementById(`progress-bar-${progressBarId}`);
@@ -277,11 +279,13 @@ function closeOverlay() {
  * @param {string[]} assignedShortValues - The short values of assigned contacts.
  * @param {string[]} assignedToColors - The colors of assigned contacts.
  */
-function updateTaskDetailsInArray(descriptionText, title, dueDate, taskIndex, updatedPriority, subtasksTextArray, assignedToValues, assignedShortValues, assignedToColors, subtasksStatusArray, subtasksIdArray) {
-    const task = allTasks[taskIndex];
+function updateTaskDetailsInArray(description_text, title, createdAt, taskIndex, updatedPriority, subtasksTextArray, assignedToValues, assignedShortValues, assignedToColors, subtasksStatusArray, subtasksIdArray) {
+    let task = [];
+    task = allTasks[taskIndex];
+    task = task;
     task.title = title;
-    task.description_text = descriptionText;
-    task.createdAt = dueDate;
+    task.description_text = description_text;
+    task.createdAt = createdAt;
     task.priority = updatedPriority.slice();
     task.subtasks = subtasksTextArray.slice();
     task.subtasksId = subtasksIdArray.slice();
@@ -289,6 +293,7 @@ function updateTaskDetailsInArray(descriptionText, title, dueDate, taskIndex, up
     task.assignedShortValues = assignedShortValues.slice();
     task.assignedToColors = assignedToColors.slice();
     task.subtasksStatusArray = subtasksStatusArray;
+    taskToChange.push(task);
 }
 
 /**
@@ -322,7 +327,7 @@ async function boardConfirm() {
     const taskDetails = extractTaskDetails();
     const taskIndex = findTaskIndex(taskDetails.taskId);
     if (taskIndex !== -1) {
-        const assigneeDetails = extractAssigneeDetails(taskDetails.assignedToDiv);
+        const assigneeDetails = extractAssigneeDetails(taskDetails);
         const updatedPriority = determineUpdatedPriority(taskIndex);
         updateTaskAndSave(taskIndex, taskDetails, assigneeDetails, updatedPriority);
     } else {
@@ -344,9 +349,14 @@ async function boardConfirm() {
  * @property {string[]} subtasksIdArray - An array of subtask IDs.
  */
 function extractTaskDetails() {
-    const { taskId, title, descriptionText, dueDate, assignedToDiv, subtasksStatusArray, subtasksTextArray, subtasksIdArray } = getBoardInputValues();
-    return { taskId, title, descriptionText, dueDate, assignedToDiv, subtasksStatusArray, subtasksTextArray, subtasksIdArray };
+    const { title, createdAt, taskId, description_text, subtasksStatusArray, subtasksTextArray, subtasksIdArray } = getBoardInputValues();
+    return { title, createdAt, taskId, description_text, subtasksStatusArray, subtasksTextArray, subtasksIdArray };
 }
+
+// function extractTaskDetails() {
+//     const { taskId, title, descriptionText, dueDate, assignedToDiv, subtasksStatusArray, subtasksTextArray, subtasksIdArray } = getBoardInputValues();
+//     return { taskId, title, descriptionText, dueDate, assignedToDiv, subtasksStatusArray, subtasksTextArray, subtasksIdArray };
+// }
 
 /**
  * Finds the index of a task in the task list by its ID.
@@ -364,7 +374,8 @@ function findTaskIndex(taskId) {
  * @param {HTMLElement} assignedToDiv - The HTML element containing assignee details.
  * @returns {Object} - An object containing arrays of assignee values, short values, and colors.
  */
-function extractAssigneeDetails(assignedToDiv) {
+function extractAssigneeDetails() {
+    const assignedToDiv = document.getElementById('ballAssignedToList');
     const assigneeContainers = assignedToDiv.getElementsByClassName('assigneeContainer');
     const assignedToValues = [];
     const assignedShortValues = [];
@@ -402,9 +413,9 @@ function determineUpdatedPriority(taskIndex) {
  */
 async function updateTaskAndSave(taskIndex, taskDetails, assigneeDetails, updatedPriority) {
     updateTaskDetailsInArray(
-        taskDetails.descriptionText,
+        taskDetails.description_text,
         taskDetails.title,
-        taskDetails.dueDate,
+        taskDetails.createdAt,
         taskIndex,
         updatedPriority,
         taskDetails.subtasksTextArray,
@@ -414,7 +425,18 @@ async function updateTaskAndSave(taskIndex, taskDetails, assigneeDetails, update
         taskDetails.subtasksStatusArray,
         taskDetails.subtasksIdArray
     );
-    await saveTasks();
+    if (taskIndex !== -1) {
+        const backendId = allTasks[taskIndex].backendId;
+        const taskStringify = JSON.stringify(taskToChange);
+        try {
+            await updateTaskInBackend(backendId, taskStringify);
+        } catch (error) {
+            console.error('Error in delete process:', error);
+        }
+    }
+    allTasks = [];
+    taskToChange = [];
+    await loadTasks();
     priorityArray = [];
     currentTaskId = [];
     closeTaskOverviewPopUp();

@@ -44,25 +44,6 @@ async function onDrop(event) {
 }
 
 /**
- * Moves a task with the specified ID to the provided target array and updates its container.
- *
- * @param {string} taskId - The ID of the task to be moved.
- * @param {Array} targetArray - The array to which the task will be moved.
- */
-async function moveTaskToContainer(taskId, targetArray) {
-    const taskIndex = allTasks.findIndex(task => task.id === taskId);
-    if (taskIndex !== -1) {
-        allTasks[taskIndex].inWhichContainer = determineContainerKey(targetArray);
-        targetArray.push(allTasks[taskIndex]);
-        await saveTasks();
-        await saveTasksCategory(tasksToDo, tasksInProgress, tasksAwaitFeedback, tasksDone);
-        showTasks();
-    } else {
-        console.error('Task not found in the allTasks array');
-    }
-}
-
-/**
  * Determines and returns the target array based on the provided container ID.
  *
  * @param {string} containerId - The ID of the container.
@@ -121,7 +102,6 @@ async function deleteTask(taskId) {
         taskElement.remove();
     else
         console.error('HTML Task element not found for deletion');
-
     const taskIndex = allTasks.findIndex(task => task.id === taskId);
     if (taskIndex !== -1) {
         const backendId = allTasks[taskIndex].backendId;
@@ -135,7 +115,6 @@ async function deleteTask(taskId) {
     } else {
         console.error('Task not found for deletion');
     }
-    clearSortTasks();
 }
 
 async function deleteTaskFromBackend(backendId) {
@@ -151,6 +130,26 @@ async function deleteTaskFromBackend(backendId) {
         }
     } catch (error) {
         console.error('Error deleting task from backend:', error);
+        throw error;
+    }
+}
+
+async function updateTaskInBackend(backendId, updatedTaskData) {
+    try {
+        const response = await fetch(`${STORAGE_URL}allTasks/${backendId}/`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                allTasks: updatedTaskData
+            })
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Error updating task in backend:', error);
         throw error;
     }
 }
@@ -217,7 +216,6 @@ async function moveTaskToCategory(taskArray, newArray) {
             task.inWhichContainer = determineContainerKey(newArray);
             newArray.push(task);
             await saveTasks();
-            await saveTasksCategory();
             showTasks();
         } else
             console.error('Task not found in the old array');
@@ -253,11 +251,11 @@ function determineContainerKey(array) {
  */
 function findTaskArray(taskId) {
     let task = null;
-    for(let i = 0; i < allTasks.length; i++) {
+    for (let i = 0; i < allTasks.length; i++) {
         const currentTask = allTasks[i];
-        if(currentTask.id === taskId) {
+        if (currentTask.id === taskId) {
             task = currentTask;
-            break; 
+            break;
         }
     }
     if (task) {
@@ -281,11 +279,11 @@ function findTaskArray(taskId) {
  */
 function displayTaskOverview(taskId) {
     let task = null;
-    for(let i = 0; i < allTasks.length; i++) {
+    for (let i = 0; i < allTasks.length; i++) {
         const currentTask = allTasks[i];
-        if(currentTask.id === taskId) {
+        if (currentTask.id === taskId) {
             task = currentTask;
-            break; 
+            break;
         }
     }
     const taskOverviewPopUp = document.getElementById('taskOverviewPopUp');
@@ -309,11 +307,11 @@ function displayTaskOverview(taskId) {
  */
 function createSubTasksHTML(subTasks, subTasksId) {
     let task = null;
-    for(let i = 0; i < allTasks.length; i++) {
+    for (let i = 0; i < allTasks.length; i++) {
         const currentTask = allTasks[i];
-        if(currentTask.subtasksId === subTasksId) {
+        if (currentTask.subtasksId === subTasksId) {
             task = currentTask;
-            break; 
+            break;
         }
     }
     let subTasksHTML = '';
@@ -477,11 +475,11 @@ function createNoTaskDiv() {
  */
 function applyLineThroughAndCheckbox(currentTaskId) {
     let task = null;
-    for(let i = 0; i < allTasks.length; i++) {
+    for (let i = 0; i < allTasks.length; i++) {
         const currentTask = allTasks[i];
-        if(currentTask.id === currentTaskId) {
+        if (currentTask.id === currentTaskId) {
             task = currentTask;
-            break; 
+            break;
         }
     }
     if (!task) return console.error(`Aufgabe mit der ID "${currentTaskId}" wurde nicht gefunden.`);
@@ -507,22 +505,23 @@ function displayTasks(taskContainer, feedbackTaskContainer, inProgressContainer,
     if (allTasks && allTasks.length > 0) {
         allTasks.forEach(taskArray => {
             if (taskArray !== undefined && taskArray !== '') {
-            let task = taskArray;
-            const taskId = task.id
-            const progressBarId = generateUniqueID();
-            task.progressBarId = progressBarId;
-            const categorybackgroundColor = task.categoryColors[0];
-            let priorityImageSrc = getPriorityImageSrc(task.priority);
-            const taskDiv = createTaskDiv(task);
-            const targetContainer = determineTargetContainer(task, taskContainer, inProgressContainer, feedbackTaskContainer, targetDoneTable);
-            const assignePinnedTaskBall = createAssignmentBalls(task);
-            addContentToTaskDiv(task, taskDiv, assignePinnedTaskBall, priorityImageSrc, categorybackgroundColor, progressBarId, taskId);
-            targetContainer.appendChild(taskDiv);
-            createProgressBar( taskId, progressBarId);
-            setStylesForTaskDiv(taskId)
-            updateProgressBar(taskId);
-            checkProgressBar(taskId, progressBarId);
-        }});
+                let task = taskArray;
+                const taskId = task.id
+                const progressBarId = generateUniqueID();
+                task.progressBarId = progressBarId;
+                const categorybackgroundColor = task.categoryColors[0];
+                let priorityImageSrc = getPriorityImageSrc(task.priority);
+                const taskDiv = createTaskDiv(task);
+                const targetContainer = determineTargetContainer(task, taskContainer, inProgressContainer, feedbackTaskContainer, targetDoneTable);
+                const assignePinnedTaskBall = createAssignmentBalls(task);
+                addContentToTaskDiv(task, taskDiv, assignePinnedTaskBall, priorityImageSrc, categorybackgroundColor, progressBarId, taskId);
+                targetContainer.appendChild(taskDiv);
+                createProgressBar(taskId, progressBarId);
+                setStylesForTaskDiv(taskId)
+                updateProgressBar(taskId);
+                checkProgressBar(taskId, progressBarId);
+            }
+        });
         initializeDragAndDrop();
     }
 }
@@ -548,11 +547,11 @@ function createProgressBar(taskId, progressBarId) {
     //     allTasksJson.push(parsedTask);
     // }
     let task = null;
-    for(let i = 0; i < allTasks.length; i++) {
+    for (let i = 0; i < allTasks.length; i++) {
         const currentTask = allTasks[i];
-        if(currentTask.id === taskId) {
+        if (currentTask.id === taskId) {
             task = currentTask;
-            break; 
+            break;
         }
     }
     if (!task || !task.subtasks || !task.subtasksId || task.subtasks.length === 0 || task.subtasksId.length === 0)

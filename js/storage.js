@@ -104,7 +104,6 @@ async function getItem(key) {
     if (dataJson != '') {
         for (let i = 0; i < dataJson.length; i++) {
             if (dataJson) {
-                let dataId = (dataJson[i]['id']);
                 let oneData = (dataJson[i][key]);
                 let parsedData = JSON.parse(oneData);
                 parsedData = parsedData.map(task => ({

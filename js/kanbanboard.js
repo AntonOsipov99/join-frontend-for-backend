@@ -422,14 +422,25 @@ function editTaskOverviewTemplate(taskOverviewPopUp, title, descriptionText, idD
 function getBoardInputValues() {
     const taskId = currentTaskId;
     const title = getInputElementValue('boardOverlayTitle');
-    const descriptionText = getInputElementValue('boardOverlaydescriptionText');
-    const assignedToDiv = document.getElementById('ballAssignedToList');
-    const dueDate = getInputElementValue('editedCreatedAt');
+    const description_text = getInputElementValue('boardOverlaydescriptionText');
+    const createdAt = getInputElementValue('editedCreatedAt');
     const subtasksInfo = getSubtaskItemsInfo();
     const { subtasksStatusArray, subtasksTextArray, subtasksIdArray } = subtasksInfo;
     clearBoardSubTaskList();
-    return { taskId, title, descriptionText, dueDate, assignedToDiv, ...subtasksInfo };
+    return { taskId, title, description_text, createdAt, ...subtasksInfo };
 }
+
+// function getBoardInputValues() {
+//     const taskId = currentTaskId;
+//     const title = getInputElementValue('boardOverlayTitle');
+//     const descriptionText = getInputElementValue('boardOverlaydescriptionText');
+//     const assignedToDiv = document.getElementById('ballAssignedToList');
+//     const dueDate = getInputElementValue('editedCreatedAt');
+//     const subtasksInfo = getSubtaskItemsInfo();
+//     const { subtasksStatusArray, subtasksTextArray, subtasksIdArray } = subtasksInfo;
+//     clearBoardSubTaskList();
+//     return { taskId, title, descriptionText, dueDate, assignedToDiv, ...subtasksInfo };
+// }
 
 /**
  * Retrieves the value of an input element based on the provided element ID.

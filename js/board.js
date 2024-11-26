@@ -48,13 +48,6 @@ function resetAssignedField() {
     });
 }
 
-function clearSortTasks() {
-    tasksToDo = [];
-    tasksInProgress = [];
-    tasksAwaitFeedback = [];
-    tasksDone = [];
-}
-
 /**
  * Extracts information about assignees and populates corresponding arrays.
  */
