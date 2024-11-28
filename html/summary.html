@@ -4,17 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="./assets/img/Logo for Favicon construction.svg" type="image/x-icon">
-    <link rel="stylesheet" href="./style/menuTemplate.css">
-    <link rel="stylesheet" href="./style/summary.css">
-    <link rel="stylesheet" href="./font/fonts.css">
-    <link rel="stylesheet" href="./style/generalclasses.css">
-    <link rel="stylesheet" href="./style/create_contacts.css">
-    <link rel="stylesheet" href="./style/style_contacts.css">
-    <script src="./js/storage.js"></script>
-    <script src="./js/menuTemplate.js"></script>
-    <script src="./js/board.js"></script>
-    <script src="./js/summary.js"></script>
+    <link rel="shortcut icon" href="../assets/img/Logo for Favicon construction.svg" type="image/x-icon">
+    <link rel="stylesheet" href="../style/menuTemplate.css">
+    <link rel="stylesheet" href="../style/summary.css">
+    <link rel="stylesheet" href="../font/fonts.css">
+    <link rel="stylesheet" href="../style/generalclasses.css">
+    <link rel="stylesheet" href="../style/create_contacts.css">
+    <link rel="stylesheet" href="../style/style_contacts.css">
+    <script src="../js/storage.js"></script>
+    <script src="../js/menuTemplate.js"></script>
+    <script src="../js/board.js"></script>
+    <script src="../js/summary.js"></script>
     <title>Summary</title>
 </head>
 
@@ -37,7 +37,7 @@
                             onmouseover="hoverOverSummaryTasks('to_do', 'to_do_and_done', 'pen')"
                             onmouseleave="hoverLeaveSummaryTasks('to_do', 'to_do_and_done', 'pen')"
                             onclick="openTaskBoard()">
-                            <img id="to_do_img" src="./assets/img/summary_pen.svg" alt="">
+                            <img id="to_do_img" src="../assets/img/summary_pen.svg" alt="">
                             <div class="summary-progress-count">
                                 <span id="to_do_count" class="fontSize-64-600 color-000000">0</span>
                                 <span id="to_do_section" class="fontSize-20-400 color-2A3647">To-do</span>
@@ -47,7 +47,7 @@
                             onmouseover="hoverOverSummaryTasks('done', 'to_do_and_done', 'check')"
                             onmouseleave="hoverLeaveSummaryTasks('done', 'to_do_and_done', 'check')"
                             onclick="openTaskBoard()">
-                            <img id="done_img" src="./assets/img/summary_check.svg" alt="">
+                            <img id="done_img" src="../assets/img/summary_check.svg" alt="">
                             <div class="summary-progress-count">
                                 <span id="done_count" class="fontSize-64-600 color-000000">0</span>
                                 <span id="done_section" class="fontSize-20-400 color-2A3647">Done</span>
@@ -59,7 +59,7 @@
                         onmouseleave="hoverLeaveSummaryTasks('urgend', 'urgend-tasks')" onclick="openTaskBoard()">
                         <div id="urgend_taskfield" class="urgend-tasks summary-urgend">
                             <div class="urgend-count">
-                                <img src="./assets/img/urgend.svg" alt="">
+                                <img src="../assets/img/urgend.svg" alt="">
                                 <div class="summary-progress-count">
                                     <span id="urgend_count" class="fontSize-64-600 color-000000">0</span>
                                     <span id="urgend_section" class="fontSize-20-400 color-2A3647">Urgent</span>

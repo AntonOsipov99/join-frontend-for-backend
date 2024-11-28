@@ -4,30 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <link rel="stylesheet" href="./font/fonts.css">
-    <link rel="stylesheet" href="./style/log_in.css">
-    <link rel="stylesheet" href="./style/generalclasses.css">
-    <link rel="shortcut icon" href="./assets/img/Logo for Favicon construction.svg" type="image/x-icon">
-    <script src="./js/storage.js"></script>
-    <script src="./js/log_in.js"></script>
-    <script src="./js/sign_up.js"></script>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../font/fonts.css">
+    <link rel="stylesheet" href="../style/log_in.css">
+    <link rel="stylesheet" href="../style/generalclasses.css">
+    <link rel="shortcut icon" href="../assets/img/Logo for Favicon construction.svg" type="image/x-icon">
+    <script src="../js/storage.js"></script>
+    <script src="../js/log_in.js"></script>
+    <script src="../js/sign_up.js"></script>
     <title>Sign up</title>
 </head>
 
 <body class="background-color-F6F7F8">
 
     <div id="startscreen_logo" class="startscreen-logo-side">
-        <img id="join_logo" src="./assets/img/Capa1.svg" alt="">
+        <img id="join_logo" src="../assets/img/Capa1.svg" alt="">
     </div>
 
     <div class="content-log-in">
         <div id="sign_up" class="sign-up">
             <div class="sign-up-logo logo-input">
                 <div class=" arrow-left-line">
-                    <a href="./index.html">
-                        <img src="./assets/img/arrow-left-line.svg">
+                    <a href="../index.html">
+                        <img src="../assets/img/arrow-left-line.svg">
                     </a>
                 </div>
                 <div class="header-logo">
@@ -39,20 +38,20 @@
 
                 <div id="name" class="log-in-input">
                     <input required type="text" class="name-sign-up-bg" id="name_sign_up" placeholder="Name">
-                    <div class="input-icon"><img id="user_icon" src="./assets/img/user_icon.svg" alt=""></div>
+                    <div class="input-icon"><img id="user_icon" src="../assets/img/user_icon.svg" alt=""></div>
                     <label for="content">Wrong password Ups! Try again.</label>
                 </div>
 
                 <div id="email" class="log-in-input">
                     <input required type="email" class="email-sign-up-bg" id="email_sign_up" placeholder="Email" onmouseup="resetWrongEnter('email')">
-                    <div class="input-icon"><img id="email_icon" src="./assets/img/mail.svg" alt=""></div>
+                    <div class="input-icon"><img id="email_icon" src="../assets/img/mail.svg" alt=""></div>
                     <label for="content">Email already exists</label>
                 </div>
 
                 <div id="password1" class="log-in-input">
                     <input required type="password" class="password-sign-up-bg" id="password1_input" placeholder="Password" onmouseup="showPasswordIcon('password1')">
                     <div id="input_icon_password1" class="input-icon">
-                        <img id="password1_icon" src="./assets/img/lock.svg" alt="">
+                        <img id="password1_icon" src="../assets/img/lock.svg" alt="">
                     </div>
                     <label for="content">Wrong password Ups! Try again.</label>
                 </div>
@@ -60,7 +59,7 @@
                 <div id="password2" class="log-in-input">
                     <input required type="password" class="password-sign-up-bg" id="password2_input" placeholder="Password" onmouseup="resetWrongEnter('password2'); showPasswordIcon('password2')">
                     <div id="input_icon_password2" class="input-icon">
-                        <img id="password2_icon" src="./assets/img/lock.svg" alt="">
+                        <img id="password2_icon" src="../assets/img/lock.svg" alt="">
                     </div>
                     <label for="content">Ups! your password don´t match</label>
                 </div>

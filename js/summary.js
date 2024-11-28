@@ -1,7 +1,3 @@
-//------------------------------------------------------------------------------//
-//----------------------initialize first Steps for the Page---------------------//
-//------------------------------------------------------------------------------//
-
 /**
  * initialize first Steps for the Page
  * @async
@@ -12,12 +8,6 @@ async function initSummary() {
     generateUserName();
     fillSummary();
 }
-
-
-
-//------------------------------------------------------------------------------//
-//---------------------------------on Mouse over--------------------------------//
-//------------------------------------------------------------------------------//
 
 /**
  * on Mouse over
@@ -73,10 +63,6 @@ function hoverOverTaskCounts(id) {
     document.getElementById(`${id}`).classList.add('urgent-task-overview-hover');
 }
 
-//------------------------------------------------------------------------------//
-//---------------------------------on Mouse leave-------------------------------//
-//------------------------------------------------------------------------------//
-
 /**
  * on Mouse leave
  * @param {string} id 
@@ -98,11 +84,6 @@ function hoverLeaveSummaryTasks(id, section, imgSrc) {
         hoverLeaveTaskCounts(id);
 }
 
-
-//------------------------------------------------------------------------------//
-//--------------------------------Leave To and Done-----------------------------//
-//------------------------------------------------------------------------------//
-
 /**
  * Leave To and Done
  * @param {string} id 
@@ -113,11 +94,6 @@ function hoverLeaveToDoAndDone(id, imgSrc) {
     document.getElementById(`${id}`).classList.add('to-do-and-done-taskarea');
     document.getElementById(`${id}_img`).src = `../assets/img/summary_${imgSrc}.svg`;
 }
-
-
-//------------------------------------------------------------------------------//
-//--------------------------------Leave Urgend Tasks----------------------------//
-//------------------------------------------------------------------------------//
 
 /**
  * Leave Urgend Tasks
@@ -141,11 +117,6 @@ function hoverLeaveTaskCounts(id) {
     document.getElementById(`${id}`).classList.add('urgent-task-overview');
 }
 
-
-//------------------------------------------------------------------------------//
-//---------------------------------Summary Animation----------------------------//
-//------------------------------------------------------------------------------//
-
 /**
  * Summary Animation
  */
@@ -160,11 +131,6 @@ function playSummaryGreetingAnimation() {
     }, 500)
 }
 
-
-//------------------------------------------------------------------------------//
-//------------------------generate Name for greeting----------------------------//
-//------------------------------------------------------------------------------//
-
 /**
  * generate Name for greeting
  */
@@ -175,11 +141,6 @@ function generateUserName() {
     document.getElementById('user_greeting').innerHTML = `${greeting}`;
     playSummaryGreetingAnimation();
 }
-
-
-//------------------------------------------------------------------------------//
-//-----------------------------generate Greeting--------------------------------//
-//------------------------------------------------------------------------------//
 
 /**
  * generate Greeting
@@ -197,11 +158,6 @@ function getGreeting() {
     
 }
 
-
-//------------------------------------------------------------------------------//
-//---------------------------------open Board-----------------------------------//
-//------------------------------------------------------------------------------//
-
 /**
  * open Board
  */
@@ -210,32 +166,33 @@ function openTaskBoard() {
     window.location.href = `board.html?msg=Welcomme to Join, ${userName}`;
 }
 
-
-//------------------------------------------------------------------------------//
-//--------------------------------fill Summary----------------------------------//
-//------------------------------------------------------------------------------//
-
 /**
  * fill Summary
  * @async
  */
 async function fillSummary() {
     let userName = getUserName();
-    let users = JSON.parse(await getItem('users'));
-    let user = users.find(u => u.name == userName);
-    countTasks('to_do_count', 'toDo');
-    countTasks('done_count', 'done');
-    countPriority('priority', 'urgent', 'urgend_count');
-    countTasks('task_progress_count', 'progress');
-    countTasks('task_feedback_count', 'feedback');
-    countBoardTasks('task_board_count');
+    document.getElementById('user_name').innerHTML = userName;
+    let containerCounts = {
+        'for-To-Do-Container': 0,
+        'in-Progress-Container': 0,
+        'for-Await-Feedback-Container': 0,
+        'for-Done-Container': 0
+    };
+    for (let i = 0; i < allTasks.length; i++) {
+        let containerName = allTasks[i]['inWhichContainer'];
+        if (containerCounts.hasOwnProperty(containerName))
+            containerCounts[containerName]++;
+    }
+    document.getElementById('to_do_count').textContent = containerCounts['for-To-Do-Container'];
+    document.getElementById('task_progress_count').textContent = containerCounts['in-Progress-Container'];
+    document.getElementById('task_feedback_count').textContent = containerCounts['for-Await-Feedback-Container'];
+    document.getElementById('done_count').textContent = containerCounts['for-Done-Container'];
+    countUrgent();
 }
 
-
-//------------------------------------------------------------------------------//
-//---------------------------Count Tasks for Summary----------------------------//
-//------------------------------------------------------------------------------//
-
+// let urgentTasks = oneTask['priority'];
+// let howManyUrgentTasks = [];
 /**
  * Count Tasks for Summary
  * @param {string} user 
@@ -243,22 +200,22 @@ async function fillSummary() {
  * @param {string} status 
  * @param {string} containerID 
  */
-function countPriority(taskcategory, status, containerID) {
+function countUrgent() {
     let taskCount = 0;
+    let urgentCount = 0;
     for (let i = 0; i < allTasks.length; i++) {
         const task = allTasks[i];
-        if (task[taskcategory] == status) {
+        if (task['priority'] != '') {
             taskCount++;
-            if (status == 'urgent')
+            if (task['priority'] == 'urgent') {
+                urgentCount++;
                 findDueDate();
+            }
         }
     }
-    document.getElementById(containerID).innerHTML = taskCount;
+    document.getElementById('task_board_count').innerHTML = taskCount;
+    document.getElementById('urgend_count').innerHTML = urgentCount;
 }
-
-//------------------------------------------------------------------------------//
-//-----------------------------Count Task Category------------------------------//
-//------------------------------------------------------------------------------//
 
 /**
  * Count Task Category
@@ -267,14 +224,8 @@ function countPriority(taskcategory, status, containerID) {
  * @param {string} category 
  */
 function countTasks(containerID, category) {
-let taskCounter =  sortTasks[category];
 document.getElementById(containerID).innerHTML = taskCounter.length;
 }
-
-
-//------------------------------------------------------------------------------//
-//-------------------------------Count all Tasks--------------------------------//
-//------------------------------------------------------------------------------//
 
 /**
  * Count all Tasks
@@ -289,11 +240,6 @@ function countBoardTasks(containerID) {
     document.getElementById(containerID).innerHTML = taskAtBoard;
 }
 
-
-//------------------------------------------------------------------------------//
-//--------------------------------Find Due Date---------------------------------//
-//------------------------------------------------------------------------------//
-
 /**
  * Find Due Date
  * @param {string} user 
@@ -302,7 +248,6 @@ function countBoardTasks(containerID) {
 function findDueDate() {
     let urgendDate = document.getElementById('urgend_date');
     let closestDate = Infinity;
-    // let tasks = user['tasks']
     for (let i = 0; i < allTasks.length; i++) {
         if (allTasks[i]['priority'] == 'urgent') {            
             let task = new Date(allTasks[i]['createdAt']);

@@ -55,8 +55,6 @@ function openCategoryDropdown() {
     });
 }
 
-
-
 /**
  * Handles the creation of a new category in the overlay.
  */
@@ -110,25 +108,6 @@ function cancelNewCategoryOverlay() {
     document.getElementById('newCategoryColorsOverlay').classList.add('d-none');
     document.getElementById('categoryOverlay').style.display = 'flex';
     document.getElementById('categoryOverlay').innerHTML = 'Select task category';
-}
-
-/**
- * Confirms the creation of a new category in the overlay.
- */
-function confirmNewCategoryOverlay() {
-    let newCategory = document.getElementById('newCategoryInputOverlay').value;
-    let newCategoryColor = document.getElementById('newCategoryColorOverlay').style.backgroundColor;
-    let newCategoryInput = document.getElementById('newCategoryInputOverlay');
-    if (newCategoryInput.value == '') {
-        newCategoryInput.focus();
-    } else {
-        selectedCategoryOverlay(newCategory, newCategoryColor);
-        document.getElementById('newCategoryInputOverlay').value = '';
-        document.getElementById('newCategoryColorOverlay').style.backgroundColor = '';
-        document.getElementById('newCategoryContainerOverlay').classList.add('d-none');
-        document.getElementById('newCategoryColorsOverlay').classList.add('d-none');
-        document.getElementById('categoryOverlay').style.display = 'flex';
-    }
 }
 
 /**

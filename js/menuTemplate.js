@@ -6,13 +6,13 @@ function generateSideBar() {
     let menu = document.getElementById('content');
     menu.innerHTML = /*html*/ `
     <nav>
-        <img src="./assets/img/Capa 2.svg" class="logo">
+        <img src="../assets/img/Capa 2.svg" class="logo">
         <div class="nav-flex-box">
             <div class="flex-box-mobile">
-                <a href="./summary.html?msg=Welcome-to-Join,${userName}" class="nav-sub summary-background"><img src="./assets/img/Icons.svg">Summary</a>
-                <a href="./add_task.html?msg=Welcome-to-Join,${userName}" class="nav-sub add-task-background"><img src="./assets/img/Icons (1).svg">Add Task</a>
-                <a href="./board.html?msg=Welcome-to-Join,${userName}" class="nav-sub board-background"><img src="./assets/img/Icons (2).svg">Board</a>
-                <a href="./contacts.html?msg=Welcome-to-Join,${userName}" class="nav-sub contacts-background"><img src="./assets/img/Icons (3).svg">Contacts</a>
+                <a href="./summary.html?msg=Welcome-to-Join,${userName}" class="nav-sub summary-background"><img src="../assets/img/Icons.svg">Summary</a>
+                <a href="./add_task.html?msg=Welcome-to-Join,${userName}" class="nav-sub add-task-background"><img src="../assets/img/Icons (1).svg">Add Task</a>
+                <a href="./board.html?msg=Welcome-to-Join,${userName}" class="nav-sub board-background"><img src="../assets/img/Icons (2).svg">Board</a>
+                <a href="./contacts.html?msg=Welcome-to-Join,${userName}" class="nav-sub contacts-background"><img src="../assets/img/Icons (3).svg">Contacts</a>
             </div>
             <div class="nav-bottom">
                 <a href="./privacy_policy.html?msg=Welcome-to-Join,${userName}" class="nav-bottom-a privacy-policy-background">Privacy Policy</a>
@@ -36,7 +36,7 @@ function generateHeader(menu, userName) {
             <div class="logo-mobile"></div>
             <span class="header-text">Kanban Project Management Tool</span>
             <div class="header-icons">
-                <a href="./help.html?msg=Welcome-to-Join,${userName}"><img src="./assets/img/help.svg" class="help-icon"></a>
+                <a href="./help.html?msg=Welcome-to-Join,${userName}"><img src="../assets/img/help.svg" class="help-icon"></a>
                 <div class="group-icon" onclick="showTemplatePopUp()">
                     <span>${userInitial}</span>
                 </div>
@@ -47,7 +47,7 @@ function generateHeader(menu, userName) {
                         Policy</a>
                     <a href="./legal_notice.html?msg=Welcome-to-Join,${userName}" class="nav-bottom-a legal-notice-background">Legal
                         Notice</a>
-                    <a href="./index.html" class="nav-bottom-a log-out-background">Log out</a>
+                    <a href="../index.html" class="nav-bottom-a log-out-background">Log out</a>
                 </div>
             </div>
         </header>`;

@@ -1,7 +1,3 @@
-//------------------------------------------------------------------------------//
-//--------------------------Show send E-Mail succesfull-------------------------//
-//------------------------------------------------------------------------------//
-
 /**
  * Show send E-Mail succesfull
  * @async
@@ -22,11 +18,6 @@ async function sendMail() {
     }
 }
 
-
-//------------------------------------------------------------------------------//
-//----------------------------Send E-Mail at Address----------------------------//
-//------------------------------------------------------------------------------//
-
 /**
  * Send E-Mail at Address
  * @async
@@ -40,7 +31,7 @@ async function sendEmail() {
     } else {
         let username = user.name;
         let xhr = new XMLHttpRequest();
-        xhr.open('POST', 'https://jan-horstmann.developerakademie.net/join_gruppenarbeit/sendmail.php', true);
+        xhr.open('POST', 'https://anton-osipov.de/join/sendmail.php', true);
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200)

@@ -1,21 +1,9 @@
-
-//------------------------------------------------------------------------------//
-//----------------------initialize first Steps for the Page---------------------//
-//------------------------------------------------------------------------------//
-
 /**
  * initialize first Steps for the Page
  */
 function init() {
-    loadUsersFromLocalStorage();
-    loadLoakalUser();
     playAnimation();
 }
-
-
-//------------------------------------------------------------------------------//
-//----------------------load remind User from local Storage---------------------//
-//------------------------------------------------------------------------------//
 
 /**
  * load remind User from local Storage
@@ -28,11 +16,6 @@ function loadLoakalUser() {
     }
 }
 
-
-//------------------------------------------------------------------------------//
-//---------------------------Log In for User and Guest--------------------------//
-//------------------------------------------------------------------------------//
-
 /**
  * Log In for User and Guest
  * @async
@@ -42,24 +25,19 @@ function loadLoakalUser() {
 async function logIn(guest) {
     let email = document.getElementById('email_log_in');
     let password1 = document.getElementById('password1_input');
-    let users = JSON.parse(await getItem('users'));
+    // let users = JSON.parse(await getItem('users'));
     if (guest == 'guest@guest.com') {
-        window.location.href = 'summary.html?msg=Welcome-to-Join,Guest';
+        window.location.href = 'html/summary.html?msg=Welcome-to-Join,Guest';
+    // } else {
+        // let user = users.find(u => u.email == email.value && u.password == password1.value);
+        // if (user) {
+        //     window.location.href = `html/summary.html?msg=Welcome-to-Join,${user.name}`;            
     } else {
-        let user = users.find(u => u.email == email.value && u.password == password1.value);
-        if (user) {
-            window.location.href = `summary.html?msg=Welcome-to-Join,${user.name}`;            
-        } else {
-            wrongEnter(users, email.value, password1.value);
-            return
-        }
+        // wrongEnter(users, email.value, password1.value);
+        alert('Wrong email or password');
+        return
     }
 }
-
-
-//------------------------------------------------------------------------------//
-//-----------------------------Change Event Listener----------------------------//
-//------------------------------------------------------------------------------//
 
 /**
  * Change Event Listener
@@ -78,11 +56,6 @@ function removeClickHandler() {
     log_in_btn.removeEventListener('click', saveHandler);
 }
 
-
-//------------------------------------------------------------------------------//
-//------------------------Changes the hook for the form-------------------------//
-//------------------------------------------------------------------------------//
-
 /**
  * Changes the hook for the form
  */
@@ -98,11 +71,6 @@ function checkBtnLogIn() {
     }
 }
 
-
-//------------------------------------------------------------------------------//
-//-----------------------------Show the worng Input-----------------------------//
-//------------------------------------------------------------------------------//
-
 /**
  * Show the worng Input
  * @param {string} users 
@@ -113,24 +81,19 @@ function wrongEnter(users, emailValue, passwordValue) {
     let emailInput = document.getElementById('email')
     let passwordInput = document.getElementById('password1')
     let userEmailIndex = users.findIndex(u => u.email == emailValue.toLowerCase());
-    if (userEmailIndex !== -1) {       
+    if (userEmailIndex !== -1) {
         if (users[userEmailIndex].password != passwordValue) {
             document.getElementById('password1_input').value = "";
             passwordInput.classList.add('log-in-wrong');
         } else
             passwordInput.classList.remove('log-in-wrong');
-        emailInput.classList.remove('log-in-wrong'); 
+        emailInput.classList.remove('log-in-wrong');
     } else {
         emailInput.classList.add('log-in-wrong');
         document.getElementById('password1_input').value = "";
         passwordInput.classList.remove('log-in-wrong');
     }
 }
-
-
-//------------------------------------------------------------------------------//
-//-----------------------------Reset the worng Input----------------------------//
-//------------------------------------------------------------------------------//
 
 /**
  * Reset the worng Input
@@ -141,11 +104,6 @@ function resetWrongEnter(id) {
         document.getElementById(id).classList.remove('log-in-wrong');
     }
 }
-
-
-//------------------------------------------------------------------------------//
-//-------------------------Change Img for Password Input------------------------//
-//------------------------------------------------------------------------------//
 
 /**
  * Change Img for Password Input
@@ -162,11 +120,6 @@ function showPasswordIcon(password) {
         password2.innerHTML = `<img onclick="showPassword('password2')" id="password2_icon" src="../assets/img/visibility_off.svg" alt="">`
     }
 }
-
-//------------------------------------------------------------------------------//
-//--------------Change Img for Password Input and Show the Password-------------//
-//------------------------------------------------------------------------------//
-
 
 /**
  * Change Img for Password Input and Show the Password
@@ -185,11 +138,6 @@ function showPassword(password) {
     }
 }
 
-
-//------------------------------------------------------------------------------//
-//-------------Change Img for Password Input and hide the Password--------------//
-//------------------------------------------------------------------------------//
-
 /**
  * Change Img for Password Input and hide the Password
  * @param {string} password 
@@ -206,12 +154,6 @@ function hidePassword(password) {
         document.getElementById('password2_input').type = "password";
     }
 }
-
-
-
-//------------------------------------------------------------------------------//
-//---------------------------------Reset Inputs---------------------------------//
-//------------------------------------------------------------------------------//
 
 /**
  * Reset Inputs
@@ -233,10 +175,6 @@ function resetForm(id, email, password1, password2, name) {
         password1.value = '';
     }
 }
-
-//---------------------------------------//
-//------------play Keyframes-------------//
-//---------------------------------------//
 
 /**
  * play Keyframes

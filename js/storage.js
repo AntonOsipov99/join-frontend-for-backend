@@ -4,16 +4,7 @@ const STORAGE_URL = 'http://127.0.0.1:8000/join/';
 let lokalUsers = [];
 let summary = [];
 let allTasks = [];
-let sortTasks = {
-    'toDo': '',
-    'progress': '',
-    'feedback': '',
-    'done': '',
-}
-
-//------------------------------------------------------------------------------//
-//-----------------------------save User at Backend-----------------------------//
-//------------------------------------------------------------------------------//
+let users = [];
 
 /**
  * save User at Backend
@@ -101,16 +92,6 @@ async function updateTaskInBackend(backendId, updatedContactData) {
     }
 }
 
-//------------------------------------------------------------------------------//
-//-----------------------------get User from Backend----------------------------//
-//------------------------------------------------------------------------------//
-
-
-
-//------------------------------------------------------------------------------//
-//-----------------------------get Username from URL----------------------------//
-//------------------------------------------------------------------------------//
-
 /**
  * get Username from URL
  * @returns 
@@ -126,29 +107,22 @@ function getUserName() {
     }
 }
 
-
-//------------------------------------------------------------------------------//
-//----------------------------load User from Backend----------------------------//
-//------------------------------------------------------------------------------//
-
 /**
  * load User from Backend
  * @async
  * @returns 
  */
-async function loadUsers() {
-    try {
-        let users = JSON.parse(await getItem('users'));
-        return users
-    } catch (e) {
-        console.error('Loading error:', e);
-    }
-}
-
-
-//------------------------------------------------------------------------------//
-//-------------------------load User from local Storage-------------------------//
-//------------------------------------------------------------------------------//
+// async function loadUsers() {
+//     try {
+//         let usersFromBackend = JSON.parse(await getItem('users'));
+//         if (usersFromBackend != []) {
+//             users = usersFromBackend;
+//         }
+//         return
+//     } catch (e) {
+//         console.error('Loading error:', e);
+//     }
+// }
 
 /**
  * load User from local Storage
@@ -157,11 +131,6 @@ async function loadUsers() {
 function loadUsersFromLocalStorage() {
     return lokalUsers = JSON.parse(localStorage.getItem('users')) || [];
 }
-
-
-//------------------------------------------------------------------------------//
-//--------------------------save User at local Storage--------------------------//
-//------------------------------------------------------------------------------//
 
 /**
  * save User at local Storage
@@ -181,21 +150,12 @@ async function saveUserToLocalStorage() {
     localStorage.setItem('users', JSON.stringify(lokalUsers));
 }
 
-//------------------------------------------------------------------------------//
-//-------------------------delete User at local Storage-------------------------//
-//------------------------------------------------------------------------------//
-
 /**
  * delete User at local Storage
  */
 function clearLocalStorage() {
     localStorage.removeItem('users');
 }
-
-
-//------------------------------------------------------------------------------//
-//----------------------------------delete User---------------------------------//
-//------------------------------------------------------------------------------//
 
 /**
  * delete User
@@ -207,11 +167,6 @@ async function deleteUser(email) {
     users = users.filter(u => u.email !== email.toLowerCase());
     await setItem('users', JSON.stringify(users));
 }
-
-
-//------------------------------------------------------------------------------//
-//---------------------------save Contacts at Backend---------------------------//
-//------------------------------------------------------------------------------//
 
 /**
  * save Contacts at Backend
@@ -242,10 +197,6 @@ async function deleteContactFromBackend(backendId) {
     }
 }
 
-//------------------------------------------------------------------------------//
-//--------------------------load Contacts from Backend--------------------------//
-//------------------------------------------------------------------------------//
-
 /**
  * load Contacts from Backend
  * @async
@@ -263,26 +214,6 @@ async function setContactsBackendId() {
         await updateContactInBackend(backendId, stringifyValue);
     }
 }
-
-// async function getItem(key) {
-//     const url = `${STORAGE_URL}${key}/`;
-//     const response = await fetch(url);
-//     const dataJson = await response.json();
-//     const data = [];
-//     if (dataJson != '') {
-//         for (let i = 0; i < dataJson.length; i++) {
-//             if (dataJson) {
-//                 let oneData = (dataJson[i][key]);
-//                 let parsedData = JSON.parse(oneData);
-//                 parsedData = parsedData.map(task => ({
-//                     ...task,
-//                     backendId: dataJson[i].id
-//                 }));
-//                 data.push(...parsedData);
-//             }
-//         }
-//     } return data
-// }
 
 async function updateContactInBackend(backendId, value) {
     try {
@@ -326,32 +257,6 @@ async function changeContactInBackend(backendId, value) {
     }
 }
 
-
-// async function updateContactInBackend(backendId, updatedContactData) {
-//     try {
-//         const response = await fetch(`${STORAGE_URL}allTasks/${backendId}/`, {
-//             method: 'PATCH',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify({
-//                 contacts: updatedContactData
-//             })
-//         });
-//         if (!response.ok) {
-//             throw new Error(`HTTP error! status: ${response.status}`);
-//         }
-//     } catch (error) {
-//         console.error('Error updating task in backend:', error);
-//         throw error;
-//     }
-// }
-
-
-//------------------------------------------------------------------------------//
-//-----------------------------save Tasks at Backend----------------------------//
-//------------------------------------------------------------------------------//
-
 /**
  * save Tasks at Backend
  * @async
@@ -359,10 +264,6 @@ async function changeContactInBackend(backendId, value) {
 async function saveTasks() {
     await setItem('allTasks', JSON.stringify(allTasks));
 }
-
-//------------------------------------------------------------------------------//
-//-----------------------------load Tasks at Backend----------------------------//
-//------------------------------------------------------------------------------//
 
 /**
  * load Tasks at Backend
@@ -381,17 +282,4 @@ async function loadTasks() {
 async function updateTaskStatusOnServer(taskId, targetContainerId) {
     const payload = { key: `taskStatus_${taskId}`, value: targetContainerId };//, token: STORAGE_TOKEN
     await fetch(STORAGE_URL, { method: 'POST', body: JSON.stringify(payload) });
-}
-
-/**
- * Loads task status information from the server and updates the local sortTasks object.
- *
- */
-async function loadTaskStatusFromServer() {
-    const taskStatusKeys = Object.keys(sortTasks).map(category => `taskStatus_${sortTasks[category]}`);
-    const taskStatusValues = await Promise.all(taskStatusKeys.map(key => getItem(key)));
-    taskStatusValues.forEach((value, index) => {
-        const category = Object.keys(sortTasks)[index];
-        sortTasks[category] = value;
-    });
 }

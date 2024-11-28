@@ -56,7 +56,7 @@
     font-size: 21px;
     display: flex;
     align-items: center;
-    background: white url("../../img/dropdownArrow.png") no-repeat right 10px center;
+    background: white url("../assets/img/arrow_drop_down.svg") no-repeat right 10px center;
     cursor: pointer;
 }
 
@@ -69,7 +69,7 @@
     border-radius: 10px;
     display: flex;
     align-items: center;
-    background: white url("http://gruppe-691.developerakademie.net/arrow_drop_down.svg") no-repeat right 10px center;
+    background: white url("../assets/img/arrow_drop_down.svg") no-repeat right 10px center;
 }
 
 .categoryContainer {
