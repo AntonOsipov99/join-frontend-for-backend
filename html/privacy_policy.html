@@ -13,14 +13,13 @@
     <link rel="stylesheet" href="../style/contacts.css">
     <link rel="stylesheet" href="../style/create_contacts.css">
     <link rel="stylesheet" href="../style/style_contacts.css">
-    <script src="../js/menuTemplate.js"></script>
     <script src="../js/storage.js"></script>
+    <script src="../js/menuTemplate.js"></script>
   </head>
-  <body onload="generateSideBar()">
+  <body onload="generateSideBar().then(showArrow)">
     <div id="content"></div>
-
     <div class="content-container">
-      <h1>Privacy Policy for Join</h1>
+      <div class="title-flex-box"><span class="title">Privacy Policy</span><img src="../assets/img/arrow.svg" id="not-visible-arrow" onclick="redirectToSignUp()"></div>
       <p>
         At Join, accessible from <a href="http://anton-osipov.de/join" title="Join">Join</a>, one of our main priorities is the
         privacy of our visitors. This Privacy Policy document contains types of

@@ -94,8 +94,7 @@ function generateBallForBoardOverlay(contact) {
 function styleAssigneeContainerForBoardOverlay(contact, assigneeContainer) {
     assigneeContainer.classList.add('assigneeContainer');
     const [firstName, lastName] = contact.name.split(' ');
-    const randomColor = randomColorGenerator();
-    assigneeContainer.style.backgroundColor = randomColor;
+    assigneeContainer.style.backgroundColor = contact.color;
     assigneeContainer.innerHTML = `${firstName.charAt(0)}${lastName ? lastName.charAt(0) : ''}`;
     assigneeContainer.setAttribute('value', contact.name);
     assigneeContainer.addEventListener('click', () => {

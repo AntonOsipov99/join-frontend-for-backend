@@ -42,3 +42,13 @@ function checkBtnSignUp(check) {
         signUpCheckBtn.innerHTML = '<input id="input_checkbox_none_checked" required type="checkbox" class="form-check-input" onclick="checkBtnSignUp(`nonecheck`)">';
     }
 }
+
+window.onload = function() {
+        localStorage.setItem('notVisible', 'false');
+}
+
+document.getElementById('privacy-policy').addEventListener('click', function(event) {
+    event.preventDefault();
+    localStorage.setItem('notVisible', true);
+    window.location.href = './privacy_policy.html';
+});

@@ -2,6 +2,28 @@
     background-color: transparent !important;
 }
 
+.title-flex-box {
+    display: flex;
+    justify-content: space-between;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 61px;
+}
+
+.show-arrow {
+    visibility: visible !important;
+}
+
+#not-visible-arrow {
+    visibility: hidden;
+}
+
+#not-visible-arrow:hover {
+    cursor: pointer;
+}
+
 .content-container {
     margin-left: 270px;
     padding: 30px;

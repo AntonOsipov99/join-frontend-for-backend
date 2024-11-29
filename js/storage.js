@@ -5,6 +5,7 @@ let lokalUsers = [];
 let summary = [];
 let allTasks = [];
 let users = [];
+let notVisible = false;
 
 /**
  * save User at Backend
@@ -101,9 +102,9 @@ function getUserName() {
     const msg = urlParams.get('msg');
     if (msg) {
         let userName = msg.split(',');
-        return userName[1];
+        return userName[1].trim();
     } else {
-        return 'Guest'
+        return 'Guest';
     }
 }
 
@@ -282,4 +283,15 @@ async function loadTasks() {
 async function updateTaskStatusOnServer(taskId, targetContainerId) {
     const payload = { key: `taskStatus_${taskId}`, value: targetContainerId };//, token: STORAGE_TOKEN
     await fetch(STORAGE_URL, { method: 'POST', body: JSON.stringify(payload) });
+}
+
+function showArrow() {
+    if (notVisible == true) {
+      document.getElementById("not-visible-arrow").classList.add('show-arrow');
+  }
+}
+
+function redirectToSignUp() {
+  localStorage.setItem('notVisible', false);
+  window.location.href = './signup.html';
 }

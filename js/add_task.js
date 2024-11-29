@@ -7,7 +7,6 @@ async function init() {
     generateSideBar();
     clickEventlisteners();
     createContactDropdown();
-    getRandomColor();
     assignOptionIDs();
     setMinDate();
 }
@@ -302,14 +301,14 @@ function getValueForTaskContacts() {
  * @param {due date of task} createdAt 
  * @returns 
  */
-function createTaskArray(title, description, createdAt, categoryInfo, categoryColor) {
+function createTaskArray(title, description, createdAt, categoryInfo) {
     const id = generateUniqueID();
     let task = {
-        id: id,
         title: title,
+        createdAt: createdAt,
+        id: id,
         description_text: description,
         task_category: categoryInfo,
-        createdAt: createdAt,
         priority: priorityArray,
         subtasks: subtaskTextsArray,
         subtasksId: subtaskIdsArray,
@@ -318,6 +317,7 @@ function createTaskArray(title, description, createdAt, categoryInfo, categoryCo
         assignedToValues: assignedToValuesArray,
         assignedToColors: assignedToColorsArray,
         assignedShortValues: assignedShortValues,
+        inWhichContainer: 'for-To-Do-Container'
     };
     return task;
 }
@@ -332,6 +332,7 @@ function createTaskArray(title, description, createdAt, categoryInfo, categoryCo
  */
 function pushAndSaveTaskToUser(title, description, createdAt, subtaskInput, subtaskItems, categoryInfo, categoryColor) {
     if (title && description && createdAt && categoryInfo && categoryColor) {
+        allTasks = [];
         let task = createTaskArray(title, description, createdAt, categoryInfo, categoryColor);
         titlesArray.push(title);
         descriptionsArray.push(description);

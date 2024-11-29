@@ -439,7 +439,6 @@ async function deleteContact(i) {
 function getRandomColor() {
     const letters = '0123456789ABCDEF';
     let color = '#';
-
     do {
         color = '#';
         for (let i = 0; i < 6; i++) {
@@ -447,7 +446,6 @@ function getRandomColor() {
             color += randomLetter;
         }
     } while (isTooLight(color));
-
     return color;
 }
 

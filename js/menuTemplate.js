@@ -3,16 +3,20 @@
  */
 function generateSideBar() {
     let userName = getUserName();
-    let menu = document.getElementById('content');
-    menu.innerHTML = /*html*/ `
+    notVisible = localStorage.getItem('notVisible') === 'true';
+    return new Promise(resolve => {
+        let menu = document.getElementById('content');
+        menu.innerHTML = /*html*/ `
     <nav>
         <img src="../assets/img/Capa 2.svg" class="logo">
         <div class="nav-flex-box">
             <div class="flex-box-mobile">
+                ${notVisible ? '' : `
                 <a href="./summary.html?msg=Welcome-to-Join,${userName}" class="nav-sub summary-background"><img src="../assets/img/Icons.svg">Summary</a>
                 <a href="./add_task.html?msg=Welcome-to-Join,${userName}" class="nav-sub add-task-background"><img src="../assets/img/Icons (1).svg">Add Task</a>
                 <a href="./board.html?msg=Welcome-to-Join,${userName}" class="nav-sub board-background"><img src="../assets/img/Icons (2).svg">Board</a>
                 <a href="./contacts.html?msg=Welcome-to-Join,${userName}" class="nav-sub contacts-background"><img src="../assets/img/Icons (3).svg">Contacts</a>
+                `}
             </div>
             <div class="nav-bottom">
                 <a href="./privacy_policy.html?msg=Welcome-to-Join,${userName}" class="nav-bottom-a privacy-policy-background">Privacy Policy</a>
@@ -20,7 +24,9 @@ function generateSideBar() {
             </div>
         </div>
     </nav>`;
-    generateHeader(menu, userName);
+        generateHeader(menu, userName);
+        resolve();
+    });
 }
 
 /**
@@ -35,12 +41,12 @@ function generateHeader(menu, userName) {
         <header>
             <div class="logo-mobile"></div>
             <span class="header-text">Kanban Project Management Tool</span>
-            <div class="header-icons">
+            ${notVisible ? '' : ` <div class="header-icons">
                 <a href="./help.html?msg=Welcome-to-Join,${userName}"><img src="../assets/img/help.svg" class="help-icon"></a>
                 <div class="group-icon" onclick="showTemplatePopUp()">
                     <span>${userInitial}</span>
                 </div>
-            </div>
+            </div> `}
             <div id="template_menu_pop_up" class="template-menu-pop-up-bg d-none" onclick="hideTemplatePopUp()">
                 <div class="template-menu-pop-up">
                     <a href="./privacy_policy.html?msg=Welcome-to-Join,${userName}" class="nav-bottom-a privacy-policy-background">Privacy
@@ -61,7 +67,6 @@ function generateHeader(menu, userName) {
  */
 function getInitials(userName) {
     let [firstName, lastName] = userName.split(' ');
-
     let firstInitial = firstName[0];
     if (lastName) {
         let lastInitial = lastName[0];

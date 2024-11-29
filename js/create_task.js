@@ -1,35 +1,4 @@
 /**
- * Generates a random color code that is not too light.
- * @returns {string} - The generated color code.
- */
-function getRandomColor() {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    do {
-        color = '#';
-        for (let i = 0; i < 6; i++) {
-            const randomLetter = letters[Math.floor(Math.random() * 16)];
-            color += randomLetter;
-        }
-    } while (isTooLight(color));
-    return color;
-}
-
-/**
- * Checks if a given color is too light.
- * @param {string} color - The color code to be checked.
- * @returns {boolean} - True if the color is too light, false otherwise.
- */
-function isTooLight(color) {
-    const hex = color.substring(1);
-    const r = parseInt(hex.slice(0, 2), 16);
-    const g = parseInt(hex.slice(2, 4), 16);
-    const b = parseInt(hex.slice(4, 6), 16);
-    const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
-    return yiq > 128;
-}
-
-/**
  * Creates a dropdown menu for selecting contacts to assign.
  */
 function createContactDropdown() {
@@ -54,7 +23,7 @@ function removeOptionDropdownContacts(event) {
     const selectedOption = event.target.options[event.target.selectedIndex];
     if (selectedOption.value !== 'Select contacts to assign') {
         selectedOption.classList.add('d-none');
-        createAssigneeBall(selectedOption.textContent, selectedOption.value);
+        createAssigneeBall(selectedOption.textContent, selectedOption.value, selectedOption.backgroundColor);
     }
 }
 
@@ -67,6 +36,7 @@ function createOptionDropdownContacts(dropdown) {
         let option = document.createElement('option');
         option.value = contact.name;
         option.textContent = contact.name;
+        option.backgroundColor = contact.color;
         dropdown.appendChild(option);
     });
 }
@@ -76,13 +46,12 @@ function createOptionDropdownContacts(dropdown) {
  * @param {string} contactName - The name of the contact.
  * @param {string} contactValue - The value of the contact.
  */
-function createAssigneeBall(contactName, contactValue) {
+function createAssigneeBall(contactName, contactValue, contactColor) {
     let assignedToList = document.getElementById('assignedToList');
     let assigneeContainer = document.createElement('div');
     assigneeContainer.classList.add('assigneeContainer');
     getInitalsFromContact(contactName, contactValue, assigneeContainer);
-    let backgroundColor = getRandomColor();
-    assigneeContainer.style.backgroundColor = backgroundColor;
+    assigneeContainer.style.backgroundColor = contactColor;
     assigneeContainer.addEventListener('click', () => {
         assigneeContainer.remove();
         removeAssigneeContainer(contactValue);

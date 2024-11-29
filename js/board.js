@@ -18,7 +18,6 @@ async function initForBoard() {
     showTasks();
     addTaskOverlayClickEventlisteners();
     createContactDropdown();
-    getRandomColor();
     assignOptionIDs();
     setMinDateForBoard();
     addToggleTaskNavigateContainerListener();
