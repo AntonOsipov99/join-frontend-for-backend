@@ -3,31 +3,57 @@
  * @async
  */
 async function signUp() {
-    document.getElementById('sign_up_btn').disabled = true;
-    let name = document.getElementById('name_sign_up');
-    let email = document.getElementById('email_sign_up');
-    let password1 = document.getElementById('password1_input');
-    let password2 = document.getElementById('password2_input');
-    let users = JSON.parse(await getItem('users'));
-    let emailChecked = users.find(u => u.email == email.value.toLowerCase());
-    let signUpSuccesfully = document.getElementById('sign_up_succesfully');
-    if (!emailChecked) {
-        if (password1.value == password2.value) {
-            users.push({
-                name: name.value,
-                email: email.value.toLowerCase(),
-                password: password1.value,
-            })
-            await setItem('users', JSON.stringify(users));
-            signUpSuccesfully.classList.remove('d-none')
-            signUpSuccesfully.style.animation = 'signUpSuccesfull 125ms ease-in-out forwards'
-            resetForm('signup', email, password1, password2, name);
-            setTimeout(function () { window.location.href = 'index.html' }, 800)
-        } else if (password1.value != password2.value)
-            document.getElementById('password2').classList.add('log-in-wrong');
-    } else
+    // let users = JSON.parse(await getItem('users'));
+    // let emailChecked = users.find(u => u.email == email.value.toLowerCase());
+    // if (!emailChecked) {
+    const { name, email, password1, password2, signUpSuccesfully } = declareVariablesToSignUp();
+    if (password1.value == password2.value) {
+        users.push({
+            name: name.value,
+            email: email.value.toLowerCase(),
+            password: password1.value,
+            repeated_password: password2.value
+        })
+        await registerUser();
+        signUpSuccesfully.classList.remove('d-none')
+        signUpSuccesfully.style.animation = 'signUpSuccesfull 125ms ease-in-out forwards'
+        resetForm('signup', email, password1, password2, name);
+        setTimeout(function () { window.location.href = '../index.html' }, 800)
+    } else if (password1.value != password2.value)
+        document.getElementById('password2').classList.add('log-in-wrong');
+    else
         document.getElementById('email').classList.add('log-in-wrong');
     document.getElementById('sign_up_btn').disabled = false;
+}
+
+async function registerUser() {
+    const response = await fetch("http://127.0.0.1:8000/join/auth/registration/", {
+        method: "post",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: users[0].name,
+            email: users[0].email,
+            password: users[0].password,
+            repeated_password: users[0].repeated_password
+        })
+    });
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+}
+
+function declareVariablesToSignUp() {
+    document.getElementById('sign_up_btn').disabled = true;
+    return {
+        name: document.getElementById('name_sign_up'),
+        email: document.getElementById('email_sign_up'),
+        password1: document.getElementById('password1_input'),
+        password2: document.getElementById('password2_input'),
+        signUpSuccesfully: document.getElementById('sign_up_succesfully')
+    };
 }
 
 /**
@@ -43,11 +69,11 @@ function checkBtnSignUp(check) {
     }
 }
 
-window.onload = function() {
-        localStorage.setItem('notVisible', 'false');
+window.onload = function () {
+    localStorage.setItem('notVisible', 'false');
 }
 
-document.getElementById('privacy-policy').addEventListener('click', function(event) {
+document.getElementById('privacy-policy').addEventListener('click', function (event) {
     event.preventDefault();
     localStorage.setItem('notVisible', true);
     window.location.href = './privacy_policy.html';
