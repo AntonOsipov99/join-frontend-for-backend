@@ -22,22 +22,34 @@ function loadLoakalUser() {
  * @param {string} guest 
  * @returns 
  */
-async function logIn(guest) {
-    let email = document.getElementById('email_log_in');
-    let password1 = document.getElementById('password1_input');
-    // let users = JSON.parse(await getItem('users'));
-    if (guest == 'guest@guest.com') {
+function logInGuest(guest) {
+    if (guest == 'guest@guest.com') 
         window.location.href = 'html/summary.html?msg=Welcome-to-Join,Guest';
-    // } else {
-        // let user = users.find(u => u.email == email.value && u.password == password1.value);
-        // if (user) {
-        //     window.location.href = `html/summary.html?msg=Welcome-to-Join,${user.name}`;            
-    } else {
-        // wrongEnter(users, email.value, password1.value);
-        alert('Wrong email or password');
-        return
-    }
 }
+
+async function logIn() {
+    const email = document.getElementById('email_log_in').value;
+    const password = document.getElementById('password1_input').value;
+    const response = await fetch('http://127.0.0.1:8000/join/auth/login/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email,
+        password
+      })
+    });
+    if (response.ok) {
+        const data = await response.json();
+        const token = data.token;
+        const username = data.username;
+        localStorage.setItem('authToken', token);
+        window.location.href = `html/summary.html?msg=Welcome-to-Join, ${username}`;
+    } else {
+      console.error('Login failed');
+    }
+  }
 
 /**
  * Change Event Listener
