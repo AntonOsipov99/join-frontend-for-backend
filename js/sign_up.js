@@ -3,11 +3,13 @@
  * @async
  */
 async function signUp() {
-    // let users = JSON.parse(await getItem('users'));
-    // let emailChecked = users.find(u => u.email == email.value.toLowerCase());
-    // if (!emailChecked) {
-    const { name, email, password1, password2, signUpSuccesfully } = declareVariablesToSignUp();
-    if (password1.value == password2.value) {
+    const { name, email, password1, password2 } = declareVariablesToSignUp();
+    resetReportText();
+    users = [];
+    if (password1.value != password2.value) {
+        document.getElementById('password1').classList.add('log-in-wrong');
+        document.getElementById('password2').classList.add('log-in-wrong');
+    } else if (password1.value == password2.value) {
         users.push({
             name: name.value,
             email: email.value.toLowerCase(),
@@ -15,15 +17,23 @@ async function signUp() {
             repeated_password: password2.value
         })
         await registerUser();
-        signUpSuccesfully.classList.remove('d-none')
-        signUpSuccesfully.style.animation = 'signUpSuccesfull 125ms ease-in-out forwards'
-        resetForm('signup', email, password1, password2, name);
-        setTimeout(function () { window.location.href = '../index.html' }, 800)
-    } else if (password1.value != password2.value)
-        document.getElementById('password2').classList.add('log-in-wrong');
-    else
-        document.getElementById('email').classList.add('log-in-wrong');
+    }
     document.getElementById('sign_up_btn').disabled = false;
+}
+
+function resetFormAndToggleToStartPage() {
+    const signUpSuccesfully = document.getElementById('sign_up_succesfully');
+    signUpSuccesfully.classList.remove('d-none')
+    signUpSuccesfully.style.animation = 'signUpSuccesfull 125ms ease-in-out forwards'
+    resetForm('signup', email, password1, password2, name);
+    setTimeout(function () { window.location.href = '../index.html' }, 800)
+}
+
+function resetReportText() {
+    document.getElementById('password1').classList.remove('log-in-wrong');
+    document.getElementById('password2').classList.remove('log-in-wrong');
+    document.getElementById('email').classList.remove('log-in-wrong');
+    document.getElementById('name').classList.remove('log-in-wrong');
 }
 
 async function registerUser() {
@@ -40,8 +50,16 @@ async function registerUser() {
             repeated_password: users[0].repeated_password
         })
     });
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+    const data = await response.json();
+    if (!response.ok || data.email || data.username) {
+        if (data.email) {
+            document.getElementById('email').classList.add('log-in-wrong');
+        }
+        if (data.username) {
+            document.getElementById('name').classList.add('log-in-wrong');
+        }
+    } else {
+        resetFormAndToggleToStartPage();
     }
 }
 
@@ -52,7 +70,6 @@ function declareVariablesToSignUp() {
         email: document.getElementById('email_sign_up'),
         password1: document.getElementById('password1_input'),
         password2: document.getElementById('password2_input'),
-        signUpSuccesfully: document.getElementById('sign_up_succesfully')
     };
 }
 
