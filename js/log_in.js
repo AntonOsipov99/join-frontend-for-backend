@@ -6,50 +6,44 @@ function init() {
 }
 
 /**
- * load remind User from local Storage
- */
-function loadLoakalUser() {
-    if (lokalUsers.length > 0) {
-        document.getElementById('email_log_in').value = lokalUsers[0]['email'];
-        document.getElementById('password1_input').value = lokalUsers[0]['password'];
-        document.getElementById('check_btn').src = '../assets/img/checkbuttonchecked.svg';
-    }
-}
-
-/**
  * Log In for User and Guest
  * @async
  * @param {string} guest 
  * @returns 
  */
 function logInGuest(guest) {
-    if (guest == 'guest@guest.com') 
+    if (guest == 'guest@guest.com') {
         window.location.href = 'html/summary.html?msg=Welcome-to-Join,Guest';
+        localStorage.setItem('authToken', '0c92a909eecfe9f913207a6dd5ca1df962707d19');
+    }
 }
 
 async function logIn() {
+    document.getElementById('email').classList.remove('log-in-wrong');
+    document.getElementById('password1').classList.remove('log-in-wrong');
     const email = document.getElementById('email_log_in').value;
     const password = document.getElementById('password1_input').value;
     const response = await fetch('http://127.0.0.1:8000/join/auth/login/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email,
-        password
-      })
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email,
+            password
+        })
     });
+    const data = await response.json();
     if (response.ok) {
-        const data = await response.json();
         const token = data.token;
         const username = data.username;
         localStorage.setItem('authToken', token);
         window.location.href = `html/summary.html?msg=Welcome-to-Join, ${username}`;
     } else {
-      console.error('Login failed');
+        document.getElementById('password1').classList.add('log-in-wrong');
+        document.getElementById('email_log_in').classList.add('log-in-email-wrong');
     }
-  }
+}
 
 /**
  * Change Event Listener

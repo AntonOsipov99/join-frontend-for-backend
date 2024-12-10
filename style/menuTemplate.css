@@ -163,6 +163,19 @@ header {
 
 }
 
+.template-menu-pop-up span {
+    color: #CDCDCD;
+    font-size: 16px;
+    font-weight: 400;
+    width: 140px;
+    height: 46px;
+    padding: 8px 16px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+
 @media (min-width: 2200px) {
     .header-text {
         margin-left: 10vw;

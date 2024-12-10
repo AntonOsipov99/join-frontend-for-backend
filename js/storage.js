@@ -1,4 +1,4 @@
-const STORAGE_TOKEN = '6JWGFSP8ZA4Y8JE2FOVSN7ZO8Z67IFY8GHNHPA6B'
+const token = '';
 const STORAGE_URL = 'http://127.0.0.1:8000/join/';
 
 let lokalUsers = [];
@@ -16,12 +16,12 @@ let notVisible = false;
  */
 async function setItem(key, value) {
     try {
+        const token = localStorage.getItem('authToken');
         const response = await fetch(`${STORAGE_URL}${key}/`, {
             method: 'POST',
             headers: {
+                'Authorization': `Token ${token}`,
                 'Content-Type': 'application/json',
-                // Falls Sie CSRF-Token verwenden:
-                // 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
             },
             body: JSON.stringify({
                 [key]: value
@@ -40,7 +40,19 @@ async function setItem(key, value) {
 
 async function getData(storage) {
     try {
-        const response = await fetch(storage);
+        const token = localStorage.getItem('authToken');
+       const response = await fetch(storage, {
+           method: 'GET',
+           headers: {
+               'Authorization': `Token ${token}`,
+               'Content-Type': 'application/json'
+           }
+       });
+       if (response.status === 401) {
+           localStorage.removeItem('authToken');
+           window.location.href = 'login.html';
+           return;
+       }
         const data = await response.json();
         if (storage == CONTACT_STORAGE_URL);
         contacts = data;
@@ -55,7 +67,19 @@ async function getData(storage) {
 
 async function getItem(key) {
     const url = `${STORAGE_URL}${key}/`;
-    const response = await fetch(url);
+    const token = localStorage.getItem('authToken');
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        }
+    });
+    if (response.status === 401) {
+        localStorage.removeItem('authToken');
+        window.location.href = '../index.html';
+        return [];
+    }
     const dataJson = await response.json();
     const data = [];
     if (dataJson != '') {
@@ -73,17 +97,13 @@ async function getItem(key) {
     } return data
 }
 
-// async function getUsers() {
-//     const url = 
-// }
-
-
-
 async function updateTaskInBackend(backendId, updatedContactData) {
     try {
+        const token = localStorage.getItem('authToken');
         const response = await fetch(`${STORAGE_URL}allTasks/${backendId}/`, {
             method: 'PATCH',
             headers: {
+                'Authorization': `Token ${token}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -114,30 +134,6 @@ function getUserName() {
     }
 }
 
-/**
- * load User from Backend
- * @async
- * @returns 
- */
-// async function loadUsers() {
-//     try {
-//         let usersFromBackend = JSON.parse(await getItem('users'));
-//         if (usersFromBackend != []) {
-//             users = usersFromBackend;
-//         }
-//         return
-//     } catch (e) {
-//         console.error('Loading error:', e);
-//     }
-// }
-
-/**
- * load User from local Storage
- * @returns 
- */
-function loadUsersFromLocalStorage() {
-    return lokalUsers = JSON.parse(localStorage.getItem('users')) || [];
-}
 
 /**
  * save User at local Storage
@@ -189,9 +185,11 @@ async function saveNewContact() {
 
 async function deleteContactFromBackend(backendId) {
     try {
+        const token = localStorage.getItem('authToken');
         const response = await fetch(`${STORAGE_URL}contacts/${backendId}/`, {
             method: 'DELETE',
             headers: {
+                'Authorization': `Token ${token}`,
                 'Content-Type': 'application/json'
             }
         });
@@ -224,9 +222,11 @@ async function setContactsBackendId() {
 
 async function updateContactInBackend(backendId, value) {
     try {
+        const token = localStorage.getItem('authToken');
         const response = await fetch(`${STORAGE_URL}contacts/${backendId}/`, {
             method: 'PUT',
             headers: {
+                'Authorization': `Token ${token}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -236,28 +236,6 @@ async function updateContactInBackend(backendId, value) {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-    } catch (error) {
-        console.error('Error updating task in backend:', error);
-        throw error;
-    }
-}
-
-
-async function changeContactInBackend(backendId, value) {
-    try {
-        const response = await fetch(`${STORAGE_URL}contacts/${backendId}/`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                contacts: value
-            })
-        });
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response;
     } catch (error) {
         console.error('Error updating task in backend:', error);
         throw error;
@@ -300,4 +278,27 @@ function showArrow() {
 function redirectToSignUp() {
   localStorage.setItem('notVisible', false);
   window.location.href = './signup.html';
+}
+
+async function changeContactInBackend(backendId, value) {
+    try {
+        const token = localStorage.getItem('authToken');
+        const response = await fetch(`${STORAGE_URL}contacts/${backendId}/`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Token ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                contacts: value
+            })
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response;
+    } catch (error) {
+        console.error('Error updating task in backend:', error);
+        throw error;
+    }
 }

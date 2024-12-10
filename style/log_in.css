@@ -144,6 +144,10 @@ body {
     border: 1px solid #FF4057;
 }
 
+.log-in-email-wrong {
+    border: 1px solid #FF4057 !important;
+}
+
 .input-icon {
     width: 401px;
     display: flex;
@@ -159,6 +163,10 @@ body {
 .d-flex-around {
     display: flex;
     justify-content: space-around;
+}
+
+.d-flex {
+    gap: 5px;
 }
 
 a {
@@ -626,7 +634,7 @@ a:hover {
 @media (max-width: 650px) {
 
     .log-in {
-        height: 500px;
+        height: 560px;
     }
 
     .header-logo {

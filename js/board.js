@@ -116,7 +116,7 @@ function buildTaskObject() {
         assignedToValues: assignedToValuesArray,
         assignedToColors: assignedToColorsArray,
         assignedShortValues: assignedShortValues,
-        inWhichContainer: inWhichContainer.length > 0 ? inWhichContainer : ''
+        inWhichContainer: inWhichContainer.length > 0 ? inWhichContainer : ['for-To-Do-Container']
     };
 }
 

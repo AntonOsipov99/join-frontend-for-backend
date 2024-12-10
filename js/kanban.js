@@ -42,6 +42,7 @@ async function onDrop(event) {
         targetContainerElement.style.backgroundColor = '';
     targetContainerElement.style.border = '';
     event.target.classList.remove('drag-over');
+    taskToChange = [];
 }
 
 async function moveTaskToContainer(taskId, targetArray) {
@@ -56,8 +57,6 @@ async function moveTaskToContainer(taskId, targetArray) {
         allTasks = [];
         await loadTasks();
         showTasks();
-    } else {
-        console.error('Task not found in the allTasks array');
     }
 }
 
@@ -102,14 +101,6 @@ function allowDrop(event) {
 }
 
 /**
- * Clears all tasks.
- */
-// async function clearAllTasks() { löschen
-//     allTasks = [];
-//     await saveTasks();
-// }
-
-/**
  * Deletes a task based on its ID.
  * @param {string} taskId - The ID of the task to delete.
  */
@@ -137,9 +128,11 @@ async function deleteTask(taskId) {
 
 async function deleteTaskFromBackend(backendId) {
     try {
+        const token = localStorage.getItem('authToken');
         const response = await fetch(`${STORAGE_URL}allTasks/${backendId}/`, {
             method: 'DELETE',
             headers: {
+                'Authorization': `Token ${token}`,
                 'Content-Type': 'application/json'
             }
         });
@@ -154,9 +147,11 @@ async function deleteTaskFromBackend(backendId) {
 
 async function updateTaskInBackend(backendId, updatedTaskData) {
     try {
+        const token = localStorage.getItem('authToken');
         const response = await fetch(`${STORAGE_URL}allTasks/${backendId}/`, {
             method: 'PATCH',
             headers: {
+                'Authorization': `Token ${token}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -249,13 +244,13 @@ async function moveTaskToCategory(taskArray, newArray) {
  */
 function determineContainerKey(array) {
     if (array === tasksToDo) {
-        return 'for-To-Do-Container';
+        return ['for-To-Do-Container'];
     } else if (array === tasksInProgress) {
-        return 'in-Progress-Container';
+        return ['in-Progress-Container'];
     } else if (array === tasksAwaitFeedback) {
-        return 'for-Await-Feedback-Container';
+        return ['for-Await-Feedback-Container'];
     } else if (array === tasksDone) {
-        return 'for-Done-Container';
+        return ['for-Done-Container'];
     } else {
         return '';
     }
@@ -277,13 +272,13 @@ function findTaskArray(taskId) {
         }
     }
     if (task) {
-        if (tasksToDo.includes(task)) {
+        if (task.inWhichContainer == "for-To-Do-Container") {
             return tasksToDo;
-        } else if (tasksInProgress.includes(task)) {
+        } else if (task.inWhichContainer == "in-Progress-Container") {
             return tasksInProgress;
-        } else if (tasksAwaitFeedback.includes(task)) {
+        } else if (task.inWhichContainer == "for-Await-Feedback-Container") {
             return tasksAwaitFeedback;
-        } else if (tasksDone.includes(task)) {
+        } else if (task.inWhichContainer == "for-Done-Container") {
             return tasksDone;
         } else
             return null;

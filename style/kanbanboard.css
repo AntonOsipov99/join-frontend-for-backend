@@ -99,9 +99,9 @@ ul {
     border-radius: 6px;
 }
 
-.lineThrough {
+/* .lineThrough {
     text-decoration: line-through;
-}
+} */
 
 .subTaskAlignment {
     display: flex;
@@ -128,10 +128,6 @@ ul {
     background-color: rgb(41, 171, 226);
     width: 0%;
     border-radius: 6px;
-}
-
-.lineThrough {
-    text-decoration: line-through;
 }
 
 .subTaskAlignment {

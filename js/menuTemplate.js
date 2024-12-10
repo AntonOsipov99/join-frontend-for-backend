@@ -29,6 +29,11 @@ function generateSideBar() {
     });
 }
 
+function logOut() {
+    localStorage.removeItem("authToken");
+    window.location.href = '../index.html';
+}
+
 /**
  * Generates the header content dynamically based on the user's information.
  *
@@ -53,7 +58,7 @@ function generateHeader(menu, userName) {
                         Policy</a>
                     <a href="./legal_notice.html?msg=Welcome-to-Join,${userName}" class="nav-bottom-a legal-notice-background">Legal
                         Notice</a>
-                    <a href="../index.html" class="nav-bottom-a log-out-background">Log out</a>
+                    <span class="nav-bottom-a log-out-background" onclick="logOut()">Log out</span>
                 </div>
             </div>
         </header>`;
