@@ -41,7 +41,7 @@ async function setItem(key, value) {
 async function getData(storage) {
     try {
         const token = localStorage.getItem('authToken');
-       const response = await fetch(storage, {
+        const response = await fetch(storage, {
            method: 'GET',
            headers: {
                'Authorization': `Token ${token}`,

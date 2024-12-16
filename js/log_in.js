@@ -5,19 +5,6 @@ function init() {
     playAnimation();
 }
 
-/**
- * Log In for User and Guest
- * @async
- * @param {string} guest 
- * @returns 
- */
-function logInGuest(guest) {
-    if (guest == 'guest@guest.com') {
-        window.location.href = 'html/summary.html?msg=Welcome-to-Join,Guest';
-        localStorage.setItem('authToken', '0c92a909eecfe9f913207a6dd5ca1df962707d19');
-    }
-}
-
 async function logIn() {
     document.getElementById('email').classList.remove('log-in-wrong');
     document.getElementById('password1').classList.remove('log-in-wrong');
@@ -44,6 +31,50 @@ async function logIn() {
         document.getElementById('email_log_in').classList.add('log-in-email-wrong');
     }
 }
+
+async function registerGuest() {
+    const response = await fetch("http://127.0.0.1:8000/join/auth/registration/", {
+        method: "post",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: 'Guest',
+            email: 'guest@email.com',
+            password: 'parol',
+            repeated_password: 'parol'
+        })
+    });
+    if (!response.ok) {
+        await logInGuest();
+    } else {
+        await logInGuest();
+    }
+}
+
+async function logInGuest() {
+    const email = 'guest@email.com';
+    const password = 'parol';
+    const response = await fetch('http://127.0.0.1:8000/join/auth/login/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email,
+            password
+        })
+    });
+    const data = await response.json();
+    if (response.ok) {
+        const token = data.token;
+        const username = data.username;
+        localStorage.setItem('authToken', token);
+        window.location.href = `html/summary.html?msg=Welcome-to-Join, ${username}`;
+    }
+}
+
 
 /**
  * Change Event Listener

@@ -195,13 +195,17 @@ async function showTasksInOverview(taskId, event) {
     }
 }
 
-/**
- * Handles the click event on mobile task categories.
- *
- * @param {HTMLElement} clickedElement - The clicked element.
- * @param {string} taskId - The ID of the task.
- * @param {Array} taskArray - The array containing the task.
- */
+function showTasks() {
+    const taskContainer = document.getElementById('target-to-do-table');
+    const feedbackTaskContainer = document.getElementById('target-await-feedback-table');
+    const inProgressContainer = document.getElementById('target-in-progress-table');
+    const targetDoneTable = document.getElementById('target-done-table');
+    clearTaskContainers(taskContainer, feedbackTaskContainer, inProgressContainer, targetDoneTable);
+    createSpecificNoTaskDivs();
+    createNoTaskDiv();
+    displayTasks(taskContainer, feedbackTaskContainer, inProgressContainer, targetDoneTable);
+}
+
 async function handleMobileTaskCategoryClick(clickedElement, taskId, taskArray) {
     currentShowedTaskId = taskId;
     if (clickedElement.classList.contains('to-do-category')) {
@@ -215,12 +219,6 @@ async function handleMobileTaskCategoryClick(clickedElement, taskId, taskArray) 
     }
 }
 
-/**
- * Moves a task from one array to another, updating its container and saving changes.
- *
- * @param {Array} taskArray - The array from which the task is moved.
- * @param {Array} newArray - The array to which the task is moved.
- */
 async function moveTaskToCategory(taskArray, newArray) {
     if (taskArray && newArray) {
         const taskIndex = taskArray.findIndex(task => task.id === currentShowedTaskId);
@@ -229,6 +227,7 @@ async function moveTaskToCategory(taskArray, newArray) {
             task.inWhichContainer = determineContainerKey(newArray);
             newArray.push(task);
             await saveTasks();
+            await saveTasksCategory();
             showTasks();
         } else
             console.error('Task not found in the old array');
