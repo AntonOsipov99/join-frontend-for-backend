@@ -29,7 +29,7 @@ function findTask() {
 function showNoTaskMessage(container, tasksArray, text) {
     const noTaskContainer = document.createElement('div');
     noTaskContainer.textContent = text;
-    const tasksExist = tasksArray.some(existingTask => container.id === `task-${existingTask.id}`);
+    const tasksExist = tasksArray.some(existingTask => container.id == `task-${existingTask.id}`);
     if (!tasksExist) {
         container.appendChild(noTaskContainer);
     } else {
@@ -53,17 +53,17 @@ function updateProgressBar(taskId) {
     let task = null;
     for (let i = 0; i < allTasks.length; i++) {
         const currentTask = allTasks[i];
-        if (currentTask.id === taskId) {
+        if (currentTask.id == taskId) {
             task = currentTask;
             break;
         }
     }
-    const progressBarId = task.progressBarId;
+    const progressBarId = task.progress_bar_id;
     const progressBar = document.getElementById(`progress-bar-${progressBarId}`);
     if (!progressBar) {
         return;
     }
-    const subtasksStatusArray = task.subtasksStatusArray || [];
+    const subtasksStatusArray = task.subtasks_status_array || [];
     const filledSubtasksCount = subtasksStatusArray.filter(status => status).length;
     const totalSubtasksCount = subtasksStatusArray.length;
     const progressPercentage = (filledSubtasksCount / totalSubtasksCount) * 100;
@@ -109,7 +109,7 @@ function applyLineThroughAndCheckbox(currentTaskId) {
     let task = null;
     for (let i = 0; i < allTasks.length; i++) {
         const currentTask = allTasks[i];
-        if (currentTask.id === currentTaskId) {
+        if (currentTask.id == currentTaskId) {
             task = currentTask;
             break;
         }
@@ -118,8 +118,8 @@ function applyLineThroughAndCheckbox(currentTaskId) {
         console.error(`Task with ID "${currentTaskId}" was not found.`);
         return;
     }
-    const subtasksStatusArray = task.subtasksStatusArray || [];
-    const subtasksIdArray = task.subtasksId || [];
+    const subtasksStatusArray = task.subtasks_status_array || [];
+    const subtasksIdArray = task.subtasks_id || [];
     updateSubtaskStatus(subtasksStatusArray, subtasksIdArray);
 }
 
@@ -169,7 +169,7 @@ function checkProgressBar(taskId, progressBarId) {
     let task = null;
     for (let i = 0; i < allTasks.length; i++) {
         const currentTask = allTasks[i];
-        if (currentTask.id === taskId) {
+        if (currentTask.id == taskId) {
             task = currentTask;
             break;
         }
@@ -178,7 +178,7 @@ function checkProgressBar(taskId, progressBarId) {
     const progressBarCounter = document.getElementById(`progress-bar-counter-${progressBarId}`);
     if (!task || !progressBar || !progressBarCounter) return;
     const subtasks = task.subtasks || [];
-    const subtasksStatusArray = task.subtasksStatusArray || [];
+    const subtasksStatusArray = task.subtasks_status_array || [];
     calculateProgress(subtasksStatusArray, subtasks, progressBarId);
 }
 
@@ -285,14 +285,14 @@ function updateTaskDetailsInArray(description_text, title, createdAt, taskIndex,
     task = task;
     task.title = title;
     task.description_text = description_text;
-    task.createdAt = createdAt;
+    task.created_at = createdAt;
     task.priority = updatedPriority.slice();
     task.subtasks = subtasksTextArray.slice();
-    task.subtasksId = subtasksIdArray.slice();
-    task.assignedToValues = assignedToValues.slice();
-    task.assignedShortValues = assignedShortValues.slice();
-    task.assignedToColors = assignedToColors.slice();
-    task.subtasksStatusArray = subtasksStatusArray;
+    task.subtasks_id = subtasksIdArray.slice();
+    task.assigned_to_values = assignedToValues.slice();
+    task.assigned_short_values = assignedShortValues.slice();
+    task.assigned_to_colors = assignedToColors.slice();
+    task.subtasks_status_array = subtasksStatusArray;
     taskToChange.push(task);
 }
 
@@ -304,7 +304,7 @@ function addTaskForToDo() {
     const overlay = document.getElementById('add-task-form');
     overlay.classList.add('slide-in');
     overlaySection.classList.remove('d-none');
-    inWhichContainer.push('for-To-Do-Container'); // Füge 'for-To-Do-Container' zum Array hinzu
+    inWhichContainer.push('for-To-Do-Container');
 }
 
 /**
@@ -365,7 +365,7 @@ function extractTaskDetails() {
  * @returns {number} - The index of the task in the task list. Returns -1 if not found.
  */
 function findTaskIndex(taskId) {
-    return allTasks.findIndex(task => task.id === taskId);
+    return allTasks.findIndex(task => task.id == taskId);
 }
 
 /**
@@ -426,10 +426,8 @@ async function updateTaskAndSave(taskIndex, taskDetails, assigneeDetails, update
         taskDetails.subtasksIdArray
     );
     if (taskIndex !== -1) {
-        const backendId = allTasks[taskIndex].backendId;
-        const taskStringify = JSON.stringify(taskToChange);
         try {
-            await updateTaskInBackend(backendId, taskStringify);
+            await updateTaskInBackend(taskToChange[0].id, taskToChange[0]);
         } catch (error) {
             console.error('Error in delete process:', error);
         }

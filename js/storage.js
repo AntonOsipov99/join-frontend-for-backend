@@ -23,9 +23,7 @@ async function setItem(key, value) {
                 'Authorization': `Token ${token}`,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                [key]: value
-            })
+            body: JSON.stringify(value)
         });
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -42,17 +40,17 @@ async function getData(storage) {
     try {
         const token = localStorage.getItem('authToken');
         const response = await fetch(storage, {
-           method: 'GET',
-           headers: {
-               'Authorization': `Token ${token}`,
-               'Content-Type': 'application/json'
-           }
-       });
-       if (response.status === 401) {
-           localStorage.removeItem('authToken');
-           window.location.href = 'login.html';
-           return;
-       }
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response.status === 401) {
+            localStorage.removeItem('authToken');
+            window.location.href = 'login.html';
+            return;
+        }
         const data = await response.json();
         if (storage == CONTACT_STORAGE_URL);
         contacts = data;
@@ -84,18 +82,10 @@ async function getItem(key) {
     const data = [];
     if (dataJson != '') {
         for (let i = 0; i < dataJson.length; i++) {
-            if (dataJson) {
-                let oneData = (dataJson[i][key]);
-                let parsedData = JSON.parse(oneData);
-                parsedData = parsedData.map(task => ({
-                    ...task,
-                    backendId: dataJson[i].id
-                }));
-                data.push(...parsedData);
-            }
+            data.push(dataJson[i]);
         }
-    } return data
-}
+    } return data;
+} 
 
 async function updateTaskInBackend(backendId, updatedContactData) {
     try {
@@ -247,7 +237,7 @@ async function updateContactInBackend(backendId, value) {
  * @async
  */
 async function saveTasks() {
-    await setItem('allTasks', JSON.stringify(allTasks));
+    await setItem('allTasks', allTasks[0]);
 }
 
 /**
@@ -271,13 +261,13 @@ async function updateTaskStatusOnServer(taskId, targetContainerId) {
 
 function showArrow() {
     if (notVisible == true) {
-      document.getElementById("not-visible-arrow").classList.add('show-arrow');
-  }
+        document.getElementById("not-visible-arrow").classList.add('show-arrow');
+    }
 }
 
 function redirectToSignUp() {
-  localStorage.setItem('notVisible', false);
-  window.location.href = './signup.html';
+    localStorage.setItem('notVisible', false);
+    window.location.href = './signup.html';
 }
 
 async function changeContactInBackend(backendId, value) {

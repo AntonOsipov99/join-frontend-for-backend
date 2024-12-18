@@ -46,7 +46,7 @@ async function onDrop(event) {
 }
 
 async function moveTaskToContainer(taskId, targetArray) {
-    const taskIndex = allTasks.findIndex(task => task.id === taskId);
+    const taskIndex = allTasks.findIndex(task => task.id == taskId);
     if (taskIndex !== -1) {
         allTasks[taskIndex].inWhichContainer = determineContainerKey(targetArray);
         targetArray.push(allTasks[taskIndex]);
@@ -111,13 +111,12 @@ async function deleteTask(taskId) {
         taskElement.remove();
     else
         console.error('HTML Task element not found for deletion');
-    const taskIndex = allTasks.findIndex(task => task.id === taskId);
+    const taskIndex = allTasks.findIndex(task => task.id == taskId);
     if (taskIndex !== -1) {
-        const backendId = allTasks[taskIndex].backendId;
         allTasks.splice(taskIndex, 1);
         hideOverlay();
         try {
-            await deleteTaskFromBackend(backendId);
+            await deleteTaskFromBackend(taskId);
         } catch (error) {
             console.error('Error in delete process:', error);
         }
@@ -154,9 +153,7 @@ async function updateTaskInBackend(backendId, updatedTaskData) {
                 'Authorization': `Token ${token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                allTasks: updatedTaskData
-            })
+            body: JSON.stringify(updatedTaskData)
         });
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -221,10 +218,10 @@ async function handleMobileTaskCategoryClick(clickedElement, taskId, taskArray) 
 
 async function moveTaskToCategory(taskArray, newArray) {
     if (taskArray && newArray) {
-        const taskIndex = taskArray.findIndex(task => task.id === currentShowedTaskId);
+        const taskIndex = taskArray.findIndex(task => task.id == currentShowedTaskId);
         if (taskIndex !== -1) {
             const task = taskArray.splice(taskIndex, 1)[0];
-            task.inWhichContainer = determineContainerKey(newArray);
+            task.in_which_container = determineContainerKey(newArray);
             newArray.push(task);
             await saveTasks();
             await saveTasksCategory();
@@ -243,13 +240,13 @@ async function moveTaskToCategory(taskArray, newArray) {
  */
 function determineContainerKey(array) {
     if (array === tasksToDo) {
-        return ['for-To-Do-Container'];
+        return 'for-To-Do-Container';
     } else if (array === tasksInProgress) {
-        return ['in-Progress-Container'];
+        return 'in-Progress-Container';
     } else if (array === tasksAwaitFeedback) {
-        return ['for-Await-Feedback-Container'];
+        return 'for-Await-Feedback-Container';
     } else if (array === tasksDone) {
-        return ['for-Done-Container'];
+        return 'for-Done-Container';
     } else {
         return '';
     }
@@ -265,19 +262,19 @@ function findTaskArray(taskId) {
     let task = null;
     for (let i = 0; i < allTasks.length; i++) {
         const currentTask = allTasks[i];
-        if (currentTask.id === taskId) {
+        if (currentTask.id == taskId) {
             task = currentTask;
             break;
         }
     }
     if (task) {
-        if (task.inWhichContainer == "for-To-Do-Container") {
+        if (task.in_which_container == "for-To-Do-Container") {
             return tasksToDo;
-        } else if (task.inWhichContainer == "in-Progress-Container") {
+        } else if (task.in_which_container == "in-Progress-Container") {
             return tasksInProgress;
-        } else if (task.inWhichContainer == "for-Await-Feedback-Container") {
+        } else if (task.in_which_container == "for-Await-Feedback-Container") {
             return tasksAwaitFeedback;
-        } else if (task.inWhichContainer == "for-Done-Container") {
+        } else if (task.in_which_container == "for-Done-Container") {
             return tasksDone;
         } else
             return null;
@@ -293,22 +290,28 @@ function displayTaskOverview(taskId) {
     let task = null;
     for (let i = 0; i < allTasks.length; i++) {
         const currentTask = allTasks[i];
-        if (currentTask.id === taskId) {
+        if (currentTask.id == taskId) {
             task = currentTask;
             break;
         }
     }
     const taskOverviewPopUp = document.getElementById('taskOverviewPopUp');
-    const categorybackgroundColor = task.categoryColors[0];
-    const currentId = task.id;
-    const title = task.title;
-    const description = task.description_text;
-    const date = task.createdAt;
-    const priority = task.priority.join(', ');
-    const subTasks = task.subtasks;
-    const subTasksId = task.subtasksId;
-    let subTasksHTML = createSubTasksHTML(subTasks, subTasksId);
-    let taskPopUpSingleAssignmentContainer = createAssignmentContainerHTML(task);
+    const categorybackgroundColor = task.category_colors || '';
+    const currentId = task.id || '';
+    const title = task.title || '';
+    const description = task.description_text || '';
+    const date = task.created_at || '';
+    const priority = task.priority ? task.priority.join(', ') : '';
+    const subTasks = task.subtasks || [];
+    const subTasksId = task.subtasks_id || [];
+    let subTasksHTML = '';
+    if (subTasks && subTasksId) {
+        subTasksHTML = createSubTasksHTML(subTasks, subTasksId);
+    }
+    let taskPopUpSingleAssignmentContainer = '';
+    if (task) {
+        taskPopUpSingleAssignmentContainer = createAssignmentContainerHTML(task);
+    }
     taskOverviewTemplate(taskOverviewPopUp, task, categorybackgroundColor, title, description, date, priority, taskPopUpSingleAssignmentContainer, subTasksHTML, currentId);
 }
 
@@ -321,7 +324,7 @@ function createSubTasksHTML(subTasks, subTasksId) {
     let task = null;
     for (let i = 0; i < allTasks.length; i++) {
         const currentTask = allTasks[i];
-        if (currentTask.subtasksId === subTasksId) {
+        if (currentTask.subtasks_id == subTasksId) {
             task = currentTask;
             break;
         }
@@ -330,7 +333,7 @@ function createSubTasksHTML(subTasks, subTasksId) {
     if (subTasks && subTasksId && subTasks.length > 0) {
         subTasksHTML += '<ul class="edit-subTask">';
         subTasks.forEach((subTask, index) => {
-            const subtaskStatus = task.subtasksId ? task.subtasksId[index] : false;
+            const subtaskStatus = task.subtasks_id ? task.subtasks_id[index] : false;
             subTasksHTML += `<li id="${subTasksId[index]}" class="subTaskAlignment"><div class="${subtaskStatus ? 'lineThrough' : ''}">${subTask}</div></li>`;
         });
         subTasksHTML += '</ul>';
@@ -407,15 +410,15 @@ function taskOverviewTemplate(taskOverviewPopUp, task, categorybackgroundColor, 
  */
 function createAssignmentContainerHTML(task) {
     let taskPopUpSingleAssignmentContainer = '';
-    if (task.assignedToValues && task.assignedToValues.length > 0) {
-        task.assignedToValues.forEach((assignment, index) => {
+    if (task.assigned_to_values && task.assigned_to_values.length > 0) {
+        task.assigned_to_values.forEach((assignment, index) => {
             const nameParts = assignment.trim().split(' ');
             let initials = '';
             if (nameParts.length >= 2)
                 initials = nameParts[0][0] + nameParts[1][0];
             else if (nameParts.length === 1)
                 initials = nameParts[0][0];
-            const color = task.assignedToColors[index];
+            const color = task.assigned_to_colors[index];
             taskPopUpSingleAssignmentContainer += assignmentHTMLTemplate(color, initials, assignment);
         });
     }
@@ -482,31 +485,6 @@ function createNoTaskDiv() {
 }
 
 /**
- * Applies line-through and checkbox status to subtasks based on their completion status.
- * @param {string} currentTaskId - The ID of the current task.
- */
-function applyLineThroughAndCheckbox(currentTaskId) {
-    let task = null;
-    for (let i = 0; i < allTasks.length; i++) {
-        const currentTask = allTasks[i];
-        if (currentTask.id === currentTaskId) {
-            task = currentTask;
-            break;
-        }
-    }
-    if (!task) return console.error(`Aufgabe mit der ID "${currentTaskId}" wurde nicht gefunden.`);
-    (task.subtasksStatus || []).forEach((subtaskStatus, index) => {
-        const subtaskId = task.subtasksId[index];
-        const subtaskElement = document.getElementById(subtaskId);
-        const checkboxElement = subtaskElement?.querySelector('.subtask-checkbox');
-        if (subtaskElement && checkboxElement) {
-            subtaskElement.classList[subtaskStatus ? 'add' : 'remove']('lineThrough');
-            checkboxElement.checked = subtaskStatus;
-        }
-    });
-}
-
-/**
  * Displays tasks by creating task div elements, determining target containers, adding content, and initializing drag and drop.
  * @param {HTMLElement} taskContainer - The task container element.
  * @param {HTMLElement} feedbackTaskContainer - The feedback task container element.
@@ -520,8 +498,8 @@ function displayTasks(taskContainer, feedbackTaskContainer, inProgressContainer,
                 let task = taskArray;
                 const taskId = task.id
                 const progressBarId = generateUniqueID();
-                task.progressBarId = progressBarId;
-                const categorybackgroundColor = task.categoryColors[0];
+                task.progress_bar_id = progressBarId;
+                const categorybackgroundColor = task.category_colors;                ;
                 let priorityImageSrc = getPriorityImageSrc(task.priority);
                 const taskDiv = createTaskDiv(task);
                 const targetContainer = determineTargetContainer(task, taskContainer, inProgressContainer, feedbackTaskContainer, targetDoneTable);
@@ -538,13 +516,6 @@ function displayTasks(taskContainer, feedbackTaskContainer, inProgressContainer,
     }
 }
 
-// function displayTasks(taskContainer, feedbackTaskContainer, inProgressContainer, targetDoneTable) {
-//     if (allTasks && allTasks.length > 0) {
-//         console.log('AllTasks:', allTasks);
-//         allTasks.forEach(oneTask => {
-//             const innerTasks = JSON.parse(oneTask.allTasks);
-//             innerTasks.forEach(task => {
-
 /**
  * Creates a progress bar for a task and appends it to the task's div.
  *
@@ -552,21 +523,15 @@ function displayTasks(taskContainer, feedbackTaskContainer, inProgressContainer,
  * @param {string} taskId - The ID of the task associated with the progress bar.
  */
 function createProgressBar(taskId, progressBarId) {
-    // const allTasksJson = [];
-    // for(i = 0; i < allTasks.length; i++) {
-    //     // Extrahieren Sie direkt das erste Element des Arrays
-    //     const parsedTask = JSON.parse(allTasks[i])[0];
-    //     allTasksJson.push(parsedTask);
-    // }
     let task = null;
     for (let i = 0; i < allTasks.length; i++) {
         const currentTask = allTasks[i];
-        if (currentTask.id === taskId) {
+        if (currentTask.id == taskId) {
             task = currentTask;
             break;
         }
     }
-    if (!task || !task.subtasks || !task.subtasksId || task.subtasks.length === 0 || task.subtasksId.length === 0)
+    if (!task || !task.subtasks || !task.subtasks_id || task.subtasks.length === 0 || task.subtasks_id.length === 0)
         return;
     const taskDiv = document.getElementById(`progress-div-${taskId}`);
     if (!taskDiv)
@@ -620,11 +585,11 @@ function clearTaskContainers(...containers) {
  * @returns {string} The source URL for the priority image.
  */
 function getPriorityImageSrc(priority) {
-    if (priority.includes('low')) {
+    if (priority && priority.includes('low')) {
         return '../assets/img/Prio baja.svg';
-    } else if (priority.includes('medium')) {
+    } else if (priority && priority.includes('medium')) {
         return '../assets/img/Prio media.svg';
-    } else if (priority.includes('urgent')) {
+    } else if (priority && priority.includes('urgent')) {
         return '../assets/img/Prio alta.svg';
     }
 }

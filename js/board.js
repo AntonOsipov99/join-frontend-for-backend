@@ -103,20 +103,20 @@ function createTaskObject(categorySelect) {
 function buildTaskObject() {
     const id = generateUniqueID();
     return {
-        id: id,
+        task_id: id,
         title: document.getElementById('title').value,
         description_text: document.getElementById('description_text').value,
         task_category: categoryArray,
-        createdAt: document.getElementById('createdAt').value,
+        created_at: document.getElementById('createdAt').value,
         priority: priorityArray,
         subtasks: subtaskTextsArray,
-        subtasksId: subtaskIdsArray,
-        subtasksStatusArray: subtasksStatusArray,
-        categoryColors: categoryColorArray,
-        assignedToValues: assignedToValuesArray,
-        assignedToColors: assignedToColorsArray,
-        assignedShortValues: assignedShortValues,
-        inWhichContainer: inWhichContainer.length > 0 ? inWhichContainer : ['for-To-Do-Container']
+        subtasks_id: subtaskIdsArray,
+        subtasks_status_array: subtasksStatusArray,
+        category_colors: categoryColorArray,
+        assigned_to_values: assignedToValuesArray,
+        assigned_to_colors: assignedToColorsArray,
+        assigned_short_values: assignedShortValues,
+        in_which_container: inWhichContainer.length > 0 ? inWhichContainer : 'for-To-Do-Container'
     };
 }
 
@@ -141,7 +141,7 @@ function gatherTaskInfo() {
 async function updateArrays(task) {
     titlesArray.push(task.title);
     descriptionsArray.push(task.description_text);
-    createdAtArray.push(task.createdAt);
+    createdAtArray.push(task.created_at);
     allTasks = [];
     allTasks.push(task);
     await saveTasks();
@@ -373,7 +373,7 @@ function createTaskDiv(task) {
  */
 function determineTargetContainer(task, taskContainer, inProgressContainer, feedbackTaskContainer, doneTaskContainer) {
     let targetContainer = taskContainer;
-    const inWhichContainer = task.inWhichContainer;
+    const inWhichContainer = task.in_which_container;
     if (inWhichContainer && inWhichContainer.includes('for-To-Do-Container'))
         targetContainer = taskContainer;
     else if (inWhichContainer && inWhichContainer.includes('in-Progress-Container'))
@@ -392,11 +392,11 @@ function determineTargetContainer(task, taskContainer, inProgressContainer, feed
  */
 function createAssignmentBalls(task) {
     let assignePinnedTaskBall = '';
-    if (task.assignedToValues && task.assignedToValues.length > 0) {
+    if (task.assigned_to_values && task.assigned_to_values.length > 0) {
         const maxAssignmentsToShow = 3;
-        const assignmentsToDisplay = task.assignedToValues.slice(0, maxAssignmentsToShow);
-        let additionalAssignmentsCount = task.assignedToValues.length - maxAssignmentsToShow;
-        assignePinnedTaskBall = processAssignments(assignmentsToDisplay, task.assignedToColors);
+        const assignmentsToDisplay = task.assigned_to_values.slice(0, maxAssignmentsToShow);
+        let additionalAssignmentsCount = task.assigned_to_values.length - maxAssignmentsToShow;
+        assignePinnedTaskBall = processAssignments(assignmentsToDisplay, task.assigned_to_colors);
         if (additionalAssignmentsCount > 0) {
             assignePinnedTaskBall += `
                 <div class="assigne-ball" style="background-color: rgb(0, 0, 0)">
@@ -463,7 +463,7 @@ function addContentToTaskDiv(task, taskDiv, assignePinnedTaskBall, priorityImage
                     </div>
                     <div class="pinnedPrioPosition">
                     <div>
-                        <img class="pinnedPrioImg" src="${priorityImageSrc}" alt="Priority Image">
+                        ${priorityImageSrc ? `<img class="pinnedPrioImg" src="${priorityImageSrc}" alt="Priority Image">` : ''}
                     </div>
                     </div>
                 </div>
@@ -513,11 +513,11 @@ function clearTaskContainers(...containers) {
  * @returns {string} The source URL for the priority image.
  */
 function getPriorityImageSrc(priority) {
-    if (priority.includes('low')) {
+    if (priority && priority.includes('low')) {
         return '../assets/img/Prio baja.svg';
-    } else if (priority.includes('medium')) {
+    } else if (priority && priority.includes('medium')) {
         return '../assets/img/Prio media.svg';
-    } else if (priority.includes('urgent')) {
+    } else if (priority && priority.includes('urgent')) {
         return '../assets/img/Prio alta.svg';
     }
 }

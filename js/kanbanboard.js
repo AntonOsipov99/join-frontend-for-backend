@@ -75,7 +75,7 @@ function getDescriptionText(task) {
  * @returns {any} - The value representing the creation date of the task
  */
 function getIdDateValue(task) {
-    return task.createdAt;
+    return task.created_at;
 }
 
 /**
@@ -93,8 +93,8 @@ function getTitle(task) {
  * @returns {string} - The HTML string representing the options for the 'assigned to' field
  */
 function getAssignedToOptions(task) {
-    return task.assignedToValues.map((contact, index) => {
-        return `<option value="${contact}" data-id="${index}" data-color="${task.assignedToColors[index]}">${contact}</option>`;
+    return task.assigned_to_values.map((contact, index) => {
+        return `<option value="${contact}" data-id="${index}" data-color="${task.assigned_to_colors[index]}">${contact}</option>`;
     }).join('');
 }
 
@@ -104,8 +104,8 @@ function getAssignedToOptions(task) {
  * @returns {string} - The HTML string representing the list of subtasks
  */
 function getSubtasksList(task) {
-    if (task.subtasksId && task.subtasks) {
-        return task.subtasksId.map((subtaskId, index) => {
+    if (task.subtasks_id && task.subtasks) {
+        return task.subtasks_id.map((subtaskId, index) => {
             const subtask = task.subtasks[index];
             return subtasksListTemplate(subtaskId, subtask);
         }).join('');
@@ -125,7 +125,7 @@ function initializeTask(currentShowedTaskId) {
     let task = null;
     for(let i = 0; i < allTasks.length; i++) {
         const currentTask = allTasks[i];
-        if(currentTask.id === currentShowedTaskId) {
+        if(currentTask.id == currentShowedTaskId) {
             task = currentTask;
             break; 
         }
@@ -161,7 +161,7 @@ function updateTaskDetails(task) {
  */
 function displayAssignedContacts(task) {
     const assignedToList = document.getElementById('ballAssignedToList');
-    ballForBoardOverlay(task.assignedToColors, task.assignedToValues, assignedToList);
+    ballForBoardOverlay(task.assigned_to_colors, task.assigned_to_values, assignedToList);
 }
 
 /**
@@ -225,7 +225,7 @@ function simulatePriorityButtonClick(taskId) {
     let task = null;
     for(let i = 0; i < allTasks.length; i++) {
         const currentTask = allTasks[i];
-        if(currentTask.id === taskId) {
+        if(currentTask.id == taskId) {
             task = currentTask;
             break; 
         }
