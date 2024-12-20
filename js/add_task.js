@@ -301,23 +301,23 @@ function getValueForTaskContacts() {
  * @param {due date of task} createdAt 
  * @returns 
  */
-function createTaskArray(title, description, createdAt, categoryInfo) {
+function createTaskArray(title, description, createdAt, categoryInfo, categoryColor) {
     const id = generateUniqueID();
     let task = {
+        task_id: id,
         title: title,
-        createdAt: createdAt,
-        id: id,
         description_text: description,
         task_category: categoryInfo,
+        created_at: createdAt,
         priority: priorityArray,
         subtasks: subtaskTextsArray,
-        subtasksId: subtaskIdsArray,
-        subtasksStatusArray: subtasksStatusArray,
-        categoryColors: categoryColorArray,
-        assignedToValues: assignedToValuesArray,
-        assignedToColors: assignedToColorsArray,
-        assignedShortValues: assignedShortValues,
-        inWhichContainer: 'for-To-Do-Container'
+        subtasks_id: subtaskIdsArray,
+        subtasks_status_array: subtasksStatusArray,
+        category_color: categoryColor,
+        assigned_to_values: assignedToValuesArray,
+        assigned_to_colors: assignedToColorsArray,
+        assigned_short_values: assignedShortValues,
+        in_which_container: 'for-To-Do-Container'
     };
     return task;
 }
@@ -336,7 +336,6 @@ function pushAndSaveTaskToUser(title, description, createdAt, subtaskInput, subt
         let task = createTaskArray(title, description, createdAt, categoryInfo, categoryColor);
         titlesArray.push(title);
         descriptionsArray.push(description);
-        categoryColorArray.push(categoryColor);
         allTasks.push(task);
         saveTasks();
     }
@@ -375,7 +374,7 @@ function removeStylefromPrirorityButton() {
     const urgentBtn = document.getElementById('normal_urgent_btn');
     const mediumBtn = document.getElementById('normal_medium_btn');
     const lowBtn = document.getElementById('normal_low_btn');
-    if (urgentBtn) 
+    if (urgentBtn)
         urgentBtn.classList.remove('d-none');
     if (mediumBtn)
         mediumBtn.classList.remove('d-none');

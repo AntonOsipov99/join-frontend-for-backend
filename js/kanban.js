@@ -48,12 +48,10 @@ async function onDrop(event) {
 async function moveTaskToContainer(taskId, targetArray) {
     const taskIndex = allTasks.findIndex(task => task.id == taskId);
     if (taskIndex !== -1) {
-        allTasks[taskIndex].inWhichContainer = determineContainerKey(targetArray);
+        allTasks[taskIndex].in_which_container = determineContainerKey(targetArray);
         targetArray.push(allTasks[taskIndex]);
-        const backendId = allTasks[taskIndex].backendId;
         taskToChange.push(allTasks[taskIndex]);
-        let taskStringify = JSON.stringify(taskToChange);
-        await updateTaskInBackend(backendId, taskStringify);
+        await updateTaskInBackend(allTasks[taskIndex].id, taskToChange[0]);
         allTasks = [];
         await loadTasks();
         showTasks();
@@ -296,7 +294,7 @@ function displayTaskOverview(taskId) {
         }
     }
     const taskOverviewPopUp = document.getElementById('taskOverviewPopUp');
-    const categorybackgroundColor = task.category_colors || '';
+    const categorybackgroundColor = task.category_color || '';
     const currentId = task.id || '';
     const title = task.title || '';
     const description = task.description_text || '';
@@ -499,7 +497,7 @@ function displayTasks(taskContainer, feedbackTaskContainer, inProgressContainer,
                 const taskId = task.id
                 const progressBarId = generateUniqueID();
                 task.progress_bar_id = progressBarId;
-                const categorybackgroundColor = task.category_colors;                ;
+                const categorybackgroundColor = task.category_color;                ;
                 let priorityImageSrc = getPriorityImageSrc(task.priority);
                 const taskDiv = createTaskDiv(task);
                 const targetContainer = determineTargetContainer(task, taskContainer, inProgressContainer, feedbackTaskContainer, targetDoneTable);

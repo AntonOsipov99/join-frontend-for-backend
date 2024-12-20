@@ -46,11 +46,7 @@ async function registerGuest() {
             repeated_password: 'parol'
         })
     });
-    if (!response.ok) {
         await logInGuest();
-    } else {
-        await logInGuest();
-    }
 }
 
 async function logInGuest() {

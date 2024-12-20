@@ -180,7 +180,7 @@ async function fillSummary() {
         'for-Done-Container': 0
     };
     for (let i = 0; i < allTasks.length; i++) {
-        let containerName = allTasks[i]['inWhichContainer'];
+        let containerName = allTasks[i]['in_which_container'];
         if (containerCounts.hasOwnProperty(containerName))
             containerCounts[containerName]++;
     }

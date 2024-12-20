@@ -96,9 +96,7 @@ async function updateTaskInBackend(backendId, updatedContactData) {
                 'Authorization': `Token ${token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                contacts: updatedContactData
-            })
+            body: JSON.stringify({updatedContactData})
         });
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -166,11 +164,11 @@ async function deleteUser(email) {
  * @async
  */
 async function saveContacts() {
-    await setItem('contacts', JSON.stringify(contacts));
+    await setItem('contacts', contacts);
 }
 
 async function saveNewContact() {
-    await setItem('contacts', JSON.stringify(newContact));
+    await setItem('contacts', newContact[0]);
 }
 
 async function deleteContactFromBackend(backendId) {
@@ -200,16 +198,6 @@ async function loadContacts() {
     contacts = await getItem('contacts');
 }
 
-async function setContactsBackendId() {
-    for (let i = 0; i < contacts.length; i++) {
-        let value = [];
-        value.push(contacts[i]);
-        let stringifyValue = JSON.stringify(value);
-        let backendId = contacts[i].backendId;
-        await updateContactInBackend(backendId, stringifyValue);
-    }
-}
-
 async function updateContactInBackend(backendId, value) {
     try {
         const token = localStorage.getItem('authToken');
@@ -219,9 +207,7 @@ async function updateContactInBackend(backendId, value) {
                 'Authorization': `Token ${token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                contacts: value
-            })
+            body: JSON.stringify({value})
         });
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -274,21 +260,23 @@ async function changeContactInBackend(backendId, value) {
     try {
         const token = localStorage.getItem('authToken');
         const response = await fetch(`${STORAGE_URL}contacts/${backendId}/`, {
-            method: 'PUT',
+            method: 'PATCH',
             headers: {
                 'Authorization': `Token ${token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                contacts: value
-            })
+            body: JSON.stringify(value)
         });
+        
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response;
+        
+        const data = await response.json();
+        return data;
+        
     } catch (error) {
-        console.error('Error updating task in backend:', error);
+        console.error('Error updating contact in backend:', error);
         throw error;
     }
 }

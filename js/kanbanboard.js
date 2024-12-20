@@ -93,9 +93,11 @@ function getTitle(task) {
  * @returns {string} - The HTML string representing the options for the 'assigned to' field
  */
 function getAssignedToOptions(task) {
-    return task.assigned_to_values.map((contact, index) => {
-        return `<option value="${contact}" data-id="${index}" data-color="${task.assigned_to_colors[index]}">${contact}</option>`;
-    }).join('');
+    if (task.assigned_to_values !== null) {
+        return task.assigned_to_values.map((contact, index) => {
+            return `<option value="${contact}" data-id="${index}" data-color="${task.assigned_to_colors[index]}">${contact}</option>`;
+        }).join('');
+    }
 }
 
 /**
@@ -123,11 +125,11 @@ function initializeTask(currentShowedTaskId) {
     const taskOverviewPopUp = document.getElementById('taskOverviewPopUp');
     taskOverviewPopUp.innerHTML = '';
     let task = null;
-    for(let i = 0; i < allTasks.length; i++) {
+    for (let i = 0; i < allTasks.length; i++) {
         const currentTask = allTasks[i];
-        if(currentTask.id == currentShowedTaskId) {
+        if (currentTask.id == currentShowedTaskId) {
             task = currentTask;
-            break; 
+            break;
         }
     }
     currentTaskId = currentShowedTaskId;
@@ -161,7 +163,9 @@ function updateTaskDetails(task) {
  */
 function displayAssignedContacts(task) {
     const assignedToList = document.getElementById('ballAssignedToList');
-    ballForBoardOverlay(task.assigned_to_colors, task.assigned_to_values, assignedToList);
+    if (task.assigned_to_colors && task.assigned_to_values && assignedToList) {
+        ballForBoardOverlay(task.assigned_to_colors, task.assigned_to_values, assignedToList);
+    }
 }
 
 /**
@@ -223,29 +227,29 @@ function updateButtonState(prio) {
  */
 function simulatePriorityButtonClick(taskId) {
     let task = null;
-    for(let i = 0; i < allTasks.length; i++) {
+    for (let i = 0; i < allTasks.length; i++) {
         const currentTask = allTasks[i];
-        if(currentTask.id == taskId) {
+        if (currentTask.id == taskId) {
             task = currentTask;
-            break; 
+            break;
         }
     }
     if (!task) {
         console.error(`Task with ID "${taskId}" was not found.`);
         return;
     }
-    const priority = task.priority;
-    if (priority.indexOf('urgent') !== -1) {
-        resetPriorityButtons();
-        updateButtonState('urgent');
-    } else if (priority.indexOf('medium') !== -1) {
-        resetPriorityButtons();
-        updateButtonState('medium');
-    } else if (priority.indexOf('low') !== -1) {
-        resetPriorityButtons();
-        updateButtonState('low');
-    } else {
-        console.error(`Invalid priority value "${priority}" for task with ID "${taskId}".`);
+    if (task.priority) {
+        const priority = task.priority;
+        if (priority.indexOf('urgent') !== -1) {
+            resetPriorityButtons();
+            updateButtonState('urgent');
+        } else if (priority.indexOf('medium') !== -1) {
+            resetPriorityButtons();
+            updateButtonState('medium');
+        } else if (priority.indexOf('low') !== -1) {
+            resetPriorityButtons();
+            updateButtonState('low');
+        } 
     }
 }
 
@@ -423,11 +427,11 @@ function getBoardInputValues() {
     const taskId = currentTaskId;
     const title = getInputElementValue('boardOverlayTitle');
     const description_text = getInputElementValue('boardOverlaydescriptionText');
-    const createdAt = getInputElementValue('editedCreatedAt');
+    const created_at = getInputElementValue('editedCreatedAt');
     const subtasksInfo = getSubtaskItemsInfo();
     const { subtasksStatusArray, subtasksTextArray, subtasksIdArray } = subtasksInfo;
     clearBoardSubTaskList();
-    return { taskId, title, description_text, createdAt, ...subtasksInfo };
+    return { taskId, title, description_text, created_at, ...subtasksInfo };
 }
 
 // function getBoardInputValues() {

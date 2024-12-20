@@ -1,5 +1,5 @@
 let inWhichContainer = [];
-let task_category = {};
+let task_category = '';
 let tasksToDo = [];
 let tasksInProgress = [];
 let tasksAwaitFeedback = [];
@@ -87,12 +87,12 @@ function extractAssigneeInfo() {
  * @param {string} categorySelect - The selected task category.
  * @returns {Object|undefined} The created task object or undefined if the category is invalid.
  */
-function createTaskObject(categorySelect) {
+function createTaskObject(categorySelect, categoryColors) {
     if (categorySelect === 'Select task category') {
         selectCategoryNotification();
         return;
     }
-    return buildTaskObject();
+    return buildTaskObject(categorySelect, categoryColors);
 }
 
 /**
@@ -100,19 +100,19 @@ function createTaskObject(categorySelect) {
  *
  * @returns {Object} The built task object.
  */
-function buildTaskObject() {
+function buildTaskObject(categorySelect, categoryColors) {
     const id = generateUniqueID();
     return {
         task_id: id,
         title: document.getElementById('title').value,
         description_text: document.getElementById('description_text').value,
-        task_category: categoryArray,
+        task_category: categorySelect,
         created_at: document.getElementById('createdAt').value,
         priority: priorityArray,
         subtasks: subtaskTextsArray,
         subtasks_id: subtaskIdsArray,
         subtasks_status_array: subtasksStatusArray,
-        category_colors: categoryColorArray,
+        category_color: categoryColors,
         assigned_to_values: assignedToValuesArray,
         assigned_to_colors: assignedToColorsArray,
         assigned_short_values: assignedShortValues,
@@ -236,13 +236,13 @@ async function addTaskFromOverlay() {
         selectCategoryNotification();
         return false;
     } else {
-        pushCategoryIntoTask(categorySelect, categoryColors);
+        // pushCategoryIntoTask(categorySelect, categoryColors);
         let subtaskTextsArray = [];
         let subtaskIdsArray = [];
         collectSubtaskInfo(subtaskItems, subtaskTextsArray, subtaskIdsArray);
         extractAssigneeInfo();
         await (validateTaskFields(title, categorySelect, categoryColors, description, createdAt) 
-            ? handleFilledFields(createTaskObject(categorySelect)) 
+            ? handleFilledFields(createTaskObject(categorySelect, categoryColors)) 
             : showNotificationAndResetArrays());
     }
 }
@@ -256,18 +256,18 @@ async function addTaskFromOverlay() {
  * @param {string} categoryColors - The color associated with the selected category.
  * @returns {boolean} Returns true if the category and color were successfully added, otherwise false.
  */
-function pushCategoryIntoTask(categorySelect, categoryColors) {
-    categoryArray = [];
-    categoryColorArray = [];
-    if (categorySelect === 'Select task category') {
-        selectCategoryNotification();
-        return false;
-    } else {
-        categoryArray.push(categorySelect);
-        categoryColorArray.push(categoryColors);
-        return true;
-    }
-}
+// function pushCategoryIntoTask(categorySelect, categoryColors) {
+//     categoryArray = [];
+//     categoryColorArray = [];
+//     if (categorySelect === 'Select task category') {
+//         selectCategoryNotification();
+//         return false;
+//     } else {
+//         categoryArray.push(categorySelect);
+//         categoryColorArray.push(categoryColors);
+//         return true;
+//     }
+// }
 
 /**
  * Controls the entry of a task category and its associated color.

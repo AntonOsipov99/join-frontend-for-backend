@@ -279,13 +279,13 @@ function closeOverlay() {
  * @param {string[]} assignedShortValues - The short values of assigned contacts.
  * @param {string[]} assignedToColors - The colors of assigned contacts.
  */
-function updateTaskDetailsInArray(description_text, title, createdAt, taskIndex, updatedPriority, subtasksTextArray, assignedToValues, assignedShortValues, assignedToColors, subtasksStatusArray, subtasksIdArray) {
+function updateTaskDetailsInArray(description_text, title, created_at, taskIndex, updatedPriority, subtasksTextArray, assignedToValues, assignedShortValues, assignedToColors, subtasksStatusArray, subtasksIdArray) {
     let task = [];
     task = allTasks[taskIndex];
     task = task;
     task.title = title;
     task.description_text = description_text;
-    task.created_at = createdAt;
+    task.created_at = created_at;
     task.priority = updatedPriority.slice();
     task.subtasks = subtasksTextArray.slice();
     task.subtasks_id = subtasksIdArray.slice();
@@ -349,8 +349,8 @@ async function boardConfirm() {
  * @property {string[]} subtasksIdArray - An array of subtask IDs.
  */
 function extractTaskDetails() {
-    const { title, createdAt, taskId, description_text, subtasksStatusArray, subtasksTextArray, subtasksIdArray } = getBoardInputValues();
-    return { title, createdAt, taskId, description_text, subtasksStatusArray, subtasksTextArray, subtasksIdArray };
+    const { title, created_at, taskId, description_text, subtasksStatusArray, subtasksTextArray, subtasksIdArray } = getBoardInputValues();
+    return { title, created_at, taskId, description_text, subtasksStatusArray, subtasksTextArray, subtasksIdArray };
 }
 
 // function extractTaskDetails() {
@@ -398,8 +398,12 @@ function extractAssigneeDetails() {
  * @returns {Array|string} - The updated priority array or string.
  */
 function determineUpdatedPriority(taskIndex) {
-    const previousPriority = allTasks[taskIndex].priority;
-    return priorityArray.length > 0 ? priorityArray : previousPriority;
+    if (priorityArray !== '') {
+        const previousPriority = allTasks[taskIndex].priority;
+        return priorityArray.length > 0 ? priorityArray : previousPriority;
+    } else {
+        return [];
+    }
 }
 
 /**
@@ -415,7 +419,7 @@ async function updateTaskAndSave(taskIndex, taskDetails, assigneeDetails, update
     updateTaskDetailsInArray(
         taskDetails.description_text,
         taskDetails.title,
-        taskDetails.createdAt,
+        taskDetails.created_at,
         taskIndex,
         updatedPriority,
         taskDetails.subtasksTextArray,

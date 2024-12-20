@@ -28,7 +28,7 @@ async function generateContactsForBoardOverlay(assignedToOptions, dropdown) {
         let isContactInDropdown = [...dropdown.options].some(option => option.value === contact.name);
         let option = document.createElement('option');
         fillOptionDropdownForBoardOverlay(option, contact, isContactInDropdown);
-        if (assignedToOptions.includes(contact.name))
+        if (assignedToOptions && assignedToOptions.includes(contact.name))
             option.classList.add('d-none');
         option.disabled = isContactInDropdown;
         dropdown.appendChild(option, contact);

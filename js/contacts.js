@@ -7,7 +7,6 @@ let newContact = [];
  */
 async function initContacts() {
     await loadContacts();
-    await setContactsBackendId();
     generateSideBar();
     showContacts();
 }
@@ -202,6 +201,7 @@ async function addNewContact(event) {
     const email = document.getElementById('add-email').value;
     const phone = document.getElementById('add-phone').value;
     const randomColor = getRandomColor();
+    newContact = [];
     const createNewContact = createContact(name, email, phone, randomColor);
     contacts.push(createNewContact);
     newContact.push(createNewContact);
@@ -209,7 +209,6 @@ async function addNewContact(event) {
     newContact = [];
     contacts = [];
     await loadContacts();
-    await setContactsBackendId();
     addContactAndUpdateUI(createNewContact);
 }
 
@@ -319,8 +318,7 @@ async function editContact(i) {
     const contact = [];
     contacts[i] = createNewContact(i, editName, editEmail, editPhone, currentColor);
     contact.push(contacts[i]);
-    const stringifyContact = JSON.stringify(contact);
-    await changeContactInBackend(contacts[i].backendId, stringifyContact);
+    await changeContactInBackend(contacts[i].id, contact[0]);
     contacts = [];
     await loadContacts();
     generateSideBar();
@@ -330,7 +328,7 @@ async function editContact(i) {
 }
 
 function createNewContact(i, editName, editEmail, editPhone, currentColor) {
-    return { "name": editName, "email": editEmail, "phone": editPhone, "color": currentColor, "backendId": contacts[i].backendId };
+    return { "id": contacts[i].id, "name": editName, "email": editEmail, "phone": editPhone, "color": currentColor };
 }
 
 /**
@@ -419,7 +417,7 @@ function hideOverlayEdit() {
  * @param {number} i - The index of the contact to be deleted.
  */
 async function deleteContact(i) {
-    let backendId = contacts[i].backendId;
+    await deleteContactFromBackend(contacts[i].id);
     contacts.splice(i, 1);
     generateSideBar();
     showContacts();
@@ -428,7 +426,6 @@ async function deleteContact(i) {
     if (isWideScreen() || isHeightScreen()) {
         toggleContactsMobile();
     }
-    await deleteContactFromBackend(backendId);
 }
 
 /**
