@@ -455,7 +455,7 @@ function addContentToTaskDiv(task, taskDiv, assignePinnedTaskBall, priorityImage
                     <div class="mobile-taskcategory done-category">Done</div>
                 </div>
                 <h3 class="pinned-task-headline">${task.title}</h3>
-                <p class="pinned-task-discription">${task.description_text}</p>
+                <p class="pinned-task-description">${task.description_text}</p>
                 <div id="progress-div-${taskId}"></div>
                 <div id="ball-and-prio-img-div" class="ball-and-prio-img-div">
                 <div class="pinnedAssigneBallPosition">

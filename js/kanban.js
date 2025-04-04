@@ -215,19 +215,13 @@ async function handleMobileTaskCategoryClick(clickedElement, taskId, taskArray) 
 }
 
 async function moveTaskToCategory(taskArray, newArray) {
-    if (taskArray && newArray) {
-        const taskIndex = taskArray.findIndex(task => task.id == currentShowedTaskId);
-        if (taskIndex !== -1) {
-            const task = taskArray.splice(taskIndex, 1)[0];
-            task.in_which_container = determineContainerKey(newArray);
-            newArray.push(task);
-            await saveTasks();
-            await saveTasksCategory();
-            showTasks();
-        } else
-            console.error('Task not found in the old array');
-    } else
-        console.error('Invalid task array or new array');
+    const taskIndex = allTasks.findIndex(task => task.id == currentShowedTaskId);
+    // if (taskIndex !== -1) {
+    const task = allTasks.splice(taskIndex, 1)[0];
+    task.in_which_container = determineContainerKey(newArray);
+    newArray.push(task);
+    await saveTasks();
+    showTasks();
 }
 
 /**
@@ -365,7 +359,7 @@ function taskOverviewTemplate(taskOverviewPopUp, task, categorybackgroundColor, 
                 </div>
             </div>
             <div class="taskPopUpHeadline">${title}</div>
-            <div class="taskPopUpDiscription">${description}</div>
+            <div class="taskPopUpDescription">${description}</div>
             <div class="taskPopUpRow">
                 <div class="taskPopUpLeftTd"><b>Due Date:</b></div>
                 <div class="taskPopUpRightTd">${date}</div>
@@ -497,7 +491,7 @@ function displayTasks(taskContainer, feedbackTaskContainer, inProgressContainer,
                 const taskId = task.id
                 const progressBarId = generateUniqueID();
                 task.progress_bar_id = progressBarId;
-                const categorybackgroundColor = task.category_color;                ;
+                const categorybackgroundColor = task.category_color;;
                 let priorityImageSrc = getPriorityImageSrc(task.priority);
                 const taskDiv = createTaskDiv(task);
                 const targetContainer = determineTargetContainer(task, taskContainer, inProgressContainer, feedbackTaskContainer, targetDoneTable);

@@ -106,8 +106,8 @@ function hideTemplatePopUp() {
  * @param {WheelEvent} event - The 'wheel' event object.
  *
  */
-document.addEventListener('wheel', function (event) {
-    if (event.ctrlKey === true || event.metaKey === true) {
-        event.preventDefault();
-    }
-}, { passive: false });
+// document.addEventListener('wheel', function (event) {
+//     if (event.ctrlKey === true || event.metaKey === true) {
+//         event.preventDefault();
+//     }
+// }, { passive: false });

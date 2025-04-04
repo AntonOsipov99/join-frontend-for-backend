@@ -10,7 +10,7 @@ function findTask() {
     pinnedTaskContainers.forEach(container => {
         const headline = container.querySelector('.pinned-task-headline');
         const taskText = headline.textContent.toLowerCase();
-        const description = container.querySelector('.pinned-task-discription');
+        const description = container.querySelector('.pinned-task-description');
         const taskDescription = description.textContent.toLowerCase();
         if (taskText.includes(searchInput) || taskDescription.includes(searchInput))
             container.classList.remove('d-none');

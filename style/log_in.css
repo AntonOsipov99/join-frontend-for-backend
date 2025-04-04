@@ -192,8 +192,8 @@ a:hover {
     align-items: center;
     justify-content: space-between;
     background-color: #FFFFFF;
-    width: 60%;
-    height: clamp(500px, 60%, 60%);
+    width: 600px;
+    height: 500px;
     padding: 48px 115px;
     border-radius: 30px;
 }
@@ -286,8 +286,8 @@ a:hover {
     align-items: center;
     justify-content: space-between;
     background-color: #FFFFFF;
-    width: 598px;
-    height: clamp(595px, 60%, 60%);
+    width: 600px;
+    height: 600px;
     padding: 48px 88px;
     border-radius: 30px;
 }
@@ -539,7 +539,7 @@ a:hover {
     }
 
     .log-in {
-        width: 90%;
+        width: 60%;
         padding: 32px 0px;
     }
 
@@ -622,6 +622,16 @@ a:hover {
         padding: 30px;
     }
 
+}
+
+@media(max-width: 800px) {
+    .log-in {
+        width: 80%;
+    }
+
+    .sign-up {
+        width: 80%;
+    }
 }
 
 @media (max-width: 700px) {
@@ -715,6 +725,14 @@ a:hover {
 
     .startscreen-logo-side img {
         width: 50px;
+    }
+
+    .log-in {
+        width: 90%;
+    }
+
+    .sign-up {
+        width: 90%;
     }
 }
 

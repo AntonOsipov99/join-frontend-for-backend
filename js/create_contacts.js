@@ -52,11 +52,11 @@ function highlightContact(index) {
     }
 }
 
-document.addEventListener('wheel', function (event) {
-    if (event.ctrlKey === true || event.metaKey === true) {
-        event.preventDefault();
-    }
-}, { passive: false });
+// document.addEventListener('wheel', function (event) {
+//     if (event.ctrlKey === true || event.metaKey === true) {
+//         event.preventDefault();
+//     }
+// }, { passive: false });
 
 
 

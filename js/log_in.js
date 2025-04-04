@@ -10,7 +10,7 @@ async function logIn() {
     document.getElementById('password1').classList.remove('log-in-wrong');
     const email = document.getElementById('email_log_in').value;
     const password = document.getElementById('password1_input').value;
-    const response = await fetch('http://127.0.0.1:8000/join/auth/login/', {
+    const response = await fetch('http://127.0.0.1:8000/api/auth/login/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -33,7 +33,7 @@ async function logIn() {
 }
 
 async function registerGuest() {
-    const response = await fetch("http://127.0.0.1:8000/join/auth/registration/", {
+    const response = await fetch("http://127.0.0.1:8000/api/auth/registration/", {
         method: "post",
         headers: {
             'Accept': 'application/json',
@@ -52,7 +52,7 @@ async function registerGuest() {
 async function logInGuest() {
     const email = 'guest@email.com';
     const password = 'parol';
-    const response = await fetch('http://127.0.0.1:8000/join/auth/login/', {
+    const response = await fetch('http://127.0.0.1:8000/api/auth/login/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

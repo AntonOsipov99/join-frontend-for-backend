@@ -47,7 +47,7 @@
         height: 45px;
     }
 
-    .taskPopUpDiscription {
+    .taskPopUpDescription {
         font-size: 30px;
     }
 
@@ -120,7 +120,7 @@
         height: 42px;
     }
 
-    .taskPopUpDiscription {
+    .taskPopUpDescription {
         font-size: 24px;
     }
 
@@ -457,6 +457,12 @@
     }
 }
 
+@media (max-width: 1130px) {
+    .flex-box {
+        margin-right: 50px;
+    }
+}
+
 @media (max-width: 1050px) {
     .add-task-overlay {
         max-height: 75vh;
@@ -489,6 +495,12 @@
     }
 }
 
+@media (max-width: 800px) {
+    .flex-box {
+        margin-right: 15px;
+    }
+}
+
 @media (max-width: 750px) {
     .header_div h1 {
         font-size: 46px;
@@ -510,34 +522,6 @@
     .add-task-overlay {
         margin: 0px;
         width: 100%;
-    }
-}
-
-@media (min-width: 2200px) {
-    .table-header {
-        margin-left: 10vw;
-    }
-
-    .table-heading {
-        margin-left: 10vw;
-    }
-
-    .heading {
-        margin-left: 10vw;
-    }
-}
-
-@media (min-width: 3200px) {
-    .table-header {
-        margin-left: 13vw;
-    }
-
-    .table-heading {
-        margin-left: 13vw;
-    }
-
-    .heading {
-        margin-left: 13vw;
     }
 }
 

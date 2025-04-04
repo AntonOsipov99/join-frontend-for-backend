@@ -1,8 +1,17 @@
+html {
+    background-color: #F6F7F8;
+    display: flex;
+    justify-content: center;
+}
+
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
     background-color: #F6F7F8;
     overflow-x: hidden;
+    width: 100%;
+    max-width: 1920px;
+    height: 100%;
 }
 
 nav {
@@ -78,7 +87,7 @@ header {
 }
 
 .header-text {
-    margin-left: 5vw;
+    margin-left: 140px;
     font-weight: 500;
     display: flex;
     flex: 1;
@@ -176,7 +185,7 @@ header {
 
 }
 
-@media (min-width: 2200px) {
+/* @media (min-width: 2200px) {
     .header-text {
         margin-left: 10vw;
     }
@@ -186,4 +195,4 @@ header {
     .header-text {
         margin-left: 13vw;
     }
-}
+} */
